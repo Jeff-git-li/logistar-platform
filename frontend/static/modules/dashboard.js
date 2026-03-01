@@ -65,7 +65,7 @@ function renderDashboardChart(chartId, type, labels, datasets, options = {}) {
     options: Object.assign({
       responsive: true,
       maintainAspectRatio: true,
-      plugins: { legend: { display: true } }
+      plugins: { legend: { display: true, labels: { usePointStyle: true, font: { size: 11 } } } }
     }, options)
   });
   
@@ -178,8 +178,9 @@ async function updateOrdersByDay() {
     responsive: true,
     maintainAspectRatio: false,
     layout: { padding: { right: 30 } },
-    plugins: { legend: { display: true, position: 'top' } },
-    scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } }
+    plugins: { legend: { display: true, position: 'top', labels: { usePointStyle: true, font: { size: 11 } } } },
+    scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } },
+    interaction: { mode: 'index', intersect: false }
   });
 }
 
@@ -241,7 +242,7 @@ async function updateOtherDashboardCharts() {
       yAxisID: 'y1'
     }
   ], {
-    plugins: { legend: { display: true } },
+    plugins: { legend: { display: true, labels: { usePointStyle: true, font: { size: 11 } } } },
     scales: {
       y: { beginAtZero: true, position: 'left', title: { display: true, text: 'Count' } },
       y1: { beginAtZero: true, position: 'right', grid: { drawOnChartArea: false }, title: { display: true, text: 'Amount ($)' } }
@@ -282,14 +283,14 @@ async function initDashboard() {
   const ordersDayCustomerSelect = document.getElementById('orders-day-customer-filter');
   
   const customers = await fetchDashboardCustomers();
-  const customerOptions = '<option value="all">All</option>' +
+  const customerOptions = '<option value="all">全部</option>' +
     customers.map(c => `<option value="${Core.escapeHtml(c)}">${Core.escapeHtml(c)}</option>`).join('');
   
   if (customerSelect) customerSelect.innerHTML = customerOptions;
   
   // Populate TMS customers for Orders by Day
   const tmsCustomers = await fetchTMSCustomers();
-  const tmsCustomerOptions = '<option value="all">All</option>' +
+  const tmsCustomerOptions = '<option value="all">全部</option>' +
     tmsCustomers.map(c => `<option value="${Core.escapeHtml(c)}">${Core.escapeHtml(c)}</option>`).join('');
   if (ordersDayCustomerSelect) ordersDayCustomerSelect.innerHTML = tmsCustomerOptions;
 

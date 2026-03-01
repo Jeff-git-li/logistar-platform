@@ -213,17 +213,17 @@
             <!-- Orders by Day - Full Width with Own Filters -->
             <div style="margin-bottom: 40px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
               <h3 style="margin-top: 0;">每日订单量 (TMS数据)</h3>
-              <div style="margin-bottom: 16px; display: flex; gap: 24px; flex-wrap: wrap; align-items: center;">
+              <div class="filter-bar">
                 <label>客户:
                   <select id="orders-day-customer-filter">
                     <option value="all">全部</option>
                   </select>
                 </label>
                 <label>起始日期:
-                  <input type="date" id="orders-day-from-date" style="padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                  <input type="date" id="orders-day-from-date">
                 </label>
                 <label>结束日期:
-                  <input type="date" id="orders-day-to-date" style="padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                  <input type="date" id="orders-day-to-date">
                 </label>
                 <button id="orders-day-apply-btn" class="btn-primary">确定</button>
               </div>
@@ -233,17 +233,17 @@
             </div>
             
             <!-- Other Dashboard Filters -->
-            <div class="dashboard-filters" style="margin-bottom: 24px; display: flex; gap: 24px; flex-wrap: wrap; align-items: center;">
+            <div class="filter-bar" style="margin-bottom: 24px;">
               <label>客户:
                 <select id="dashboard-customer-filter">
                   <option value="all">全部</option>
                 </select>
               </label>
               <label>起始日期:
-                <input type="date" id="dashboard-from-date" style="padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                <input type="date" id="dashboard-from-date">
               </label>
               <label>结束日期:
-                <input type="date" id="dashboard-to-date" style="padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                <input type="date" id="dashboard-to-date">
               </label>
               <button id="dashboard-apply-btn" class="btn-primary">确定</button>
             </div>
@@ -336,17 +336,17 @@
             <div class="settings-subtab-content active" id="supplier-dashboard">
               <div style="margin-bottom: 40px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
                 <h3 style="margin-top: 0;">每日订单量 - 其它服务商 (TMS数据)</h3>
-                <div style="margin-bottom: 16px; display: flex; gap: 24px; flex-wrap: wrap; align-items: center;">
+                <div class="filter-bar">
                   <label>产品名称:
-                    <select id="supplier-day-product-filter" style="padding: 6px; border: 1px solid #ccc; border-radius: 4px; min-width: 200px;">
+                    <select id="supplier-day-product-filter">
                       <option value="all">全部</option>
                     </select>
                   </label>
                   <label>起始日期:
-                    <input type="date" id="supplier-day-from-date" style="padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                    <input type="date" id="supplier-day-from-date">
                   </label>
                   <label>结束日期:
-                    <input type="date" id="supplier-day-to-date" style="padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                    <input type="date" id="supplier-day-to-date">
                   </label>
                   <button id="supplier-day-apply-btn" class="btn-primary">确定</button>
                 </div>
@@ -366,19 +366,19 @@
                     <br><strong>前提:</strong> 需要先在参数设置中配置好「分区表」和「产品映射」。
                   </p>
                 </div>
-                <div style="display: flex; gap: 16px; flex-wrap: wrap; align-items: center; margin-bottom: 20px;">
-                  <label style="font-weight: 600;">产品名称:
-                    <select id="supplier-verify-product" style="padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; min-width: 200px;">
+                <div class="filter-bar" style="margin-bottom: 20px;">
+                  <label>产品名称:
+                    <select id="supplier-verify-product">
                       <option value="">-- 选择产品 --</option>
                     </select>
                   </label>
                   <label>起始日期:
-                    <input type="date" id="supplier-verify-from-date" style="padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                    <input type="date" id="supplier-verify-from-date">
                   </label>
                   <label>结束日期:
-                    <input type="date" id="supplier-verify-to-date" style="padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                    <input type="date" id="supplier-verify-to-date">
                   </label>
-                  <button id="supplier-verify-btn" class="btn-primary" style="padding: 8px 20px;">🔍 开始核对</button>
+                  <button id="supplier-verify-btn" class="btn-primary">🔍 开始核对</button>
                 </div>
 
                 <!-- Verification Summary -->
@@ -404,9 +404,9 @@
                 </div>
 
                 <!-- Filter for results -->
-                <div id="supplier-verify-filter" style="display: none; margin-bottom: 12px;">
-                  <label style="font-weight: 600;">筛选:
-                    <select id="supplier-verify-status-filter" style="padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                <div id="supplier-verify-filter" class="filter-bar" style="display: none; margin-bottom: 12px;">
+                  <label>筛选:
+                    <select id="supplier-verify-status-filter">
                       <option value="all">全部</option>
                       <option value="mismatch">仅不匹配</option>
                       <option value="match">仅匹配</option>
