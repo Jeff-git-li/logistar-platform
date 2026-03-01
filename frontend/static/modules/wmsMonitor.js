@@ -18,11 +18,11 @@
    */
   window.initWmsMonitor = function () {
     loadWmsDashboard(currentTimeRange);
-    // Auto-refresh every 2 minutes
+    // Auto-refresh every 10 minutes (backend fetches every 10 min)
     if (wmsAutoRefreshTimer) clearInterval(wmsAutoRefreshTimer);
     wmsAutoRefreshTimer = setInterval(() => {
       loadWmsDashboard(currentTimeRange);
-    }, 120000);
+    }, 600000);
   };
 
   /**
@@ -111,9 +111,11 @@
       const canvasId = `wms-chart-${idx}`;
       const speedDisplay = wh.labeling_speed ? ` | ${wh.labeling_speed}/hr` : '';
 
-      // Carrier table rows
+      // Carrier table rows — sorted by total (peak) descending
       let carrierRows = '';
-      for (const [carrier, data] of Object.entries(wh.carrier_breakdown || {})) {
+      const carrierEntries = Object.entries(wh.carrier_breakdown || {});
+      carrierEntries.sort((a, b) => (b[1].peak || 0) - (a[1].peak || 0));
+      for (const [carrier, data] of carrierEntries) {
         carrierRows += `
           <tr>
             <td>${carrier}</td>
@@ -162,6 +164,47 @@
         if (!canvas) return;
 
         const ctx = canvas.getContext('2d');
+        const dataLen = (wh.type1_history || []).length;
+
+        // For 7D/1M: pre-compute the index of the peak value per day per dataset
+        const useDailyPeak = (timeRange === '7d' || timeRange === '1m');
+        const dailyPeakIndices = [new Set(), new Set()]; // one set per dataset
+        if (useDailyPeak) {
+          [wh.type1_history || [], wh.type2_history || []].forEach((data, dsIdx) => {
+            // Group by calendar date, track the index with the max y
+            const dayPeaks = {}; // dateStr -> { maxY, idx }
+            data.forEach((pt, i) => {
+              const d = new Date(pt.x);
+              const key = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+              if (!dayPeaks[key] || pt.y > dayPeaks[key].maxY) {
+                dayPeaks[key] = { maxY: pt.y, idx: i };
+              }
+            });
+            Object.values(dayPeaks).forEach(p => dailyPeakIndices[dsIdx].add(p.idx));
+          });
+        }
+
+        // Determine reasonable label interval for short ranges
+        let labelInterval = 6;
+        if (!useDailyPeak) {
+          if (dataLen > 100) labelInterval = Math.round(dataLen / 10);
+        }
+
+        // Adjust point radius for dense charts
+        const pointR = dataLen > 200 ? 0 : 2;
+        const pointHoverR = dataLen > 200 ? 4 : 6;
+
+        // Adjust x-axis time settings based on range
+        let timeUnit = 'hour';
+        let timeDisplayFormats = { hour: 'h:mma' };
+        if (timeRange === '7d') {
+          timeUnit = 'day';
+          timeDisplayFormats = { day: 'MM/dd' };
+        } else if (timeRange === '1m') {
+          timeUnit = 'day';
+          timeDisplayFormats = { day: 'MM/dd' };
+        }
+
         wmsCharts[canvasId] = new Chart(ctx, {
           type: 'line',
           data: {
@@ -174,8 +217,8 @@
                 borderWidth: 2,
                 tension: 0.1,
                 fill: true,
-                pointRadius: 2,
-                pointHoverRadius: 6,
+                pointRadius: pointR,
+                pointHoverRadius: pointHoverR,
               },
               {
                 label: '一票一件多个',
@@ -185,8 +228,8 @@
                 borderWidth: 2,
                 tension: 0.1,
                 fill: true,
-                pointRadius: 2,
-                pointHoverRadius: 6,
+                pointRadius: pointR,
+                pointHoverRadius: pointHoverR,
               },
             ],
           },
@@ -198,8 +241,8 @@
               x: {
                 type: 'time',
                 time: {
-                  unit: 'hour',
-                  displayFormats: { hour: 'h:mma' },
+                  unit: timeUnit,
+                  displayFormats: timeDisplayFormats,
                   tooltipFormat: 'MM/dd h:mma',
                 },
                 ticks: { maxRotation: 45, minRotation: 45 },
@@ -219,10 +262,15 @@
               tooltip: { mode: 'index', intersect: false },
               datalabels: {
                 display: function (context) {
-                  const idx = context.dataIndex;
+                  const i = context.dataIndex;
                   const len = context.dataset.data.length;
-                  if (idx === 0 || idx === len - 1) return true;
-                  return idx % 6 === 0;
+                  if (useDailyPeak) {
+                    // Show label only at the daily peak point
+                    return dailyPeakIndices[context.datasetIndex].has(i);
+                  }
+                  // Short ranges: first, last, and fixed interval
+                  if (i === 0 || i === len - 1) return true;
+                  return i % labelInterval === 0;
                 },
                 align: 'top',
                 color: function (context) { return context.dataset.borderColor; },

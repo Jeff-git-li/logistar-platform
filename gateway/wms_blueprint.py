@@ -66,7 +66,7 @@ def _get_cached_peaks(conn, latest_ts: int, today_6am_ts: int):
 def wms_dashboard_data():
     """Return full WMS dashboard data as JSON for the frontend tab."""
     time_range = request.args.get('range', '12h')
-    range_map = {'6h': 6, '12h': 12, '24h': 24, '7d': 168}
+    range_map = {'6h': 6, '12h': 12, '24h': 24, '7d': 168, '1m': 720}
     hours = range_map.get(time_range, 12)
 
     conn = _get_wms_conn()
@@ -117,13 +117,15 @@ def wms_dashboard_data():
                         "labeled": carrier_peak - carrier_count
                     }
 
-                if not carrier_breakdown and wh_name in carrier_peaks:
+                # Merge in any carriers from peaks that have 0 unlabeled now
+                if wh_name in carrier_peaks:
                     for carrier_name, carrier_peak in carrier_peaks[wh_name].items():
-                        carrier_breakdown[carrier_name] = {
-                            "current": 0,
-                            "peak": carrier_peak,
-                            "labeled": carrier_peak
-                        }
+                        if carrier_name not in carrier_breakdown:
+                            carrier_breakdown[carrier_name] = {
+                                "current": 0,
+                                "peak": carrier_peak,
+                                "labeled": carrier_peak
+                            }
 
                 # Sort by peak count descending
                 carrier_breakdown = dict(sorted(carrier_breakdown.items(),
@@ -171,6 +173,52 @@ def wms_dashboard_data():
                     "type1_history": type1_data,
                     "type2_history": type2_data,
                 })
+
+            # Add warehouses from peaks that have 0 unlabeled now
+            current_warehouse_names = {wh['name'] for wh in warehouses_data}
+            for wh_name in warehouse_peaks:
+                if wh_name not in current_warehouse_names:
+                    # Warehouse had orders today but has 0 unlabeled now
+                    wh_peak_count = warehouse_peaks[wh_name]
+
+                    # Build carrier breakdown from peaks
+                    carrier_breakdown = {}
+                    if wh_name in carrier_peaks:
+                        for carrier_name, carrier_peak in carrier_peaks[wh_name].items():
+                            carrier_breakdown[carrier_name] = {
+                                "current": 0,
+                                "peak": carrier_peak,
+                                "labeled": carrier_peak
+                            }
+                    carrier_breakdown = dict(sorted(carrier_breakdown.items(),
+                                                    key=lambda x: x[1]["peak"],
+                                                    reverse=True))
+
+                    # History for chart
+                    since_ts = int((datetime.now(timezone.utc) - timedelta(hours=hours)).timestamp())
+                    cur_hist = conn.execute("""
+                        SELECT ts, type_name, count FROM type_breakdown
+                        WHERE warehouse = ? AND ts >= ? ORDER BY ts ASC
+                    """, (wh_name, since_ts))
+                    type_history = {}
+                    for ts, type_name, count in cur_hist.fetchall():
+                        if ts not in type_history:
+                            type_history[ts] = {}
+                        type_history[ts][type_name] = count
+                    timestamps = sorted(type_history.keys())
+                    type1_data = [{"x": ts * 1000, "y": type_history[ts].get("一票一件", 0)} for ts in timestamps]
+                    type2_data = [{"x": ts * 1000, "y": type_history[ts].get("一票一件多个", 0)} for ts in timestamps]
+
+                    warehouses_data.append({
+                        "name": wh_name,
+                        "count": 0,
+                        "peak_count": wh_peak_count,
+                        "labeling_speed": None,
+                        "type_breakdown": {"一票一件": 0, "一票一件多个": 0},
+                        "carrier_breakdown": carrier_breakdown,
+                        "type1_history": type1_data,
+                        "type2_history": type2_data,
+                    })
 
             # Sort by priority
             priority_str = os.getenv("WMS_WAREHOUSE_PRIORITY", "ONT002,FLT001,RIA001")

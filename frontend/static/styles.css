@@ -1664,6 +1664,8 @@ table.grid th {
 .wms-chart-area {
   flex: 3;
   min-width: 280px;
+  position: relative;
+  height: 300px;
 }
 
 .wms-chart-area canvas {

@@ -210,7 +210,6 @@
           <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
           
           <div id="dashboard-content" style="display: none;">
-          <div class="panel">
             <!-- Orders by Day - Full Width with Own Filters -->
             <div style="margin-bottom: 40px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
               <h3 style="margin-top: 0;">每日订单量 (TMS数据)</h3>
@@ -270,7 +269,6 @@
                 </div>
               </div>
             </div>
-          </div>
           </div><!-- end dashboard-content -->
         </div>
             </div><!-- end operations-dashboard -->
@@ -278,7 +276,6 @@
             <!-- Verify Sub-tab Content -->
             <div class="settings-subtab-content" id="operations-verify" data-permission="verify" style="display: none;">
         <div id="verify-tab">
-          <div class="panel">
             <div class="upload-section">
               <input type="file" id="invoice-file" accept=".csv,.xlsx,.xls,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv" />
               <div style="display: flex; gap: 12px; margin-top: 12px;">
@@ -300,14 +297,12 @@
             </div>
             
             <div id="verification-results"></div>
-          </div>
         </div>
             </div><!-- end operations-verify -->
 
             <!-- Search Sub-tab Content -->
             <div class="settings-subtab-content" id="operations-search" data-permission="search" style="display: none;">
         <div id="search-tab">
-          <div class="panel">
             <div style="margin-bottom: 30px;">
               <div style="display: flex; gap: 12px; max-width: 600px;">
                 <input type="text" id="search-tracking-input" placeholder="输入追踪号码..." 
@@ -317,7 +312,6 @@
               </div>
             </div>
             <div id="search-results"></div>
-          </div>
         </div>
             </div><!-- end operations-search -->
           </div><!-- end panel -->
@@ -1757,6 +1751,7 @@
                 <button class="wms-range-btn active" data-range="12h" onclick="setWmsTimeRange('12h')">12H</button>
                 <button class="wms-range-btn" data-range="24h" onclick="setWmsTimeRange('24h')">24H</button>
                 <button class="wms-range-btn" data-range="7d" onclick="setWmsTimeRange('7d')">7D</button>
+                <button class="wms-range-btn" data-range="1m" onclick="setWmsTimeRange('1m')">1M</button>
               </div>
             </div>
 
