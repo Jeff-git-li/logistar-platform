@@ -1,0 +1,2156 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Logistar Platform</title>
+    <link rel="icon" type="image/png" href="/static/logistar_logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css" />
+    <style>
+      /* Rate Comparison hover styles */
+      .breakdown-detail {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+      }
+      .price-item:hover .breakdown-detail {
+        max-height: none;
+        opacity: 1;
+      }
+      .price-item:hover {
+        opacity: 1 !important;
+      }
+      /* User info styles */
+      .user-info {
+        padding: 16px 20px;
+        border-top: 1px solid rgba(255,255,255,0.08);
+        background: rgba(0,0,0,0.15);
+        backdrop-filter: blur(8px);
+      }
+      .user-info-name {
+        font-weight: 600;
+        color: #f1f5f9;
+        font-size: 14px;
+      }
+      .user-info-role {
+        font-size: 12px;
+        color: #94a3b8;
+        text-transform: capitalize;
+      }
+      .logout-btn {
+        display: block;
+        margin-top: 10px;
+        padding: 8px 12px;
+        background: rgba(239,68,68,0.15);
+        color: #fca5a5;
+        border: 1px solid rgba(239,68,68,0.2);
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        transition: all 0.2s;
+      }
+      .logout-btn:hover {
+        background: rgba(239,68,68,0.25);
+        color: #fecaca;
+      }
+      /* Settings sub-tab styles */
+      .settings-subtab {
+        position: relative;
+        transition: all 0.15s;
+      }
+      .settings-subtab.active {
+        color: #3b82f6 !important;
+        border-bottom-color: #3b82f6 !important;
+      }
+      .settings-subtab:hover:not(.active) {
+        color: #374151 !important;
+        background: #f1f5f9;
+        border-radius: 8px 8px 0 0;
+      }
+    </style>
+    <script>
+      // Pass user permissions from backend to frontend
+      window.USER_PERMISSIONS = {{ permissions | tojson | safe }};
+      window.CURRENT_USER = {{ user.to_dict() | tojson | safe }};
+    </script>
+  </head>
+  <body>
+    <!-- App Container -->
+    <div class="app-container">
+      <!-- Mobile Menu Toggle Button -->
+      <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      
+      <!-- Sidebar Overlay (for mobile) -->
+      <div class="sidebar-overlay" id="sidebar-overlay"></div>
+      
+      <!-- Sidebar Navigation -->
+      <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+          <img src="/static/logistar_logo.png" alt="Logistar" class="sidebar-logo">
+          <span class="sidebar-title">Logistar壹仓</span>
+          <button class="sidebar-collapse-btn" id="sidebar-collapse-btn" title="收起/展开侧栏">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline class="collapse-arrow" points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+        </div>
+        
+        <div class="sidebar-nav">
+          <!-- FedEx Operations -->
+          <div class="nav-section" id="nav-section-operations">
+            <a href="#" class="nav-item active" data-tab="fedex-operations" data-permission="fedex_operations">
+              <span class="nav-icon">🚚</span>
+              <span class="nav-text">自营FedEx</span>
+            </a>
+            <a href="#" class="nav-item" data-tab="supplier-operations" data-permission="supplier_operations">
+              <span class="nav-icon">📦</span>
+              <span class="nav-text">其它服务商</span>
+            </a>
+          </div>
+          
+          <!-- Pricing Section -->
+          <div class="nav-section" id="nav-section-pricing">
+            <div class="nav-section-title">定价</div>
+            <a href="#" class="nav-item" data-tab="rate-comparison" data-permission="rate_comparison">
+              <span class="nav-icon">📈</span>
+              <span class="nav-text">尾程服务商比价</span>
+            </a>
+            <a href="#" class="nav-item" data-tab="customer-quote" data-permission="customer_quote">
+              <span class="nav-icon">💰</span>
+              <span class="nav-text">尾程运费试算</span>
+            </a>
+            <a href="#" class="nav-item" data-tab="rate-debug" data-permission="rate_debug">
+              <span class="nav-icon">🔧</span>
+              <span class="nav-text">运费报价调试</span>
+            </a>
+          </div>
+          
+          <!-- Warehouse Section -->
+          <div class="nav-section" id="nav-section-warehouse">
+            <div class="nav-section-title">仓库</div>
+            <a href="#" class="nav-item" data-tab="wms-monitor" data-permission="wms_monitor">
+              <span class="nav-icon">📊</span>
+              <span class="nav-text">仓库监控</span>
+            </a>
+            <a href="#" class="nav-item" data-tab="turnover" data-permission="turnover_dashboard">
+              <span class="nav-icon">🔄</span>
+              <span class="nav-text">库存周转</span>
+            </a>
+          </div>
+          
+          <!-- Admin Section -->
+          <div class="nav-section" id="nav-section-admin">
+            <div class="nav-section-title">管理</div>
+            <a href="#" class="nav-item" data-tab="downloads" data-permission="downloads">
+              <span class="nav-icon">📁</span>
+              <span class="nav-text">下载中心</span>
+            </a>
+            <a href="#" class="nav-item" data-tab="settings" data-permission="settings">
+              <span class="nav-icon">⚙️</span>
+              <span class="nav-text">参数设置</span>
+            </a>
+            <a href="#" class="nav-item" data-tab="user-management" data-permission="user_management">
+              <span class="nav-icon">👥</span>
+              <span class="nav-text">用户管理</span>
+            </a>
+          </div>
+        </div>
+        
+        <!-- User Info Section -->
+        <div class="user-info">
+          <div class="user-info-name">{{ user.display_name }}</div>
+          <div class="user-info-role">{{ user.role }}</div>
+          <a href="/logout" class="logout-btn">🚪 退出登录</a>
+        </div>
+        
+        <div class="sidebar-footer">
+          <div class="sidebar-version">v3.0</div>
+        </div>
+      </nav>
+      
+      <!-- Main Content Area -->
+      <main class="main-content">
+        <!-- FedEx Operations Tab with Sub-tabs -->
+        <div class="tab-content active" id="fedex-operations-tab" data-permission="fedex_operations">
+          <div class="panel">
+            <!-- Operations Sub-Tabs Navigation -->
+            <div id="operations-subtabs" style="display: flex; gap: 0; border-bottom: 2px solid #e5e7eb; margin-bottom: 24px; overflow-x: auto;">
+              <button class="settings-subtab active" data-operations-tab="operations-dashboard" data-permission="dashboard"
+                style="padding: 12px 24px; background: none; border: none; border-bottom: 3px solid transparent; cursor: pointer; font-size: 14px; font-weight: 600; color: #6b7280; white-space: nowrap; transition: all 0.2s;">
+                📊 运营数据面板
+              </button>
+              <button class="settings-subtab" data-operations-tab="operations-verify" data-permission="verify"
+                style="padding: 12px 24px; background: none; border: none; border-bottom: 3px solid transparent; cursor: pointer; font-size: 14px; font-weight: 600; color: #6b7280; white-space: nowrap; transition: all 0.2s;">
+                📄 账单核对
+              </button>
+              <button class="settings-subtab" data-operations-tab="operations-search" data-permission="search"
+                style="padding: 12px 24px; background: none; border: none; border-bottom: 3px solid transparent; cursor: pointer; font-size: 14px; font-weight: 600; color: #6b7280; white-space: nowrap; transition: all 0.2s;">
+                🔍 搜索
+              </button>
+            </div>
+
+            <!-- Dashboard Sub-tab Content -->
+            <div class="settings-subtab-content active" id="operations-dashboard" data-permission="dashboard">
+        <div id="dashboard-tab" data-permission="dashboard">
+          <!-- Loading Indicator -->
+          <div id="dashboard-loading" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px; background: #f8f9fa; border-radius: 8px; margin-bottom: 20px;">
+            <div style="width: 50px; height: 50px; border: 4px solid #e5e7eb; border-top-color: #3b82f6; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+            <p style="margin-top: 16px; color: #6b7280; font-size: 14px;">Loading dashboard data...</p>
+          </div>
+          <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
+          
+          <div id="dashboard-content" style="display: none;">
+          <div class="panel">
+            <!-- Orders by Day - Full Width with Own Filters -->
+            <div style="margin-bottom: 40px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+              <h3 style="margin-top: 0;">每日订单量 (TMS数据)</h3>
+              <div style="margin-bottom: 16px; display: flex; gap: 24px; flex-wrap: wrap; align-items: center;">
+                <label>客户:
+                  <select id="orders-day-customer-filter">
+                    <option value="all">全部</option>
+                  </select>
+                </label>
+                <label>起始日期:
+                  <input type="date" id="orders-day-from-date" style="padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                </label>
+                <label>结束日期:
+                  <input type="date" id="orders-day-to-date" style="padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                </label>
+                <button id="orders-day-apply-btn" class="btn-primary">确定</button>
+              </div>
+              <div style="height: 400px; position: relative;">
+                <canvas id="orders-by-day-chart"></canvas>
+              </div>
+            </div>
+            
+            <!-- Other Dashboard Filters -->
+            <div class="dashboard-filters" style="margin-bottom: 24px; display: flex; gap: 24px; flex-wrap: wrap; align-items: center;">
+              <label>客户:
+                <select id="dashboard-customer-filter">
+                  <option value="all">全部</option>
+                </select>
+              </label>
+              <label>起始日期:
+                <input type="date" id="dashboard-from-date" style="padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+              </label>
+              <label>结束日期:
+                <input type="date" id="dashboard-to-date" style="padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+              </label>
+              <button id="dashboard-apply-btn" class="btn-primary">确定</button>
+            </div>
+            <div id="dashboard-charts">
+              <div style="display: flex; flex-wrap: wrap; gap: 32px;">
+                <div style="flex: 1; min-width: 350px;">
+                  <h3>重量分布</h3>
+                  <canvas id="dashboard-weight-chart"></canvas>
+                </div>
+                <div style="flex: 1; min-width: 350px;">
+                  <h3>分区分布</h3>
+                  <canvas id="dashboard-zone-chart"></canvas>
+                </div>
+              </div>
+              <div style="margin-top: 40px; display: flex; flex-wrap: wrap; gap: 32px;">
+                <div style="flex: 1; min-width: 350px;">
+                  <h3>附加费类别数量及金额</h3>
+                  <canvas id="dashboard-surcharge-chart"></canvas>
+                </div>
+                <div style="flex: 1; min-width: 350px;">
+                  <h3>总反弹金额</h3>
+                  <canvas id="dashboard-adjustment-chart"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div><!-- end dashboard-content -->
+        </div>
+            </div><!-- end operations-dashboard -->
+
+            <!-- Verify Sub-tab Content -->
+            <div class="settings-subtab-content" id="operations-verify" data-permission="verify" style="display: none;">
+        <div id="verify-tab">
+          <div class="panel">
+            <div class="upload-section">
+              <input type="file" id="invoice-file" accept=".csv,.xlsx,.xls,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv" />
+              <div style="display: flex; gap: 12px; margin-top: 12px;">
+                <button id="verify-btn" class="btn-primary">📤 上传&分析账单</button>
+                <button id="clear-results-btn" class="btn-secondary">清除结果</button>
+              </div>
+            </div>
+            
+            <!-- Manual TMS Upload Section -->
+            <div class="upload-section" style="margin-top: 30px; padding-top: 30px; border-top: 2px solid #e5e7eb;">
+              <h3 style="margin: 0 0 12px 0; font-size: 16px; color: #1e293b;">📤 手动上传 TMS 记录</h3>
+              <p style="margin: 0 0 12px 0; font-size: 13px; color: #64748b;">如果发现TMS数据缺失，可以手动下载 TMS 报表并上传到数据库</p>
+              <input type="file" id="tms-upload-file" accept=".xlsx,.xls,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+              <div style="display: flex; gap: 12px; margin-top: 12px;">
+                <button id="tms-upload-btn" class="btn-primary">📤 上传 TMS 记录</button>
+                <button id="tms-clear-btn" class="btn-secondary">清除</button>
+              </div>
+              <div id="tms-upload-status" style="margin-top: 12px; font-size: 13px;"></div>
+            </div>
+            
+            <div id="verification-results"></div>
+          </div>
+        </div>
+            </div><!-- end operations-verify -->
+
+            <!-- Search Sub-tab Content -->
+            <div class="settings-subtab-content" id="operations-search" data-permission="search" style="display: none;">
+        <div id="search-tab">
+          <div class="panel">
+            <div style="margin-bottom: 30px;">
+              <div style="display: flex; gap: 12px; max-width: 600px;">
+                <input type="text" id="search-tracking-input" placeholder="输入追踪号码..." 
+                       style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px;" />
+                <button id="search-tracking-btn" class="btn-primary">🔍 搜索</button>
+                <button id="clear-search-btn" class="btn-secondary">清除</button>
+              </div>
+            </div>
+            <div id="search-results"></div>
+          </div>
+        </div>
+            </div><!-- end operations-search -->
+          </div><!-- end panel -->
+        </div><!-- end fedex-operations-tab -->
+
+        <!-- Supplier Operations Tab (其它服务商) -->
+        <div class="tab-content" id="supplier-operations-tab" data-permission="supplier_operations">
+          <div class="panel">
+            <!-- Supplier Operations Sub-Tabs Navigation -->
+            <div id="supplier-ops-subtabs" style="display: flex; gap: 0; border-bottom: 2px solid #e5e7eb; margin-bottom: 24px; overflow-x: auto;">
+              <button class="settings-subtab active" data-supplier-ops-tab="supplier-dashboard"
+                style="padding: 12px 24px; background: none; border: none; border-bottom: 3px solid transparent; cursor: pointer; font-size: 14px; font-weight: 600; color: #6b7280; white-space: nowrap; transition: all 0.2s;">
+                📊 运营数据面板
+              </button>
+              <button class="settings-subtab" data-supplier-ops-tab="supplier-verify"
+                style="padding: 12px 24px; background: none; border: none; border-bottom: 3px solid transparent; cursor: pointer; font-size: 14px; font-weight: 600; color: #6b7280; white-space: nowrap; transition: all 0.2s;">
+                ✅ 成本核对
+              </button>
+            </div>
+
+            <!-- Supplier Dashboard Sub-tab -->
+            <div class="settings-subtab-content active" id="supplier-dashboard">
+              <div style="margin-bottom: 40px; padding: 20px; background: #f8f9fa; border-radius: 8px;">
+                <h3 style="margin-top: 0;">每日订单量 - 其它服务商 (TMS数据)</h3>
+                <div style="margin-bottom: 16px; display: flex; gap: 24px; flex-wrap: wrap; align-items: center;">
+                  <label>产品名称:
+                    <select id="supplier-day-product-filter" style="padding: 6px; border: 1px solid #ccc; border-radius: 4px; min-width: 200px;">
+                      <option value="all">全部</option>
+                    </select>
+                  </label>
+                  <label>起始日期:
+                    <input type="date" id="supplier-day-from-date" style="padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                  </label>
+                  <label>结束日期:
+                    <input type="date" id="supplier-day-to-date" style="padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                  </label>
+                  <button id="supplier-day-apply-btn" class="btn-primary">确定</button>
+                </div>
+                <div style="height: 400px; position: relative;">
+                  <canvas id="supplier-orders-by-day-chart"></canvas>
+                </div>
+              </div>
+            </div><!-- end supplier-dashboard -->
+
+            <!-- Supplier Cost Verification Sub-tab -->
+            <div class="settings-subtab-content" id="supplier-verify" style="display: none;">
+              <div style="padding: 20px; background: #f8f9fa; border-radius: 8px;">
+                <h3 style="margin-top: 0;">服务商成本核对</h3>
+                <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+                  <p style="margin: 0; font-size: 13px; color: #1e40af;">
+                    选择TMS产品名称和日期范围，系统将根据分区表和服务商成本费率自动计算每笔订单应付金额，并与TMS中的应付金额进行比对。
+                    <br><strong>前提:</strong> 需要先在参数设置中配置好「分区表」和「产品映射」。
+                  </p>
+                </div>
+                <div style="display: flex; gap: 16px; flex-wrap: wrap; align-items: center; margin-bottom: 20px;">
+                  <label style="font-weight: 600;">产品名称:
+                    <select id="supplier-verify-product" style="padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; min-width: 200px;">
+                      <option value="">-- 选择产品 --</option>
+                    </select>
+                  </label>
+                  <label>起始日期:
+                    <input type="date" id="supplier-verify-from-date" style="padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                  </label>
+                  <label>结束日期:
+                    <input type="date" id="supplier-verify-to-date" style="padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                  </label>
+                  <button id="supplier-verify-btn" class="btn-primary" style="padding: 8px 20px;">🔍 开始核对</button>
+                </div>
+
+                <!-- Verification Summary -->
+                <div id="supplier-verify-summary" style="display: none; margin-bottom: 20px;">
+                  <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+                    <div style="flex: 1; min-width: 150px; background: white; border-radius: 8px; padding: 16px; text-align: center; border: 1px solid #e5e7eb;">
+                      <div style="font-size: 24px; font-weight: 700; color: #1e293b;" id="verify-total-count">0</div>
+                      <div style="font-size: 13px; color: #64748b;">总订单数</div>
+                    </div>
+                    <div style="flex: 1; min-width: 150px; background: white; border-radius: 8px; padding: 16px; text-align: center; border: 1px solid #22c55e;">
+                      <div style="font-size: 24px; font-weight: 700; color: #22c55e;" id="verify-match-count">0</div>
+                      <div style="font-size: 13px; color: #64748b;">匹配</div>
+                    </div>
+                    <div style="flex: 1; min-width: 150px; background: white; border-radius: 8px; padding: 16px; text-align: center; border: 1px solid #ef4444;">
+                      <div style="font-size: 24px; font-weight: 700; color: #ef4444;" id="verify-mismatch-count">0</div>
+                      <div style="font-size: 13px; color: #64748b;">不匹配</div>
+                    </div>
+                    <div style="flex: 1; min-width: 150px; background: white; border-radius: 8px; padding: 16px; text-align: center; border: 1px solid #f59e0b;">
+                      <div style="font-size: 24px; font-weight: 700; color: #f59e0b;" id="verify-nozone-count">0</div>
+                      <div style="font-size: 13px; color: #64748b;">无分区</div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Filter for results -->
+                <div id="supplier-verify-filter" style="display: none; margin-bottom: 12px;">
+                  <label style="font-weight: 600;">筛选:
+                    <select id="supplier-verify-status-filter" style="padding: 6px; border: 1px solid #ccc; border-radius: 4px;">
+                      <option value="all">全部</option>
+                      <option value="mismatch">仅不匹配</option>
+                      <option value="match">仅匹配</option>
+                      <option value="no_zone">无分区</option>
+                    </select>
+                  </label>
+                </div>
+
+                <!-- Results Table -->
+                <div id="supplier-verify-results" style="display: none;">
+                  <div style="max-height: 600px; overflow: auto; border: 1px solid #e5e7eb; border-radius: 8px;">
+                    <table id="supplier-verify-table" class="data-table" style="width: 100%; border-collapse: collapse; font-size: 12px; white-space: nowrap;">
+                      <thead style="position: sticky; top: 0; z-index: 1;">
+                        <tr style="background: #f1f5f9;">
+                          <th style="padding: 6px; border: 1px solid #e5e7eb;">追踪号</th>
+                          <th style="padding: 6px; border: 1px solid #e5e7eb;">客户</th>
+                          <th style="padding: 6px; border: 1px solid #e5e7eb;">日期</th>
+                          <th style="padding: 6px; border: 1px solid #e5e7eb;">发件</th>
+                          <th style="padding: 6px; border: 1px solid #e5e7eb;">收件</th>
+                          <th style="padding: 6px; border: 1px solid #e5e7eb;">kg</th>
+                          <th style="padding: 6px; border: 1px solid #e5e7eb;">lb</th>
+                          <th style="padding: 6px; border: 1px solid #e5e7eb;">Zone</th>
+                          <th style="padding: 6px; border: 1px solid #e5e7eb; background: #eff6ff;" title="TMS应付运费">运费</th>
+                          <th style="padding: 6px; border: 1px solid #e5e7eb; background: #eff6ff;" title="TMS应付燃油附加费">燃油</th>
+                          <th style="padding: 6px; border: 1px solid #e5e7eb; background: #eff6ff;" title="TMS应付住宅附加费">住宅</th>
+                          <th style="padding: 6px; border: 1px solid #e5e7eb; background: #eff6ff;" title="TMS应付DAS+Remote">DAS</th>
+                          <th style="padding: 6px; border: 1px solid #e5e7eb; background: #eff6ff;" title="TMS应付AHS">AHS</th>
+                          <th style="padding: 6px; border: 1px solid #e5e7eb; background: #eff6ff;" title="TMS应付偏远费+旺季+其他etc">其它</th>
+                          <th style="padding: 6px; border: 1px solid #e5e7eb; font-weight: 700;">TMS总计</th>
+                          <th style="padding: 6px; border: 1px solid #e5e7eb; font-weight: 700;">计算总计</th>
+                          <th style="padding: 6px; border: 1px solid #e5e7eb;">差额</th>
+                          <th style="padding: 6px; border: 1px solid #e5e7eb;">状态</th>
+                        </tr>
+                      </thead>
+                      <tbody id="supplier-verify-tbody"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div><!-- end supplier-verify -->
+          </div><!-- end panel -->
+        </div><!-- end supplier-operations-tab -->
+
+        <!-- Rate Comparison Tab -->
+        <div class="tab-content" id="rate-comparison-tab">
+          <div class="panel" style="border-top: 3px solid #16a34a;">
+            <!-- Filter Section -->
+            <div style="margin-bottom: 20px;">
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+                
+                <!-- Suppliers Card -->
+                <div style="background: #f8f9fa; border: 2px solid #9ca3af; border-radius: 8px; padding: 18px; box-shadow: 0 2px 4px rgba(0,0,0,0.08);">
+                  <label style="font-weight: 600; display: block; margin-bottom: 10px; font-size: 14px; color: #6b7280;">选择服务商:</label>
+                  <div id="suppliers-select-container" style="max-height: 400px; overflow-y: auto; background: white; border: 1px solid #ddd; border-radius: 6px; padding: 8px;">
+                  </div>
+                </div>
+
+                <!-- Service Type, DAS, Fuel Combined Card -->
+                <div style="background: #f8f9fa; border: 2px solid #9ca3af; border-radius: 8px; padding: 18px; box-shadow: 0 2px 4px rgba(0,0,0,0.08);">
+                  <label style="font-weight: 600; display: block; margin-bottom: 10px; font-size: 14px; color: #6b7280;">服务类型:</label>
+                  <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 16px;">
+                    <label style="cursor: pointer; display: flex; align-items: center; gap: 6px; background: white; padding: 6px 12px; border-radius: 6px; border: 1px solid #ddd; font-size: 13px;">
+                      <input type="radio" name="service-type" value="home_delivery" id="service-home-delivery" checked>
+                      Home Delivery
+                    </label>
+                    <label style="cursor: pointer; display: flex; align-items: center; gap: 6px; background: white; padding: 6px 12px; border-radius: 6px; border: 1px solid #ddd; font-size: 13px;">
+                      <input type="radio" name="service-type" value="ground" id="service-ground">
+                      Ground
+                    </label>
+                  </div>
+
+                  <label style="font-weight: 600; display: block; margin-bottom: 10px; font-size: 14px; color: #6b7280;">偏远地区附加费:</label>
+                  <select id="das-select" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; background: white; margin-bottom: 16px;">
+                    <option value="none">None</option>
+                    <option value="das1">DAS (Resi/Comm)</option>
+                    <option value="das2">DAS Extended (Resi/Comm)</option>
+                    <option value="das3">DAS Remote (Resi/Comm)</option>
+                  </select>
+
+                  <label style="font-weight: 600; display: block; margin-bottom: 10px; font-size: 14px; color: #6b7280;">承运商燃油附加费 (%):</label>
+                  <div style="background: white; border: 1px solid #ddd; border-radius: 6px; padding: 10px;">
+                    <div style="margin-bottom: 8px;">
+                      <label style="display: block; font-size: 12px; color: #666; margin-bottom: 4px;">FedEx (AHS, OS, SmartPost):</label>
+                      <input type="number" id="fuel-fedex" value="21.25" step="0.1" min="0" max="100" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px;">
+                    </div>
+                    <div>
+                      <label style="display: block; font-size: 12px; color: #666; margin-bottom: 4px;">UPS:</label>
+                      <input type="number" id="fuel-ups" value="20.75" step="0.1" min="0" max="100" style="width: 100%; padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px;">
+                    </div>
+                  </div>
+                  <small style="display: block; margin-top: 6px; color: #666; font-size: 11px;">USPS, UNIUNI, GOFO: 无燃油附加费</small>
+                </div>
+
+                <!-- Other Surcharges Card -->
+                <div style="background: #f8f9fa; border: 2px solid #9ca3af; border-radius: 8px; padding: 18px; box-shadow: 0 2px 4px rgba(0,0,0,0.08);">
+                  <label style="font-weight: 600; display: block; margin-bottom: 10px; font-size: 14px; color: #6b7280;">其他附加费:</label>
+                  <div style="background: white; border: 1px solid #ddd; border-radius: 6px; padding: 10px; max-height: 350px; overflow-y: auto;">
+                    <div style="font-weight: 600; font-size: 11px; margin-bottom: 8px; color: #666;">Additional Handling:</div>
+                    <label style="display: block; margin-bottom: 6px; cursor: pointer; padding: 4px 4px 4px 12px; border-radius: 4px; font-size: 13px;">
+                      <input type="checkbox" value="ahs_dimension" class="ahs-checkbox" style="margin-right: 6px;"> AHS - Dimensions
+                    </label>
+                    <label style="display: block; margin-bottom: 6px; cursor: pointer; padding: 4px 4px 4px 12px; border-radius: 4px; font-size: 13px;">
+                      <input type="checkbox" value="additional_handling" class="ahs-checkbox" style="margin-right: 6px;"> Additional Handling
+                    </label>
+                    <label style="display: block; margin-bottom: 10px; cursor: pointer; padding: 4px 4px 4px 12px; border-radius: 4px; font-size: 13px;">
+                      <input type="checkbox" value="oversize" class="ahs-checkbox" style="margin-right: 6px;"> Oversize Charge
+                    </label>
+                    <div style="font-weight: 600; font-size: 11px; margin-bottom: 8px; color: #666; border-top: 1px solid #ddd; padding-top: 8px;">Demand Season:</div>
+                    <label style="display: block; margin-bottom: 6px; cursor: pointer; padding: 4px 4px 4px 12px; border-radius: 4px; font-size: 13px; background: #fef3c7;">
+                      <input type="checkbox" id="demand-checkbox" style="margin-right: 6px;"> <strong>旺季附加费</strong>
+                    </label>
+                    <div style="padding-left: 24px; font-size: 11px; color: #666; margin-top: 4px;">
+                      • 旺季附加费: 住宅/家庭送货<br>
+                      • 旺季附加处理费: 如果触发AHS<br>
+                      • 旺季超大件费: 如果触发超大件（覆盖AHS旺季费）
+                    </div>
+                    <div style="font-weight: 600; font-size: 11px; margin-bottom: 8px; color: #666; border-top: 1px solid #ddd; padding-top: 8px;">Signature:</div>
+                    <select id="signature-type-select" style="width: 100%; padding: 6px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px;">
+                      <option value="none">No Signature</option>
+                      <option value="direct">Direct Signature</option>
+                      <option value="adult">Adult Signature</option>
+                    </select>
+                  </div>
+                  <small style="display: block; margin-top: 6px; color: #666; font-size: 11px;">自动包含AHS - Weight (≥50 lbs)。仅适用最高者。</small>
+                </div>
+              </div>
+
+              <div style="margin-top: 20px; display: flex; gap: 12px; flex-wrap: wrap;">
+                <button id="compare-rates-btn" class="btn-primary">对比服务商</button>
+                <button id="export-comparison-btn" class="btn-secondary">导出到 Excel</button>
+              </div>
+            </div>
+
+            <!-- Results Table -->
+            <div id="comparison-results" style="overflow-x: auto;">
+              <p style="text-align: center; color: #999; padding: 40px;">
+                请选择上方选项并点击“对比服务商”以查看比较结果。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Customer Quote Tab -->
+        <div class="tab-content" id="customer-quote-tab">
+          <div class="panel" style="border-top: 3px solid #9333ea;">
+            <!-- Input Mode Toggle -->
+            <div style="margin-bottom: 20px; display: flex; gap: 20px; align-items: center; flex-wrap: wrap;">
+              <div style="display: flex; gap: 10px; align-items: center;">
+                <label style="font-weight: 600;">输入模式:</label>
+                <label style="cursor: pointer; padding: 8px 16px; border-radius: 6px; background: #3b82f6; color: white;">
+                  <input type="radio" name="quote-input-mode" value="single" checked style="display: none;"> 
+                  <span id="mode-single-label">📦 单个包裹</span>
+                </label>
+                <label style="cursor: pointer; padding: 8px 16px; border-radius: 6px; background: #e5e7eb; color: #374151;">
+                  <input type="radio" name="quote-input-mode" value="bulk" style="display: none;"> 
+                  <span id="mode-bulk-label">📋 批量输入</span>
+                </label>
+              </div>
+              <div style="display: flex; gap: 10px; align-items: center;">
+                <label style="font-weight: 600;">单位:</label>
+                <select id="quote-units" style="padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;">
+                  <option value="cm_kg" selected>cm / kg</option>
+                  <option value="inch_lb">Inches / Pounds</option>
+                </select>
+              </div>
+            </div>
+            
+            <!-- Single Package Input -->
+            <div id="single-input-section">
+              <div class="quote-input-section" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 20px;">
+                <!-- Package Details -->
+                <div style="background: #f8f9fa; border-radius: 8px; padding: 20px;">
+                  <h3 style="margin-top: 0; margin-bottom: 15px; color: #374151;">📦 包裹信息</h3>
+                  <div style="margin-bottom: 15px;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 5px;">
+                      重量 (<span id="weight-unit-label">kg</span>):
+                    </label>
+                    <input type="number" id="quote-weight" step="0.01" min="0" placeholder="e.g., 5.5" 
+                           style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;">
+                  </div>
+                  <div style="margin-bottom: 15px;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 5px;">
+                      尺寸 (<span id="dim-unit-label">cm</span>):
+                    </label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;">
+                      <input type="number" id="quote-length" step="0.1" min="0" placeholder="Length" 
+                             style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;">
+                      <input type="number" id="quote-width" step="0.1" min="0" placeholder="Width" 
+                             style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;">
+                      <input type="number" id="quote-height" step="0.1" min="0" placeholder="Height" 
+                             style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;">
+                    </div>
+                    <small style="color: #666; display: block; margin-top: 4px;">DIM weight根据承运商自动计算</small>
+                  </div>
+                </div>
+                
+                <!-- Service Options -->
+                <div style="background: #f8f9fa; border-radius: 8px; padding: 20px;">
+                  <h3 style="margin-top: 0; margin-bottom: 15px; color: #374151;">🚚 服务选项</h3>
+                  <div style="margin-bottom: 15px;">
+                    <label style="display: block; font-weight: 600; margin-bottom: 5px;">配送类型:</label>
+                    <select id="quote-service-type" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px;">
+                      <option value="residential">Residential Delivery (Home Delivery)</option>
+                      <option value="commercial">Commercial Delivery (Ground)</option>
+                    </select>
+                  </div>
+                </div>
+                
+                <!-- Fuel Rates -->
+                <div style="background: #fff7ed; border-radius: 8px; padding: 20px; border: 1px solid #fed7aa;">
+                  <h3 style="margin-top: 0; margin-bottom: 15px; color: #9a3412;">⛽ 燃油附加费 (%)</h3>
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <div>
+                      <label style="display: block; font-size: 12px; color: #666; margin-bottom: 4px;">FedEx/SmartPost:</label>
+                      <input type="number" id="quote-fuel-fedex" value="21.25" step="0.1" min="0" 
+                             style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px;">
+                    </div>
+                    <div>
+                      <label style="display: block; font-size: 12px; color: #666; margin-bottom: 4px;">UPS:</label>
+                      <input type="number" id="quote-fuel-ups" value="20.75" step="0.1" min="0" 
+                             style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px;">
+                    </div>
+                  </div>
+                  <small style="display: block; margin-top: 8px; color: #9a3412;">USPS, GOFO, UNIUNI: 无燃油附加费</small>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Bulk Input Section (hidden by default) -->
+            <div id="bulk-input-section" style="display: none; margin-bottom: 20px;">
+              <div style="background: #f8f9fa; border-radius: 8px; padding: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                  <h3 style="margin: 0; color: #374151;">📋 批量包裹输入</h3>
+                  <div style="display: flex; gap: 10px;">
+                    <button id="quote-bulk-paste-excel" class="btn-secondary" style="padding: 8px 16px;">
+                      📋 从Excel粘贴
+                    </button>
+                    <button id="quote-bulk-add-row" class="btn-primary" style="padding: 8px 16px;">
+                      + 添加行
+                    </button>
+                  </div>
+                </div>
+                <p style="color: #666; font-size: 13px; margin-bottom: 15px;">
+                  输入包裹信息。每行为一个包裹。
+                </p>
+                
+                <!-- Bulk input table -->
+                <div style="overflow-x: auto;">
+                  <table id="quote-bulk-table" style="width: 100%; border-collapse: collapse; background: white; border-radius: 6px; overflow: hidden;">
+                    <thead>
+                      <tr style="background: #e5e7eb;">
+                        <th style="padding: 10px; text-align: center; font-weight: 600; width: 50px;">#</th>
+                        <th style="padding: 10px; text-align: center; font-weight: 600;">重量 (<span class="bulk-weight-unit">kg</span>)</th>
+                        <th style="padding: 10px; text-align: center; font-weight: 600;">长度 (<span class="bulk-dim-unit">cm</span>)</th>
+                        <th style="padding: 10px; text-align: center; font-weight: 600;">宽度 (<span class="bulk-dim-unit">cm</span>)</th>
+                        <th style="padding: 10px; text-align: center; font-weight: 600;">高度 (<span class="bulk-dim-unit">cm</span>)</th>
+                        <th style="padding: 10px; text-align: center; width: 60px;">操作</th>
+                      </tr>
+                    </thead>
+                    <tbody id="quote-bulk-tbody">
+                      <tr data-row="1">
+                        <td style="padding: 8px; text-align: center; border-bottom: 1px solid #e5e7eb;">1</td>
+                        <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;"><input type="number" class="bulk-weight" step="0.01" min="0" placeholder="Weight" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;"></td>
+                        <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;"><input type="number" class="bulk-length" step="0.1" min="0" placeholder="Length" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;"></td>
+                        <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;"><input type="number" class="bulk-width" step="0.1" min="0" placeholder="Width" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;"></td>
+                        <td style="padding: 8px; border-bottom: 1px solid #e5e7eb;"><input type="number" class="bulk-height" step="0.1" min="0" placeholder="Height" style="width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px;"></td>
+                        <td style="padding: 8px; text-align: center; border-bottom: 1px solid #e5e7eb;"><button class="bulk-remove-row" style="background: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer;">✕</button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                
+                <div style="margin-top: 15px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px;">
+                  <div>
+                    <label style="display: block; font-weight: 600; margin-bottom: 5px;">配送类型:</label>
+                    <select id="quote-bulk-service-type" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+                      <option value="residential">Residential</option>
+                      <option value="commercial">Commercial</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label style="display: block; font-weight: 600; margin-bottom: 5px;">FedEx/SmartPost Fuel (%):</label>
+                    <input type="number" id="quote-bulk-fuel-fedex" value="21.25" step="0.1" min="0" 
+                           style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+                  </div>
+                  <div>
+                    <label style="display: block; font-weight: 600; margin-bottom: 5px;">UPS Fuel (%):</label>
+                    <input type="number" id="quote-bulk-fuel-ups" value="20.75" step="0.1" min="0" 
+                           style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- DIM Weight Preview (for single mode) -->
+            <div id="quote-dim-preview" style="display: none; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+              <div style="display: flex; gap: 30px; flex-wrap: wrap; margin-bottom: 10px;">
+                <div><strong>实际重量:</strong> <span id="preview-actual-weight">-</span> lbs → <strong><span id="preview-actual-weight-rounded">-</span> lbs</strong></div>
+                <div><strong>周长:</strong> <span id="preview-perimeter">-</span>"</div>
+                <div><strong>体积:</strong> <span id="preview-volume">-</span> 立方英寸</div>
+              </div>
+              <div style="display: flex; gap: 20px; flex-wrap: wrap; font-size: 13px;">
+                <div style="background: #dbeafe; padding: 6px 10px; border-radius: 4px;"><strong>DIM(166):</strong> <span id="preview-dim-166">-</span> → <span id="preview-billed-166" style="color: #1d4ed8; font-weight: 700;">-</span></div>
+                <div style="background: #fef3c7; padding: 6px 10px; border-radius: 4px;"><strong>DIM(225):</strong> <span id="preview-dim-225">-</span> → <span id="preview-billed-225" style="color: #1d4ed8; font-weight: 700;">-</span></div>
+                <div style="background: #fce7f3; padding: 6px 10px; border-radius: 4px;"><strong>DIM(250):</strong> <span id="preview-dim-250">-</span> → <span id="preview-billed-250" style="color: #1d4ed8; font-weight: 700;">-</span></div>
+              </div>
+              <div style="margin-top: 8px; font-size: 11px; color: #666;">DIM 重量。计费重量 = max(实际重量, DIM 重量)。</div>
+            </div>
+            
+            <div style="margin-bottom: 30px; display: flex; gap: 10px; flex-wrap: wrap;">
+              <button id="generate-quote-btn" class="btn-primary" style="padding: 12px 30px; font-size: 16px;">
+                💰 生成报价矩阵
+              </button>
+              <button id="clear-quote-btn" class="btn-secondary" style="padding: 12px 20px; font-size: 16px;">
+                清除
+              </button>
+            </div>
+            
+            <!-- Quote Results -->
+            <div id="quote-results">
+              <div style="text-align: center; color: #666; padding: 60px 20px; background: #f8fafc; border-radius: 12px; border: 2px dashed #e5e7eb;">
+                <div style="font-size: 48px; margin-bottom: 15px;">📊</div>
+                <p style="font-size: 16px; margin: 0 0 10px 0;">输入包裹详情并点击 "生成报价矩阵"</p>
+                <p style="font-size: 13px; color: #9ca3af; margin: 0;">结果将显示每个区域（列）× DAS 选项（行）的最佳价格</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rate Debug Tab -->
+        <div class="tab-content" id="rate-debug-tab" data-permission="rate_debug">
+          <div class="panel" style="border-top: 3px solid #f59e0b;">
+            <div style="margin-bottom:15px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+              <div>
+                <h2 style="margin:0; color:#374151;">🔧 运费报价调试</h2>
+                <p style="margin:4px 0 0 0; font-size:13px; color:#6b7280;">查看和编辑报价费率，比对供应商成本，分析利润空间</p>
+              </div>
+            </div>
+            <div id="rate-debug-content">
+              <div style="text-align:center; color:#666; padding:60px 20px; background:#f8fafc; border-radius:12px; border:2px dashed #e5e7eb;">
+                <div style="font-size:48px; margin-bottom:15px;">🔍</div>
+                <p style="font-size:16px; margin:0;">加载中...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Download Center Tab -->
+        <div class="tab-content" id="downloads-tab">
+          <div class="panel">
+            <div style="margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end;">
+              <div style="flex: 1; min-width: 180px;">
+                <label style="display: block; margin-bottom: 6px; font-weight: 500; font-size: 13px; color: #374151;">导出类型</label>
+                <select id="filter-export-type" class="form-control" style="width: 100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;">
+                  <option value="">全部</option>
+                  <option value="adjustment">Adjustment</option>
+                  <option value="mismatch">Mismatch</option>
+                </select>
+              </div>
+              <div style="flex: 1; min-width: 180px;">
+                <label style="display: block; margin-bottom: 6px; font-weight: 500; font-size: 13px; color: #374151;">导出人</label>
+                <select id="filter-export-user" class="form-control" style="width: 100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;">
+                  <option value="">全部</option>
+                </select>
+              </div>
+              <div style="flex: 1; min-width: 200px;">
+                <label style="display: block; margin-bottom: 6px; font-weight: 500; font-size: 13px; color: #374151;">导出时间</label>
+                <input type="date" id="filter-export-date-start" class="form-control" style="width: 100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;" placeholder="开始日期">
+              </div>
+              <div style="flex: 1; min-width: 200px;">
+                <label style="display: block; margin-bottom: 6px; font-weight: 500; font-size: 13px; color: #374151;">至</label>
+                <input type="date" id="filter-export-date-end" class="form-control" style="width: 100%; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;" placeholder="结束日期">
+              </div>
+              <div style="display: flex; gap: 8px;">
+                <button id="apply-downloads-filter-btn" class="btn-primary" style="padding: 8px 20px; white-space: nowrap;">🔍 筛选</button>
+                <button id="clear-downloads-filter-btn" class="btn-secondary" style="padding: 8px 20px; white-space: nowrap;">🔄 清除</button>
+                <button id="refresh-downloads-btn" class="btn-secondary" style="padding: 8px 20px; white-space: nowrap;">🔄 刷新</button>
+              </div>
+            </div>
+
+            <div id="downloads-loading" style="display: none; text-align: center; padding: 40px;">
+              <p>加载导出文件...</p>
+            </div>
+
+            <div id="downloads-list">
+              <table class="data-table" style="width: 100%; border-collapse: collapse; border: 1px solid #ddd;">
+                <thead>
+                  <tr style="background: #f8f9fa;">
+                    <th style="width: 25%; padding: 12px; text-align: left; border: 1px solid #ddd; font-weight: 600;">原始账单</th>
+                    <th style="width: 12%; padding: 12px; text-align: center; border: 1px solid #ddd; font-weight: 600;">导出类型</th>
+                    <th style="width: 8%; padding: 12px; text-align: center; border: 1px solid #ddd; font-weight: 600;">行数</th>
+                    <th style="width: 12%; padding: 12px; text-align: center; border: 1px solid #ddd; font-weight: 600;">导出人</th>
+                    <th style="width: 18%; padding: 12px; text-align: center; border: 1px solid #ddd; font-weight: 600;">导出时间</th>
+                    <th style="width: 25%; padding: 12px; text-align: center; border: 1px solid #ddd; font-weight: 600;">操作</th>
+                  </tr>
+                </thead>
+                <tbody id="downloads-table-body">
+                  <tr>
+                    <td colspan="6" style="text-align: center; padding: 40px; color: #999; border: 1px solid #ddd;">
+                      还没有可用的导出文件。请上传并分析账单以生成导出文件。
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Settings Tab -->
+        <div class="tab-content" id="settings-tab">
+          <div class="panel">
+            <!-- Settings Sub-Tabs Navigation -->
+            <div id="settings-subtabs" style="display: flex; gap: 0; border-bottom: 2px solid #e5e7eb; margin-bottom: 24px; overflow-x: auto;">
+              <button class="settings-subtab active" data-settings-tab="settings-fedex-rates" data-permission="settings_fedex_rates"
+                style="padding: 12px 20px; border: none; background: none; cursor: pointer; font-size: 14px; font-weight: 600; color: #64748b; border-bottom: 3px solid transparent; white-space: nowrap; transition: all 0.2s;">
+                📋 FedEx合同费率
+              </button>
+              <button class="settings-subtab" data-settings-tab="settings-customer-pricing" data-permission="settings_customer_pricing"
+                style="padding: 12px 20px; border: none; background: none; cursor: pointer; font-size: 14px; font-weight: 600; color: #64748b; border-bottom: 3px solid transparent; white-space: nowrap; transition: all 0.2s;">
+                👥 客户加价规则
+              </button>
+              <button class="settings-subtab" data-settings-tab="settings-supplier" data-permission="settings_supplier"
+                style="padding: 12px 20px; border: none; background: none; cursor: pointer; font-size: 14px; font-weight: 600; color: #64748b; border-bottom: 3px solid transparent; white-space: nowrap; transition: all 0.2s;">
+                🏢 尾程服务商成本
+              </button>
+              <button class="settings-subtab" data-settings-tab="settings-quote-pricing" data-permission="settings_quote_pricing"
+                style="padding: 12px 20px; border: none; background: none; cursor: pointer; font-size: 14px; font-weight: 600; color: #64748b; border-bottom: 3px solid transparent; white-space: nowrap; transition: all 0.2s;">
+                💰 尾程运费报价
+              </button>
+              <button class="settings-subtab" data-settings-tab="settings-warehouse-ops" data-permission="settings_warehouse_ops"
+                style="padding: 12px 20px; border: none; background: none; cursor: pointer; font-size: 14px; font-weight: 600; color: #64748b; border-bottom: 3px solid transparent; white-space: nowrap; transition: all 0.2s;">
+                📦 一件代发库内操作
+              </button>
+              <button class="settings-subtab" data-settings-tab="settings-zone-charts" data-permission="settings_zone_charts"
+                style="padding: 12px 20px; border: none; background: none; cursor: pointer; font-size: 14px; font-weight: 600; color: #64748b; border-bottom: 3px solid transparent; white-space: nowrap; transition: all 0.2s;">
+                🗺️ 分区表管理
+              </button>
+              <button class="settings-subtab" data-settings-tab="settings-product-mapping" data-permission="settings_product_mapping"
+                style="padding: 12px 20px; border: none; background: none; cursor: pointer; font-size: 14px; font-weight: 600; color: #64748b; border-bottom: 3px solid transparent; white-space: nowrap; transition: all 0.2s;">
+                🔗 产品映射
+              </button>
+              <button class="settings-subtab" data-settings-tab="settings-scheduler" data-permission="admin"
+                style="padding: 12px 20px; border: none; background: none; cursor: pointer; font-size: 14px; font-weight: 600; color: #64748b; border-bottom: 3px solid transparent; white-space: nowrap; transition: all 0.2s;">
+                ⏰ 定时任务
+              </button>
+            </div>
+
+            <!-- FedEx Contract Rates Section (for Invoice Verification) -->
+            <div class="settings-subtab-content active" id="settings-fedex-rates" data-permission="settings_fedex_rates">
+              <div style="padding: 0;">
+                <!-- Section Description -->
+                <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+                  <p style="margin: 0; font-size: 14px; color: #1e40af;">
+                    <strong>📌 目的:</strong> 配置 Logistar 的 FedEx 合同费率以进行 <strong>账单核对</strong>。
+                    系统将根据发货日期自动选择正确的费率版本以验证账单中的费用。
+                  </p>
+                </div>
+                
+                <!-- Rate Version Selector -->
+                <div style="margin-bottom: 24px; padding: 16px; background: #f0f8ff; border-radius: 8px; border-left: 4px solid #2196F3;">
+                  <div style="display: flex; gap: 24px; align-items: center; flex-wrap: wrap;">
+                    <label style="font-weight: bold;">
+                      选择版本:
+                      <select id="rate-version-select" style="margin-left: 8px; padding: 8px; font-size: 14px; border: 2px solid #2196F3; border-radius: 4px; min-width: 250px;">
+                        <option value="">加载中...</option>
+                      </select>
+                    </label>
+                    <div style="display: flex; gap: 12px;">
+                      <button id="btn-edit-version" class="btn-secondary" style="padding: 8px 16px;">✏️ 编辑版本</button>
+                      <button id="btn-new-version" class="btn-add" style="padding: 8px 16px;">+ 新建版本</button>
+                      <button id="btn-delete-version" class="btn-remove" style="padding: 8px 16px;">删除版本</button>
+                      <button id="btn-duplicate-version" class="btn-add" style="padding: 8px 16px; background: #673ab7;">复制版本</button>
+                    </div>
+                  </div>
+                  <div id="version-info" style="margin-top: 12px; font-size: 13px; color: #555;">
+                    <div><strong>有效期:</strong> <span id="version-dates">-</span></div>
+                    <div style="margin-top: 4px;"><strong>注意:</strong> 账单核对会根据发货日期自动使用正确的费率版本。</div>
+                  </div>
+                </div>
+                
+                <div style="display: flex; gap: 30px; align-items: flex-start;">
+                  <!-- Left side: Base Rates -->
+                  <div style="flex-shrink: 0;">
+                    <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 12px;">
+                      <h2 style="margin: 0;">FedEx 基础费率 ($)</h2>
+                      <button id="btn-paste-base-rates" class="btn-secondary" style="padding: 6px 12px; font-size: 13px;">📋 从Excel粘贴</button>
+                    </div>
+                    <div id="base-table-wrap" style="max-width: 100%; overflow-x: auto;"></div>
+                  </div>
+                  
+                  <!-- Right side: Surcharges -->
+                  <div style="flex: 1; min-width: 0;">
+                    <h2>固定附加费</h2>
+                    <div class="table-controls">
+                      <button id="add-fixed" class="btn-add">+ 添加行</button>
+                    </div>
+                    <div class="surcharge-table-wrapper">
+                      <table id="fixed-table" class="surcharge-table">
+                        <thead>
+                          <tr>
+                            <th style="width: 45%">描述</th>
+                            <th style="width: 15%">金额 ($)</th>
+                            <th style="width: 35%">备注</th>
+                            <th style="width: 5%"></th>
+                          </tr>
+                        </thead>
+                        <tbody id="fixed-list"></tbody>
+                      </table>
+                    </div>
+                    
+                    <hr style="margin: 40px 0; border: none; border-top: 2px solid #e0e0e0;">
+                    
+                    <h2>分区附加费</h2>
+                    <div class="table-controls">
+                      <button id="add-zone" class="btn-add">+ 添加行</button>
+                    </div>
+                    <div class="surcharge-table-wrapper">
+                      <table id="zone-table" class="surcharge-table">
+                        <thead>
+                          <tr>
+                            <th style="width: 16%">描述</th>
+                            <th style="width: 9%">Zone 2</th>
+                            <th style="width: 9%">Zone 3</th>
+                            <th style="width: 9%">Zone 4</th>
+                            <th style="width: 9%">Zone 5</th>
+                            <th style="width: 9%">Zone 6</th>
+                            <th style="width: 9%">Zone 7</th>
+                            <th style="width: 9%">Zone 8</th>
+                            <th style="width: 17%">备注</th>
+                            <th style="width: 4%"></th>
+                          </tr>
+                        </thead>
+                        <tbody id="zone-list"></tbody>
+                      </table>
+                    </div>
+                    
+                    <hr style="margin: 40px 0; border: none; border-top: 2px solid #e0e0e0;">
+                    
+                    <h2>旺季附加费</h2>
+                    <div class="table-controls">
+                      <button id="add-demand" class="btn-add">+ 添加行</button>
+                    </div>
+                    <div class="surcharge-table-wrapper">
+                      <table id="demand-table" class="surcharge-table">
+                        <thead>
+                          <tr>
+                            <th style="width: 28%">描述</th>
+                            <th style="width: 18%">触发条件</th>
+                            <th style="width: 42%">日期范围 (开始 | 结束 | 金额)</th>
+                            <th style="width: 10%">备注</th>
+                            <th style="width: 2%"></th>
+                          </tr>
+                        </thead>
+                        <tbody id="demand-list"></tbody>
+                      </table>
+                    </div>
+                    
+                    <hr style="margin: 40px 0; border: none; border-top: 2px solid #e0e0e0;">
+                    
+                    <h2>燃油附加费 <a href="https://www.fedex.com/en-us/shipping/fuel-surcharge.html" target="_blank" style="font-size: 14px; margin-left: 10px;">📊 查看当前费率</a></h2>
+                    <div class="table-controls">
+                      <button id="add-fuel-range" class="btn-add">+ 添加周</button>
+                    </div>
+                    <div class="surcharge-table-wrapper">
+                      <table id="fuel-table" class="surcharge-table">
+                        <thead>
+                          <tr>
+                            <th style="width: 35%">开始 (周一)</th>
+                            <th style="width: 35%">结束 (周日)</th>
+                            <th style="width: 25%">百分比 (%)</th>
+                            <th style="width: 5%"></th>
+                          </tr>
+                        </thead>
+                        <tbody id="fuel-list"></tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              
+                <div class="actions" style="margin-top: 30px;">
+                  <button id="save" class="btn-primary">💾 保存所有</button>
+                  <button id="export-rates" class="btn-secondary">📥 导出费率</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Customer Markup Rules Section -->
+            <div class="settings-subtab-content" id="settings-customer-pricing" data-permission="settings_customer_pricing" style="display: none;">
+              <div style="padding: 0;">
+                <!-- Section Description -->
+                <div style="background: #fefce8; border: 1px solid #fde68a; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+                  <p style="margin: 0; font-size: 14px; color: #854d0e;">
+                    <strong>📌 目的:</strong> 为每个TMS客户配置加价百分比。
+                    用于计算客户应收取的费用并识别所需的反弹金额。
+                  </p>
+                </div>
+                
+                <div class="table-controls">
+                  <button id="add-customer" class="btn-add">+ 添加客户</button>
+                </div>
+                
+                <div class="surcharge-table-wrapper">
+                  <table id="customer-table" class="surcharge-table">
+                    <thead>
+                      <tr>
+                        <th style="width: 20%">客户名称</th>
+                        <th style="width: 12%">基础费率加价 (%)</th>
+                        <th style="width: 12%">固定附加费加价 (%)</th>
+                        <th style="width: 12%">区域附加费加价 (%)</th>
+                        <th style="width: 12%">旺季附加费加价 (%)</th>
+                        <th style="width: 12%">燃油附加费加价 (%)</th>
+                        <th style="width: 15%">备注</th>
+                        <th style="width: 5%"></th>
+                      </tr>
+                    </thead>
+                    <tbody id="customer-list"></tbody>
+                  </table>
+                </div>
+
+                <div style="margin-top: 30px;">
+                  <button id="save-customers" class="btn-primary">💾 保存客户加价</button>
+                </div>
+              </div>
+            </div>
+
+
+            <!-- Supplier Comparison Section -->
+            <div class="settings-subtab-content" id="settings-supplier" data-permission="settings_supplier" style="display: none;">
+              <div style="padding: 0;">
+                <!-- Section Description -->
+                <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+                  <p style="margin: 0; font-size: 14px; color: #166534;">
+                    <strong>📌 目的:</strong> 管理服务商成本以进行<strong>尾程服务商比价</strong>。
+                    比较不同供应商（包括Logistar）的成本，以选择最佳选项并协商价格。
+                  </p>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                  <label style="font-weight: bold; display: block; margin-bottom: 8px;">选择承运商:</label>
+                  <select id="supplier-carrier-filter" style="max-width: 300px; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                    <option value="">-- 全部承运商 --</option>
+                    <option value="UNIUNI">UNIUNI</option>
+                    <option value="GOFO">GOFO</option>
+                    <option value="USPS">USPS</option>
+                    <option value="SmartPost">FedEx SmartPost</option>
+                    <option value="UPS">UPS</option>
+                    <option value="FedEx">FedEx</option>
+                    <option value="FedExAHS">FedEx AHS</option>
+                    <option value="FedExOS">FedEx OS</option>
+                    <option value="TEST">TEST</option>
+                  </select>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                  <label style="font-weight: bold; display: block; margin-bottom: 8px;">选择供应商:</label>
+                  <div style="display: flex; gap: 10px; align-items: center;">
+                    <select id="supplier-select" style="flex: 1; max-width: 400px; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                      <option value="">-- 选择供应商 --</option>
+                    </select>
+                    <button id="add-supplier-btn" class="btn-add">+ 添加新供应商</button>
+                    <button id="delete-supplier-btn" class="btn-remove">删除供应商</button>
+                  </div>
+                </div>
+
+                <div id="supplier-editor" style="display: none;">
+                  <div style="background: #e8f5e9; padding: 15px; border-radius: 4px; margin-bottom: 20px;">
+                    <h3 style="margin-top: 0;">供应商信息</h3>
+                    <div style="margin-bottom: 15px; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 15px;">
+                      <div>
+                        <label style="font-weight: bold; display: block; margin-bottom: 5px;">供应商名称:</label>
+                        <input type="text" id="supplier-name" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" placeholder="e.g., Competitor A">
+                      </div>
+                      <div>
+                        <label style="font-weight: bold; display: block; margin-bottom: 5px;">承运商:</label>
+                        <select id="supplier-category" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                          <option value="UNIUNI">UNIUNI</option>
+                          <option value="GOFO">GOFO</option>
+                          <option value="USPS">USPS</option>
+                          <option value="SmartPost">FedEx SmartPost</option>
+                          <option value="UPS">UPS</option>
+                          <option value="FedEx">FedEx</option>
+                          <option value="FedExAHS">FedEx AHS</option>
+                          <option value="FedExOS">FedEx OS</option>
+                          <option value="TEST">TEST</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label style="font-weight: bold; display: block; margin-bottom: 5px;">加价 (%):</label>
+                        <input type="number" id="supplier-markup" step="0.01" min="0" max="100" value="0" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" placeholder="e.g., 1.5">
+                      </div>
+                    </div>
+                    <div id="supplier-pickup-fee-container" style="margin-bottom: 15px; display: none;">
+                      <label style="font-weight: bold; display: block; margin-bottom: 5px;">Pick-up Fee ($/lb) - UNIUNI Only:</label>
+                      <input type="number" id="supplier-pickup-fee-per-lb" step="0.01" min="0" value="0" style="max-width: 200px; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" placeholder="e.g., 0.15">
+                      <div style="font-size: 11px; color: #666; margin-top: 4px;">按磅收费的提货费。例如：0.15表示1磅=$0.15，2磅=$0.30</div>
+                    </div>
+                    <div>
+                      <label style="font-weight: bold; display: block; margin-bottom: 5px;">备注:</label>
+                      <textarea id="supplier-notes" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" rows="2" placeholder="关于此供应商的任何其他备注..."></textarea>
+                    </div>
+                  </div>
+
+                  <h3>基础费率 - 磅 ($)</h3>
+                  <div id="supplier-hd-base-lb-paste-area" style="padding: 30px; border: 2px dashed #ccc; border-radius: 4px; text-align: center; background: #f9f9f9; margin-bottom: 20px; cursor: pointer;">
+                    <div style="font-size: 16px; color: #666; margin-bottom: 10px;">📋 点击并粘贴费率表</div>
+                    <div style="font-size: 12px; color: #999;">支持任何格式：有/无重量列，区域 1-9</div>
+                  </div>
+                  <div id="supplier-hd-base-lb-container" style="display: none; margin-bottom: 20px;">
+                    <div style="display: flex; justify-content: flex-end; margin-bottom: 8px;">
+                      <button id="supplier-import-hd-lb-btn" type="button" class="btn-secondary" style="padding: 6px 12px; font-size: 13px;">📋 从Excel粘贴</button>
+                    </div>
+                    <div style="max-height: 400px; overflow-y: auto; border: 1px solid #ccc; border-radius: 4px;">
+                      <table id="supplier-hd-base-lb-table" style="width: 100%; border-collapse: collapse; font-size: 12px; font-family: monospace;">
+                        <thead id="supplier-hd-base-lb-thead" style="position: sticky; top: 0; background: #667eea; color: white; z-index: 1;"></thead>
+                        <tbody id="supplier-hd-base-lb-tbody"></tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  <div style="margin-bottom: 15px;">
+                    <label style="display: inline-flex; align-items: center; cursor: pointer;">
+                      <input type="checkbox" id="enable-different-ground-lb" style="margin-right: 8px;">
+                      <span style="font-weight: bold;">Ground服务有不同的费率</span>
+                    </label>
+                  </div>
+                  <div id="supplier-ground-base-lb-section" style="display: none;">
+                    <h4 style="margin-top: 0;">Ground基础费率 - 磅 ($)</h4>
+                    <div id="supplier-ground-base-lb-paste-area" style="padding: 30px; border: 2px dashed #ccc; border-radius: 4px; text-align: center; background: #f9f9f9; margin-bottom: 20px; cursor: pointer;">
+                      <div style="font-size: 16px; color: #666; margin-bottom: 10px;">📋 点击并粘贴Ground费率表</div>
+                      <div style="font-size: 12px; color: #999;">Ground服务的不同费率</div>
+                    </div>
+                    <div id="supplier-ground-base-lb-container" style="display: none; margin-bottom: 30px;">
+                      <div style="display: flex; justify-content: flex-end; margin-bottom: 8px;">
+                        <button id="supplier-import-ground-lb-btn" type="button" class="btn-secondary" style="padding: 6px 12px; font-size: 13px;">📋 从Excel粘贴</button>
+                      </div>
+                      <div style="max-height: 400px; overflow-y: auto; border: 1px solid #ccc; border-radius: 4px;">
+                        <table id="supplier-ground-base-lb-table" style="width: 100%; border-collapse: collapse; font-size: 12px; font-family: monospace;">
+                          <thead id="supplier-ground-base-lb-thead" style="position: sticky; top: 0; background: #667eea; color: white; z-index: 1;"></thead>
+                          <tbody id="supplier-ground-base-lb-tbody"></tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style="margin-bottom: 15px; margin-top: 20px;">
+                    <label style="display: inline-flex; align-items: center; cursor: pointer;">
+                      <input type="checkbox" id="enable-ounce-rates" style="margin-right: 8px;">
+                      <span style="font-weight: bold;">该供应商有基于盎司的费率（适用于轻量级货件）</span>
+                    </label>
+                  </div>
+                  <div id="supplier-base-oz-section" style="display: none;">
+                    <h4 style="margin-top: 0;">基础费率 - 盎司 ($)</h4>
+                    <div id="supplier-base-oz-paste-area" style="padding: 30px; border: 2px dashed #ccc; border-radius: 4px; text-align: center; background: #f9f9f9; margin-bottom: 20px; cursor: pointer;">
+                      <div style="font-size: 16px; color: #666; margin-bottom: 10px;">📋 点击并粘贴盎司费率表</div>
+                      <div style="font-size: 12px; color: #999;">适用于基于盎司费率的供应商（1-16盎司）</div>
+                    </div>
+                    <div id="supplier-base-oz-container" style="display: none; margin-bottom: 30px;">
+                      <div style="display: flex; justify-content: flex-end; margin-bottom: 8px;">
+                        <button id="supplier-import-oz-btn" type="button" class="btn-secondary" style="padding: 6px 12px; font-size: 13px;">📋 从Excel粘贴</button>
+                      </div>
+                      <div style="max-height: 400px; overflow-y: auto; border: 1px solid #ccc; border-radius: 4px;">
+                        <table id="supplier-base-oz-table" style="width: 100%; border-collapse: collapse; font-size: 12px; font-family: monospace;">
+                          <thead id="supplier-base-oz-thead" style="position: sticky; top: 0; background: #667eea; color: white; z-index: 1;"></thead>
+                          <tbody id="supplier-base-oz-tbody"></tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+
+                  <h3>固定附加费</h3>
+                  <p class="help-text">添加固定金额的附加费（可选）。</p>
+                  <button id="add-fixed-surcharge" class="btn-secondary" style="margin-bottom: 10px;">➕ 添加固定附加费</button>
+                  <div class="surcharge-table-wrapper">
+                    <table id="supplier-fixed-table" class="surcharge-table">
+                      <thead>
+                        <tr>
+                          <th style="width: 40%">描述</th>
+                          <th style="width: 15%">金额 ($)</th>
+                          <th style="width: 35%">备注</th>
+                          <th style="width: 10%">操作</th>
+                        </tr>
+                      </thead>
+                      <tbody id="supplier-fixed-list"></tbody>
+                    </table>
+                  </div>
+
+                  <hr style="margin: 40px 0; border: none; border-top: 2px solid #e0e0e0;">
+
+                  <h3>基于区域的附加费</h3>
+                  <p class="help-text">添加按区域变化的附加费（可选）。</p>
+                  <button id="add-zone-surcharge" class="btn-secondary" style="margin-bottom: 10px;">➕ 添加基于区域的附加费</button>
+                  <div class="surcharge-table-wrapper">
+                    <table id="supplier-zone-table" class="surcharge-table">
+                      <thead>
+                        <tr>
+                          <th style="width: 14%">描述</th>
+                          <th style="width: 9%">Zone 2</th>
+                          <th style="width: 9%">Zone 3</th>
+                          <th style="width: 9%">Zone 4</th>
+                          <th style="width: 9%">Zone 5</th>
+                          <th style="width: 9%">Zone 6</th>
+                          <th style="width: 9%">Zone 7</th>
+                          <th style="width: 9%">Zone 8</th>
+                          <th style="width: 15%">备注</th>
+                          <th style="width: 8%">操作</th>
+                        </tr>
+                      </thead>
+                      <tbody id="supplier-zone-list"></tbody>
+                    </table>
+                  </div>
+
+                  <hr style="margin: 40px 0; border: none; border-top: 2px solid #e0e0e0;">
+
+                  <h3>燃油附加费</h3>
+                  <div id="supplier-fuel-section" style="background: #fff3cd; padding: 15px; border-radius: 4px; margin-bottom: 30px;">
+                    <div id="supplier-fuel-note" style="margin-bottom: 15px; padding: 10px; background: #f0f9ff; border-radius: 4px; font-size: 13px; color: #1e40af;">
+                      <strong>注意:</strong> 燃油附加费根据承运商类型自动确定：
+                      <ul style="margin: 8px 0 0 20px; padding: 0;">
+                        <li><strong>FedEx, FedEx AHS, FedEx OS, SmartPost:</strong> 使用 FedEx 燃油费率</li>
+                        <li><strong>UPS:</strong> 使用 UPS 燃油费率</li>
+                        <li><strong>USPS, UNIUNI, GOFO:</strong> 无燃油附加费 (0%)</li>
+                      </ul>
+                    </div>
+                    <div style="margin-bottom: 15px;">
+                      <label style="display: inline-flex; align-items: center; cursor: pointer;">
+                        <input type="checkbox" id="no-fuel-home-delivery" style="margin-right: 8px;">
+                        <span style="font-weight: bold; color: #856404;">⚡ Home Delivery无燃油附加费</span>
+                        <span style="margin-left: 10px; color: #666; font-weight: normal; font-size: 13px;">(Logistar特有优势)</span>
+                      </label>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                      <label style="font-weight: bold; display: inline-block; margin-right: 10px;">
+                        <input type="radio" name="fuel-type" value="discount" id="fuel-discount-radio" checked>
+                        燃油附加费折扣
+                      </label>
+                      <label style="font-weight: bold; display: inline-block;">
+                        <input type="radio" name="fuel-type" value="fixed" id="fuel-fixed-radio">
+                        固定燃油附加费
+                      </label>
+                    </div>
+                    <div id="fuel-discount-input" style="margin-top: 10px;">
+                      <label style="font-weight: bold; display: block; margin-bottom: 5px;">折扣 (%):</label>
+                      <input type="number" id="supplier-fuel-discount" step="0.1" value="0" style="width: 150px; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" placeholder="e.g., 10">
+                      <span style="margin-left: 10px; color: #666;">例如，15% 表示供应商收取 FedEx 费率的 85%</span>
+                    </div>
+                    <div id="fuel-fixed-input" style="margin-top: 10px; display: none;">
+                      <label style="font-weight: bold; display: block; margin-bottom: 5px;">固定燃油附加费 (%):</label>
+                      <input type="number" id="supplier-fuel-fixed" step="0.1" value="0" style="width: 150px; padding: 8px; border: 1px solid #ccc; border-radius: 4px;" placeholder="e.g., 20">
+                    </div>
+                  </div>
+
+                  <div style="margin-top: 30px;">
+                    <button id="save-supplier" class="btn-primary">💾 保存供应商费率</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quote Carrier Pricing Section (for Customer Quote) -->
+            <div class="settings-subtab-content" id="settings-quote-pricing" data-permission="settings_quote_pricing" style="display: none;">
+              <div style="padding: 0;">
+                <div style="background: #faf5ff; border: 1px solid #e9d5ff; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+                  <p style="margin: 0; font-size: 14px; color: #7e22ce;">
+                    <strong>📌 目的:</strong> 设置 <strong>面向客户的报价价格</strong>，适用于 <strong>尾程运费试算</strong> 中的8个承运商。
+                    这些是您向潜在新客户提供的价格。与您的供应商成本分开。
+                  </p>
+                </div>
+                
+                <!-- Global Fuel Rates -->
+                <div style="margin-bottom: 25px; padding: 20px; background: #fff7ed; border-radius: 8px; border: 1px solid #fed7aa;">
+                  <h3 style="margin: 0 0 15px 0; color: #9a3412;">⛽ 默认燃油附加费率 (%)</h3>
+                  <div style="display: flex; gap: 20px; flex-wrap: wrap;">
+                    <div>
+                      <label style="font-weight: 600; display: block; margin-bottom: 5px;">FedEx/SmartPost:</label>
+                      <input type="number" id="quote-config-fuel-fedex" value="21.25" step="0.01" 
+                             style="width: 100px; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                    </div>
+                    <div>
+                      <label style="font-weight: 600; display: block; margin-bottom: 5px;">UPS:</label>
+                      <input type="number" id="quote-config-fuel-ups" value="20.75" step="0.01" 
+                             style="width: 100px; padding: 8px; border: 1px solid #ddd; border-radius: 4px;">
+                    </div>
+                    <button id="save-quote-fuel-btn" class="btn-primary" style="align-self: flex-end; padding: 8px 16px;">
+                      保存燃油附加费率
+                    </button>
+                  </div>
+                </div>
+                
+                <!-- Carrier Selector -->
+                <div style="margin-bottom: 20px;">
+                  <label style="font-weight: bold; display: block; margin-bottom: 8px;">选择要编辑的承运商:</label>
+                  <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                    <select id="quote-carrier-select" style="min-width: 300px; padding: 10px; border: 2px solid #22c55e; border-radius: 6px; font-size: 14px;">
+                      <option value="">-- Select a carrier --</option>
+                      <option value="UNIUNI">UNIUNI (DIM 166, max 30lbs)</option>
+                      <option value="GOFO">GOFO (DIM 166, max 20lbs)</option>
+                      <option value="USPS">USPS (DIM 166, max 4lbs)</option>
+                      <option value="SmartPost">FedEx SmartPost (DIM 225, max 30lbs)</option>
+                      <option value="UPS">UPS (DIM 225, max 50lbs)</option>
+                      <option value="FedEx">FedEx (DIM 225, max 50lbs)</option>
+                      <option value="FedExAHS">FedEx AHS (DIM 250, max 150lbs)</option>
+                      <option value="FedExOS">FedEx OS (DIM 250, 90-150lbs)</option>
+                      <option value="TEST">TEST (Placeholder, no pricing)</option>
+                    </select>
+                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                      <input type="checkbox" id="quote-carrier-enabled" checked>
+                      <span>启用</span>
+                    </label>
+                  </div>
+                </div>
+                
+                <!-- Carrier Editor -->
+                <div id="quote-carrier-editor" style="display: none;">
+                  <!-- Carrier Info Header -->
+                  <div id="quote-carrier-info" style="background: #f8fafc; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                    <div style="display: flex; gap: 30px; flex-wrap: wrap; font-size: 14px;">
+                      <div><strong>DIM Divisor:</strong> <span id="quote-carrier-dim">-</span></div>
+                      <div><strong>重量:</strong> <span id="quote-carrier-weight">-</span></div>
+                      <div><strong>分区:</strong> <span id="quote-carrier-zones">-</span></div>
+                      <div><strong>燃油附加费:</strong> <span id="quote-carrier-fuel">-</span></div>
+                    </div>
+                    <div style="margin-top: 10px;">
+                      <strong>备注:</strong> <span id="quote-carrier-notes" style="color: #666;">-</span>
+                    </div>
+                  </div>
+                  
+                  <!-- Ounce Rates Table (for UNIUNI, GOFO, USPS only) -->
+                  <div id="quote-ounce-rates-section" style="display: none; margin-bottom: 25px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                      <h3 style="margin: 0;">⚖️ 盎司费率 (1-15 盎司)</h3>
+                      <button id="quote-import-ounce-rates" class="btn-secondary" style="padding: 6px 12px;">📋 从Excel粘贴</button>
+                    </div>
+                    <div style="overflow-x: auto; max-height: 350px; overflow-y: auto;">
+                      <table id="quote-ounce-rates-table" class="surcharge-table" style="font-size: 13px;">
+                        <thead id="quote-ounce-rates-thead">
+                          <!-- Dynamic header based on carrier zones -->
+                        </thead>
+                        <tbody id="quote-ounce-rates-tbody">
+                          <!-- Dynamic rows for 1-15 oz -->
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  
+                  <!-- Base Rates Table -->
+                  <div style="margin-bottom: 25px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                      <h3 style="margin: 0;">📊 基础费率</h3>
+                      <div style="display: flex; gap: 10px;">
+                        <button id="quote-add-weight-row" class="btn-add" style="padding: 6px 12px;">+ 添加重量行</button>
+                        <button id="quote-import-rates" class="btn-secondary" style="padding: 6px 12px;">📋 从Excel粘贴</button>
+                      </div>
+                    </div>
+                    <div style="overflow-x: auto; max-height: 400px; overflow-y: auto;">
+                      <table id="quote-rates-table" class="surcharge-table" style="font-size: 13px;">
+                        <thead id="quote-rates-thead">
+                          <!-- Dynamic header based on carrier zones -->
+                        </thead>
+                        <tbody id="quote-rates-tbody">
+                          <!-- Dynamic rows -->
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  
+                  <!-- Surcharges Section -->
+                  <div style="margin-bottom: 25px;">
+                    <h3 style="margin: 0 0 15px 0;">📋 附加费配置</h3>
+                    <div id="quote-surcharges-editor" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                      <!-- Dynamic surcharge fields based on carrier -->
+                    </div>
+                  </div>
+                  
+                  <!-- Save Button -->
+                  <div style="margin-top: 25px; padding-top: 20px; border-top: 2px solid #e5e7eb;">
+                    <button id="save-quote-carrier-btn" class="btn-primary" style="padding: 12px 30px; font-size: 16px;">
+                      💾 保存承运商定价
+                    </button>
+                    <span id="quote-save-status" style="margin-left: 15px; color: #059669;"></span>
+                  </div>
+                </div>
+                
+                <!-- Placeholder when no carrier selected -->
+                <div id="quote-carrier-placeholder" style="text-align: center; padding: 40px; color: #666; background: #f8fafc; border-radius: 8px;">
+                  <div style="font-size: 48px; margin-bottom: 15px;">💰</div>
+                  <p style="font-size: 16px; margin: 0;">在上方选择一个承运商以编辑其定价配置</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Warehouse Operations Section (一件代发库内操作) -->
+            <div class="settings-subtab-content" id="settings-warehouse-ops" data-permission="settings_warehouse_ops" style="display: none;">
+              <div style="padding: 0;">
+                <div style="background: #fffbeb; border: 1px solid #fcd34d; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+                  <p style="margin: 0; font-size: 14px; color: #92400e;">
+                    <strong>📌 目的:</strong> 配置一件代发服务的库内操作费用。
+                    这些费用会根据包裹重量显示在<strong>尾程运费试算</strong>部分。
+                  </p>
+                </div>
+
+                <!-- 散货上架费 -->
+                <div style="margin-bottom: 30px;">
+                  <h3 style="margin: 0 0 15px 0; color: #92400e;">📥 散货上架费</h3>
+                  <p style="color: #666; font-size: 13px; margin-bottom: 15px;">仓库接收散货时收取的上架费用</p>
+                  <table id="shelving-fee-table" class="data-table" style="width: 100%; max-width: 800px; border-collapse: collapse;">
+                    <thead>
+                      <tr style="background: #fef3c7;">
+                        <th style="padding: 10px; text-align: left; border: 1px solid #d97706;">重量范围</th>
+                        <th style="padding: 10px; text-align: center; border: 1px solid #d97706; width: 150px;">费用 ($)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr><td style="padding: 8px; border: 1px solid #e5e7eb;">0 - 2 kg</td><td style="padding: 8px; border: 1px solid #e5e7eb; text-align: center;"><input type="number" id="shelving-fee-0-2" step="0.01" value="0" style="width: 100px; padding: 6px; text-align: center; border: 1px solid #ccc; border-radius: 4px;"></td></tr>
+                      <tr><td style="padding: 8px; border: 1px solid #e5e7eb;">2 - 5 kg</td><td style="padding: 8px; border: 1px solid #e5e7eb; text-align: center;"><input type="number" id="shelving-fee-2-5" step="0.01" value="0" style="width: 100px; padding: 6px; text-align: center; border: 1px solid #ccc; border-radius: 4px;"></td></tr>
+                      <tr><td style="padding: 8px; border: 1px solid #e5e7eb;">5 - 10 kg</td><td style="padding: 8px; border: 1px solid #e5e7eb; text-align: center;"><input type="number" id="shelving-fee-5-10" step="0.01" value="0" style="width: 100px; padding: 6px; text-align: center; border: 1px solid #ccc; border-radius: 4px;"></td></tr>
+                      <tr><td style="padding: 8px; border: 1px solid #e5e7eb;">10 - 15 kg</td><td style="padding: 8px; border: 1px solid #e5e7eb; text-align: center;"><input type="number" id="shelving-fee-10-15" step="0.01" value="0" style="width: 100px; padding: 6px; text-align: center; border: 1px solid #ccc; border-radius: 4px;"></td></tr>
+                      <tr><td style="padding: 8px; border: 1px solid #e5e7eb;">15 - 20 kg</td><td style="padding: 8px; border: 1px solid #e5e7eb; text-align: center;"><input type="number" id="shelving-fee-15-20" step="0.01" value="0" style="width: 100px; padding: 6px; text-align: center; border: 1px solid #ccc; border-radius: 4px;"></td></tr>
+                      <tr><td style="padding: 8px; border: 1px solid #e5e7eb;">20 - 25 kg</td><td style="padding: 8px; border: 1px solid #e5e7eb; text-align: center;"><input type="number" id="shelving-fee-20-25" step="0.01" value="0" style="width: 100px; padding: 6px; text-align: center; border: 1px solid #ccc; border-radius: 4px;"></td></tr>
+                      <tr><td style="padding: 8px; border: 1px solid #e5e7eb;">25 - 30 kg</td><td style="padding: 8px; border: 1px solid #e5e7eb; text-align: center;"><input type="number" id="shelving-fee-25-30" step="0.01" value="0" style="width: 100px; padding: 6px; text-align: center; border: 1px solid #ccc; border-radius: 4px;"></td></tr>
+                      <tr style="background: #fef9c3;"><td style="padding: 8px; border: 1px solid #e5e7eb;">&gt;30 kg (extra per kg)</td><td style="padding: 8px; border: 1px solid #e5e7eb; text-align: center;"><input type="number" id="shelving-fee-over-30" step="0.01" value="0" style="width: 100px; padding: 6px; text-align: center; border: 1px solid #ccc; border-radius: 4px;"></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- 出库操作费 -->
+                <div style="margin-bottom: 30px;">
+                  <h3 style="margin: 0 0 15px 0; color: #92400e;">📤 出库操作费</h3>
+                  <p style="color: #666; font-size: 13px; margin-bottom: 15px;">仓库出库拣货和包装操作收取的费用</p>
+                  <table id="outbound-fee-table" class="data-table" style="width: 100%; max-width: 800px; border-collapse: collapse;">
+                    <thead>
+                      <tr style="background: #fef3c7;">
+                        <th style="padding: 10px; text-align: left; border: 1px solid #d97706;">重量范围</th>
+                        <th style="padding: 10px; text-align: center; border: 1px solid #d97706; width: 150px;">费用 ($)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr><td style="padding: 8px; border: 1px solid #e5e7eb;">0 - 1 kg</td><td style="padding: 8px; border: 1px solid #e5e7eb; text-align: center;"><input type="number" id="outbound-fee-0-1" step="0.01" value="0" style="width: 100px; padding: 6px; text-align: center; border: 1px solid #ccc; border-radius: 4px;"></td></tr>
+                      <tr><td style="padding: 8px; border: 1px solid #e5e7eb;">1 - 2 kg</td><td style="padding: 8px; border: 1px solid #e5e7eb; text-align: center;"><input type="number" id="outbound-fee-1-2" step="0.01" value="0" style="width: 100px; padding: 6px; text-align: center; border: 1px solid #ccc; border-radius: 4px;"></td></tr>
+                      <tr><td style="padding: 8px; border: 1px solid #e5e7eb;">2 - 5 kg</td><td style="padding: 8px; border: 1px solid #e5e7eb; text-align: center;"><input type="number" id="outbound-fee-2-5" step="0.01" value="0" style="width: 100px; padding: 6px; text-align: center; border: 1px solid #ccc; border-radius: 4px;"></td></tr>
+                      <tr><td style="padding: 8px; border: 1px solid #e5e7eb;">5 - 10 kg</td><td style="padding: 8px; border: 1px solid #e5e7eb; text-align: center;"><input type="number" id="outbound-fee-5-10" step="0.01" value="0" style="width: 100px; padding: 6px; text-align: center; border: 1px solid #ccc; border-radius: 4px;"></td></tr>
+                      <tr><td style="padding: 8px; border: 1px solid #e5e7eb;">10 - 15 kg</td><td style="padding: 8px; border: 1px solid #e5e7eb; text-align: center;"><input type="number" id="outbound-fee-10-15" step="0.01" value="0" style="width: 100px; padding: 6px; text-align: center; border: 1px solid #ccc; border-radius: 4px;"></td></tr>
+                      <tr><td style="padding: 8px; border: 1px solid #e5e7eb;">15 - 20 kg</td><td style="padding: 8px; border: 1px solid #e5e7eb; text-align: center;"><input type="number" id="outbound-fee-15-20" step="0.01" value="0" style="width: 100px; padding: 6px; text-align: center; border: 1px solid #ccc; border-radius: 4px;"></td></tr>
+                      <tr><td style="padding: 8px; border: 1px solid #e5e7eb;">20 - 25 kg</td><td style="padding: 8px; border: 1px solid #e5e7eb; text-align: center;"><input type="number" id="outbound-fee-20-25" step="0.01" value="0" style="width: 100px; padding: 6px; text-align: center; border: 1px solid #ccc; border-radius: 4px;"></td></tr>
+                      <tr><td style="padding: 8px; border: 1px solid #e5e7eb;">25 - 30 kg</td><td style="padding: 8px; border: 1px solid #e5e7eb; text-align: center;"><input type="number" id="outbound-fee-25-30" step="0.01" value="0" style="width: 100px; padding: 6px; text-align: center; border: 1px solid #ccc; border-radius: 4px;"></td></tr>
+                      <tr style="background: #fef9c3;"><td style="padding: 8px; border: 1px solid #e5e7eb;">&gt;30 kg (extra per kg)</td><td style="padding: 8px; border: 1px solid #e5e7eb; text-align: center;"><input type="number" id="outbound-fee-over-30" step="0.01" value="0" style="width: 100px; padding: 6px; text-align: center; border: 1px solid #ccc; border-radius: 4px;"></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <button id="save-warehouse-ops" class="btn-primary" style="padding: 10px 24px;">💾 保存库内操作费用</button>
+              </div>
+            </div>
+
+            <!-- Zone Charts Section -->
+            <div class="settings-subtab-content" id="settings-zone-charts" data-permission="settings_zone_charts" style="display: none;">
+              <div style="padding: 0;">
+                <div style="background: #ecfdf5; border: 1px solid #6ee7b7; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+                  <p style="margin: 0; font-size: 14px; color: #065f46;">
+                    <strong>📌 目的:</strong> 配置各承运商从各仓库发出的分区表 (Zone Chart)。
+                    系统根据发件人邮编和收件人邮编查询分区，用于服务商成本核对。
+                  </p>
+                </div>
+
+                <!-- Carrier & Ship-From Selection -->
+                <div style="display: flex; gap: 16px; align-items: center; margin-bottom: 20px; flex-wrap: wrap;">
+                  <label style="font-weight: 600;">
+                    承运商:
+                    <select id="zone-chart-carrier" style="margin-left: 8px; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; min-width: 180px;">
+                      <option value="">-- 选择承运商 --</option>
+                      <option value="FedEx">FedEx</option>
+                      <option value="UPS">UPS</option>
+                      <option value="USPS">USPS</option>
+                      <option value="GOFO">GOFO</option>
+                      <option value="UNIUNI">UNIUNI</option>
+                    </select>
+                  </label>
+                  <label style="font-weight: 600;">
+                    发货仓库邮编:
+                    <select id="zone-chart-ship-from" style="margin-left: 8px; padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; min-width: 140px;">
+                      <option value="">-- 选择邮编 --</option>
+                      <option value="08901">08901 (NJ)</option>
+                      <option value="91761">91761 (CA-Ontario)</option>
+                      <option value="92376">92376 (CA-Rialto)</option>
+                      <option value="92835">92835 (CA-Fullerton)</option>
+                    </select>
+                  </label>
+                  <button id="zone-chart-load-btn" class="btn-primary" style="padding: 8px 16px;">📥 加载</button>
+                  <button id="zone-chart-add-from-btn" class="btn-add" style="padding: 8px 16px;">+ 新建分区表</button>
+                  <button id="zone-chart-delete-btn" class="btn-remove" style="padding: 8px 16px;">🗑️ 删除分区表</button>
+                </div>
+
+                <!-- Zone Chart Table -->
+                <div id="zone-chart-editor" style="display: none;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <h3 style="margin: 0; color: #065f46;" id="zone-chart-title">分区表</h3>
+                    <div style="display: flex; gap: 8px;">
+                      <button id="zone-chart-add-row" class="btn-add" style="padding: 6px 14px; font-size: 13px;">+ 添加行</button>
+                      <button id="zone-chart-paste-btn" class="btn-secondary" style="padding: 6px 14px; font-size: 13px;">📋 从剪贴板粘贴</button>
+                    </div>
+                  </div>
+                  <div style="max-height: 600px; overflow-y: auto; border: 1px solid #e5e7eb; border-radius: 8px;">
+                    <table id="zone-chart-table" class="data-table" style="width: 100%; border-collapse: collapse;">
+                      <thead style="position: sticky; top: 0; z-index: 1;">
+                        <tr style="background: #d1fae5;">
+                          <th style="padding: 10px; text-align: center; border: 1px solid #6ee7b7; width: 180px;">起始邮编 (3位)</th>
+                          <th style="padding: 10px; text-align: center; border: 1px solid #6ee7b7; width: 180px;">结束邮编 (3位)</th>
+                          <th style="padding: 10px; text-align: center; border: 1px solid #6ee7b7; width: 120px;">Zone</th>
+                          <th style="padding: 10px; text-align: center; border: 1px solid #6ee7b7; width: 80px;">操作</th>
+                        </tr>
+                      </thead>
+                      <tbody id="zone-chart-tbody">
+                        <tr><td colspan="4" style="text-align: center; padding: 30px; color: #999;">请选择承运商和发货邮编后加载</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div style="margin-top: 16px;">
+                    <button id="zone-chart-save-btn" class="btn-primary" style="padding: 10px 24px;">💾 保存分区表</button>
+                    <span id="zone-chart-count" style="margin-left: 16px; color: #666; font-size: 13px;"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Product Mapping Section -->
+            <div class="settings-subtab-content" id="settings-product-mapping" data-permission="settings_product_mapping" style="display: none;">
+              <div style="padding: 0;">
+                <div style="background: #fef3c7; border: 1px solid #fcd34d; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+                  <p style="margin: 0; font-size: 14px; color: #92400e;">
+                    <strong>📌 目的:</strong> 将 TMS 中的产品名称（产品名称）映射到承运商和服务商，用于自动查询分区和核对成本。
+                    自营FedEx产品（fedex-home美西、FEDEX-HOME-NJ-美东、FEDEX-HOME-TX）无需映射。
+                  </p>
+                </div>
+
+                <div id="product-mapping-container">
+                  <table id="product-mapping-table" class="data-table" style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                      <tr style="background: #fef3c7;">
+                        <th style="padding: 10px; text-align: left; border: 1px solid #d97706;">TMS产品名称</th>
+                        <th style="padding: 10px; text-align: center; border: 1px solid #d97706; width: 160px;">承运商 (Carrier)</th>
+                        <th style="padding: 10px; text-align: center; border: 1px solid #d97706; width: 220px;">服务商 (Supplier)</th>
+                        <th style="padding: 10px; text-align: center; border: 1px solid #d97706; width: 140px;">服务类型</th>
+                        <th style="padding: 10px; text-align: center; border: 1px solid #d97706; width: 140px;">默认发件邮编</th>
+                      </tr>
+                    </thead>
+                    <tbody id="product-mapping-tbody">
+                      <tr><td colspan="4" style="text-align: center; padding: 30px; color: #999;">加载中...</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div style="margin-top: 16px;">
+                  <button id="product-mapping-save-btn" class="btn-primary" style="padding: 10px 24px;">💾 保存产品映射</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Scheduled Tasks Section (Admin only) -->
+            <div class="settings-subtab-content" id="settings-scheduler" data-permission="admin" style="display: none;">
+              <div style="padding: 0;">
+                <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 15px; margin-bottom: 20px;">
+                  <p style="margin: 0; font-size: 14px; color: #1e40af;">
+                    <strong>📌 说明:</strong> 以下后台定时任务在平台启动时自动运行，无需单独开启终端或设置Windows任务计划。
+                    <br>• <strong>WMS监控</strong>：每10分钟自动采集各仓库未贴标订单数据
+                    <br>• <strong>TMS日导出</strong>：每天早上9:00自动导出前一天的TMS订单记录
+                    <br>• <strong>库存周转同步</strong>：由后端服务每天凌晨2:00自动执行（独立运行）
+                  </p>
+                </div>
+
+                <!-- Scheduler Status -->
+                <div id="scheduler-status-container">
+                  <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px;">
+                    <h3 style="margin: 0;">调度器状态</h3>
+                    <button id="scheduler-refresh-btn" class="btn-secondary" style="padding: 6px 14px; font-size: 13px;">🔄 刷新</button>
+                  </div>
+                  <div id="scheduler-status-badge" style="margin-bottom: 20px;"></div>
+
+                  <!-- Jobs Table -->
+                  <h3 style="margin: 20px 0 12px;">定时任务列表</h3>
+                  <table class="data-table" style="width: 100%; border-collapse: collapse; margin-bottom: 24px;">
+                    <thead>
+                      <tr style="background: #1e293b;">
+                        <th style="padding: 10px; text-align: left; color: #fff;">任务名称</th>
+                        <th style="padding: 10px; text-align: left; color: #fff;">触发规则</th>
+                        <th style="padding: 10px; text-align: left; color: #fff;">下次执行</th>
+                        <th style="padding: 10px; text-align: center; color: #fff;">操作</th>
+                      </tr>
+                    </thead>
+                    <tbody id="scheduler-jobs-tbody">
+                      <tr><td colspan="4" style="text-align: center; padding: 24px; color: #999;">加载中...</td></tr>
+                    </tbody>
+                  </table>
+
+                  <!-- Job History -->
+                  <h3 style="margin: 24px 0 12px;">最近执行记录</h3>
+                  <div id="scheduler-history-container" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <!-- WMS History -->
+                    <div>
+                      <h4 style="margin: 0 0 8px; color: #374151;">🏭 WMS监控</h4>
+                      <div id="scheduler-history-wms" style="max-height: 300px; overflow-y: auto; border: 1px solid #e5e7eb; border-radius: 8px;"></div>
+                    </div>
+                    <!-- TMS History -->
+                    <div>
+                      <h4 style="margin: 0 0 8px; color: #374151;">📦 TMS日导出</h4>
+                      <div id="scheduler-history-tms" style="max-height: 300px; overflow-y: auto; border: 1px solid #e5e7eb; border-radius: 8px;"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- User Management Tab (Admin only) -->
+        <div class="tab-content" id="user-management-tab" data-permission="user_management">
+          <div class="panel" style="border-top: 3px solid #dc2626;">
+            <!-- Add User Button -->
+            <div style="margin-bottom: 20px;">
+              <button id="add-user-btn" class="btn-primary" style="padding: 10px 20px;">
+                ➕ 添加用户
+              </button>
+            </div>
+            
+            <!-- User Filters -->
+            <div style="margin-bottom: 20px; padding: 16px; background: #f8f9fa; border-radius: 8px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+              <label style="font-weight: 600; color: #374151;">筛选:</label>
+              <select id="user-role-filter" style="padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;">
+                <option value="all">所有角色</option>
+                <option value="admin">Admin</option>
+                <option value="sub-admin">Sub-Admin</option>
+                <option value="manager">Manager</option>
+                <option value="operator">Operator</option>
+                <option value="viewer">Viewer</option>
+              </select>
+              <select id="user-status-filter" style="padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px;">
+                <option value="all">所有状态</option>
+                <option value="active">Active</option>
+                <option value="disabled">Disabled</option>
+              </select>
+              <input type="text" id="user-search-filter" placeholder="搜索用户名或显示名称..." style="padding: 8px 12px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 14px; flex: 1; min-width: 200px;">
+              <button id="user-clear-filters" class="btn-secondary" style="padding: 8px 16px;">清除筛选</button>
+            </div>
+            
+            <!-- Users Table -->
+            <div id="users-table-container">
+              <table class="users-table">
+                <thead>
+                  <tr>
+                    <th>用户名</th>
+                    <th>显示名称</th>
+                    <th>角色</th>
+                    <th>状态</th>
+                    <th>最后登录</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody id="users-tbody">
+                  <tr>
+                    <td colspan="6" style="text-align: center; padding: 40px; color: #666;">
+                      Loading users...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- User Edit Modal -->
+        <div id="user-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+          <div style="background: white; border-radius: 12px; padding: 30px; max-width: 600px; width: 90%; max-height: 90vh; overflow-y: auto;">
+            <h3 id="user-modal-title" style="margin-top: 0; margin-bottom: 20px;">添加新用户</h3>
+            
+            <form id="user-form">
+              <input type="hidden" id="user-form-id">
+              
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                <div>
+                  <label style="display: block; font-weight: 600; margin-bottom: 5px;">用户名 *</label>
+                  <input type="text" id="user-form-username" required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+                </div>
+                <div>
+                  <label style="display: block; font-weight: 600; margin-bottom: 5px;">显示名称</label>
+                  <input type="text" id="user-form-display-name" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+                </div>
+              </div>
+              
+              <div id="password-section" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                <div>
+                  <label style="display: block; font-weight: 600; margin-bottom: 5px;">密码 <span id="password-required">*</span></label>
+                  <input type="password" id="user-form-password" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+                  <small id="password-hint" style="color: #666;">最少6个字符</small>
+                </div>
+                <div>
+                  <label style="display: block; font-weight: 600; margin-bottom: 5px;">确认密码</label>
+                  <input type="password" id="user-form-password-confirm" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+                </div>
+              </div>
+              
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                <div>
+                  <label style="display: block; font-weight: 600; margin-bottom: 5px;">角色</label>
+                  <select id="user-form-role" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+                    <option value="viewer">Viewer (只读)</option>
+                    <option value="operator">Operator (操作员)</option>
+                    <option value="manager">Manager (经理)</option>
+                    <option value="sub-admin">Sub-Admin (副管理员)</option>
+                    <option value="admin">Admin (管理员)</option>
+                  </select>
+                </div>
+                <div>
+                  <label style="display: block; font-weight: 600; margin-bottom: 5px;">状态</label>
+                  <select id="user-form-status" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px;">
+                    <option value="1">激活</option>
+                    <option value="0">禁用</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div style="margin-bottom: 20px;">
+                <label style="display: block; font-weight: 600; margin-bottom: 10px;">权限</label>
+                <div id="permissions-checkboxes" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: #f8f9fa; padding: 15px; border-radius: 8px;">
+                  <!-- Permissions will be populated dynamically -->
+                </div>
+              </div>
+              
+              <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 30px;">
+                <button type="button" id="user-modal-cancel" class="btn-secondary" style="padding: 10px 20px;">取消</button>
+                <button type="submit" class="btn-primary" style="padding: 10px 20px;">保存用户</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <!-- WMS Monitor Tab -->
+        <div class="tab-content" id="wms-monitor-tab" data-permission="wms_monitor">
+          <div class="panel">
+            <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:20px;">
+              <div>
+                <h2 style="margin:0;">📊 仓库监控 - 未贴单订单</h2>
+                <p style="margin:4px 0 0;color:#6b7280;font-size:14px;">Last Updated: <span id="wms-last-updated">-</span></p>
+              </div>
+              <div style="display:flex;gap:6px;">
+                <button class="wms-range-btn" data-range="6h" onclick="setWmsTimeRange('6h')">6H</button>
+                <button class="wms-range-btn active" data-range="12h" onclick="setWmsTimeRange('12h')">12H</button>
+                <button class="wms-range-btn" data-range="24h" onclick="setWmsTimeRange('24h')">24H</button>
+                <button class="wms-range-btn" data-range="7d" onclick="setWmsTimeRange('7d')">7D</button>
+              </div>
+            </div>
+
+            <!-- Loading -->
+            <div id="wms-loading" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px;">
+              <div style="width:50px;height:50px;border:4px solid #e5e7eb;border-top-color:#10b981;border-radius:50%;animation:spin 1s linear infinite;"></div>
+              <p style="margin-top:16px;color:#6b7280;">Loading WMS data...</p>
+            </div>
+
+            <div id="wms-dashboard-content" style="display:none;">
+              <div id="wms-warehouses-container"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Turnover Dashboard Tab (with sub-tabs) -->
+        <div class="tab-content" id="turnover-tab" data-permission="turnover_dashboard">
+          <div class="panel">
+            <!-- Turnover Sub-Tabs Navigation -->
+            <div id="turnover-subtabs" style="display: flex; gap: 0; border-bottom: 2px solid #e5e7eb; margin-bottom: 24px; overflow-x: auto;">
+              <button class="settings-subtab active" data-turnover-tab="turnover-overview"
+                style="padding: 12px 24px; background: none; border: none; border-bottom: 3px solid transparent; cursor: pointer; font-size: 14px; font-weight: 600; color: #6b7280; white-space: nowrap; transition: all 0.2s;">
+                📊 总览
+              </button>
+              <button class="settings-subtab" data-turnover-tab="turnover-volume"
+                style="padding: 12px 24px; background: none; border: none; border-bottom: 3px solid transparent; cursor: pointer; font-size: 14px; font-weight: 600; color: #6b7280; white-space: nowrap; transition: all 0.2s;">
+                📦 出入库量
+              </button>
+              <button class="settings-subtab" data-turnover-tab="turnover-customers"
+                style="padding: 12px 24px; background: none; border: none; border-bottom: 3px solid transparent; cursor: pointer; font-size: 14px; font-weight: 600; color: #6b7280; white-space: nowrap; transition: all 0.2s;">
+                👥 客户分析
+              </button>
+              <button class="settings-subtab" data-turnover-tab="turnover-skus"
+                style="padding: 12px 24px; background: none; border: none; border-bottom: 3px solid transparent; cursor: pointer; font-size: 14px; font-weight: 600; color: #6b7280; white-space: nowrap; transition: all 0.2s;">
+                🏷️ SKU分析
+              </button>
+              <button class="settings-subtab" data-turnover-tab="turnover-warehouses"
+                style="padding: 12px 24px; background: none; border: none; border-bottom: 3px solid transparent; cursor: pointer; font-size: 14px; font-weight: 600; color: #6b7280; white-space: nowrap; transition: all 0.2s;">
+                🏭 仓库对比
+              </button>
+            </div>
+
+            <!-- ===== Sub-tab 1: 总览 (Dashboard Overview) ===== -->
+            <div class="settings-subtab-content active" id="turnover-overview">
+              <!-- Shared filter bar -->
+              <div class="to-filter-bar">
+                <div class="to-filter-left">
+                  <h2 style="margin:0;font-size:20px;font-weight:700;">🔄 库存周转分析</h2>
+                </div>
+                <div class="to-filter-right">
+                  <label class="to-filter-label">从:
+                    <input type="date" id="turnover-date-from" class="to-filter-input">
+                  </label>
+                  <label class="to-filter-label">至:
+                    <input type="date" id="turnover-date-to" class="to-filter-input">
+                  </label>
+                  <select id="turnover-warehouse" class="to-filter-input">
+                    <option value="">全部仓库</option>
+                  </select>
+                  <button onclick="loadTurnoverOverview()" class="btn-primary" style="padding:8px 18px;font-size:13px;">查询</button>
+                  <button id="turnover-sync-btn" onclick="triggerTurnoverSync()" class="btn-secondary" style="padding:8px 18px;font-size:13px;">🔄 同步</button>
+                </div>
+              </div>
+              <!-- Loading -->
+              <div id="turnover-loading" class="to-loading-center">
+                <div class="to-spinner"></div>
+                <p style="margin-top:16px;color:var(--color-slate-500);">正在加载数据...</p>
+              </div>
+              <!-- Dashboard Content -->
+              <div id="turnover-overview-content" style="display:none;">
+                <!-- Stat Cards -->
+                <div id="turnover-stats" class="to-stat-grid"></div>
+                <!-- Charts Row -->
+                <div class="to-charts-row">
+                  <div class="to-chart-card">
+                    <h3 class="to-section-title">出入库趋势</h3>
+                    <div style="height:300px;"><canvas id="turnover-volume-chart"></canvas></div>
+                  </div>
+                  <div class="to-chart-card">
+                    <h3 class="to-section-title">库存周转率</h3>
+                    <div id="turnover-rate-display"></div>
+                  </div>
+                </div>
+                <!-- Top Customers Preview -->
+                <div class="to-chart-card">
+                  <h3 class="to-section-title">客户出库量 Top 15</h3>
+                  <div class="to-table-scroll">
+                    <table class="to-data-table">
+                      <thead>
+                        <tr>
+                          <th style="text-align:left;">客户</th>
+                          <th>出库体积(CBM)</th>
+                          <th>入库体积(CBM)</th>
+                          <th>出库数量</th>
+                          <th>入库数量</th>
+                          <th>SKU数</th>
+                        </tr>
+                      </thead>
+                      <tbody id="turnover-overview-customers-tbody"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ===== Sub-tab 2: 出入库量 (Volume) ===== -->
+            <div class="settings-subtab-content" id="turnover-volume" style="display:none;">
+              <div class="to-filter-bar">
+                <div class="to-filter-left">
+                  <h2 style="margin:0;font-size:20px;font-weight:700;">📦 出入库量分析</h2>
+                  <p class="to-filter-desc">追踪库存出入库体积 (CBM) 随时间的变化</p>
+                </div>
+                <div class="to-filter-right">
+                  <input type="text" id="turnover-vol-customer" placeholder="客户代码..." class="to-filter-input" style="width:130px;">
+                  <select id="turnover-vol-warehouse" class="to-filter-input">
+                    <option value="">全部仓库</option>
+                  </select>
+                  <div class="to-granularity-group">
+                    <button class="to-gran-btn active" data-gran="day">日</button>
+                    <button class="to-gran-btn" data-gran="week">周</button>
+                    <button class="to-gran-btn" data-gran="month">月</button>
+                  </div>
+                  <label class="to-filter-label">从:
+                    <input type="date" id="turnover-vol-from" class="to-filter-input">
+                  </label>
+                  <label class="to-filter-label">至:
+                    <input type="date" id="turnover-vol-to" class="to-filter-input">
+                  </label>
+                  <button onclick="loadTurnoverVolume()" class="btn-primary" style="padding:8px 18px;font-size:13px;">查询</button>
+                </div>
+              </div>
+              <div id="turnover-vol-loading" class="to-loading-center" style="display:none;">
+                <div class="to-spinner"></div>
+              </div>
+              <div id="turnover-vol-content" style="display:none;">
+                <div class="to-chart-card" style="margin-bottom:24px;">
+                  <h3 class="to-section-title">出入库体积趋势</h3>
+                  <div style="height:350px;"><canvas id="turnover-vol-detail-chart"></canvas></div>
+                </div>
+                <div class="to-charts-row">
+                  <div class="to-chart-card">
+                    <h3 class="to-section-title">出库明细</h3>
+                    <div class="to-table-scroll" style="max-height:350px;">
+                      <table class="to-data-table">
+                        <thead><tr><th style="text-align:left;">期间</th><th>体积(CBM)</th><th>数量</th><th>操作次数</th><th>SKU数</th></tr></thead>
+                        <tbody id="turnover-vol-outbound-tbody"></tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="to-chart-card">
+                    <h3 class="to-section-title">入库明细</h3>
+                    <div class="to-table-scroll" style="max-height:350px;">
+                      <table class="to-data-table">
+                        <thead><tr><th style="text-align:left;">期间</th><th>体积(CBM)</th><th>数量</th><th>操作次数</th><th>SKU数</th></tr></thead>
+                        <tbody id="turnover-vol-inbound-tbody"></tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ===== Sub-tab 3: 客户分析 (Customers) ===== -->
+            <div class="settings-subtab-content" id="turnover-customers" style="display:none;">
+              <div class="to-filter-bar">
+                <div class="to-filter-left">
+                  <h2 style="margin:0;font-size:20px;font-weight:700;">👥 客户出入库分析</h2>
+                  <p class="to-filter-desc">按客户分析出入库数据</p>
+                </div>
+                <div class="to-filter-right">
+                  <select id="turnover-cust-warehouse" class="to-filter-input">
+                    <option value="">全部仓库</option>
+                  </select>
+                  <label class="to-filter-label">从:
+                    <input type="date" id="turnover-cust-from" class="to-filter-input">
+                  </label>
+                  <label class="to-filter-label">至:
+                    <input type="date" id="turnover-cust-to" class="to-filter-input">
+                  </label>
+                  <button onclick="loadTurnoverCustomers()" class="btn-primary" style="padding:8px 18px;font-size:13px;">查询</button>
+                </div>
+              </div>
+              <div id="turnover-cust-loading" class="to-loading-center" style="display:none;">
+                <div class="to-spinner"></div>
+              </div>
+              <div id="turnover-cust-content" style="display:none;">
+                <div class="to-chart-card" style="margin-bottom:24px;">
+                  <h3 class="to-section-title">客户出库体积 Top 15</h3>
+                  <div style="height:350px;"><canvas id="turnover-cust-chart"></canvas></div>
+                </div>
+                <div class="to-chart-card">
+                  <h3 class="to-section-title" id="turnover-cust-table-title">客户明细</h3>
+                  <div class="to-table-scroll">
+                    <table class="to-data-table">
+                      <thead>
+                        <tr>
+                          <th style="text-align:left;">客户</th>
+                          <th>出库体积(CBM)</th>
+                          <th>入库体积(CBM)</th>
+                          <th>出库数量</th>
+                          <th>出库SKU</th>
+                          <th>入库数量</th>
+                          <th>入库SKU</th>
+                          <th>出库占比</th>
+                        </tr>
+                      </thead>
+                      <tbody id="turnover-cust-tbody"></tbody>
+                      <tfoot id="turnover-cust-tfoot"></tfoot>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ===== Sub-tab 4: SKU分析 (Products) ===== -->
+            <div class="settings-subtab-content" id="turnover-skus" style="display:none;">
+              <div class="to-filter-bar">
+                <div class="to-filter-left">
+                  <h2 style="margin:0;font-size:20px;font-weight:700;">🏷️ SKU出入库分析</h2>
+                  <p class="to-filter-desc">按SKU分析出入库数据</p>
+                </div>
+                <div class="to-filter-right">
+                  <input type="text" id="turnover-sku-customer" placeholder="客户代码..." class="to-filter-input" style="width:130px;">
+                  <select id="turnover-sku-warehouse" class="to-filter-input">
+                    <option value="">全部仓库</option>
+                  </select>
+                  <div class="to-granularity-group">
+                    <button class="to-sort-btn active" data-sort="outbound_vol">出库体积</button>
+                    <button class="to-sort-btn" data-sort="inbound_vol">入库体积</button>
+                    <button class="to-sort-btn" data-sort="outbound_qty">出库数量</button>
+                    <button class="to-sort-btn" data-sort="inbound_qty">入库数量</button>
+                  </div>
+                  <select id="turnover-sku-limit" class="to-filter-input" style="width:100px;">
+                    <option value="50">Top 50</option>
+                    <option value="100" selected>Top 100</option>
+                    <option value="200">Top 200</option>
+                    <option value="500">Top 500</option>
+                  </select>
+                  <label class="to-filter-label">从:
+                    <input type="date" id="turnover-sku-from" class="to-filter-input">
+                  </label>
+                  <label class="to-filter-label">至:
+                    <input type="date" id="turnover-sku-to" class="to-filter-input">
+                  </label>
+                  <button onclick="loadTurnoverSkus()" class="btn-primary" style="padding:8px 18px;font-size:13px;">查询</button>
+                </div>
+              </div>
+              <div id="turnover-sku-loading" class="to-loading-center" style="display:none;">
+                <div class="to-spinner"></div>
+              </div>
+              <div id="turnover-sku-content" style="display:none;">
+                <div class="to-chart-card">
+                  <h3 class="to-section-title" id="turnover-sku-table-title">SKU明细</h3>
+                  <div class="to-table-scroll">
+                    <table class="to-data-table">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th style="text-align:left;">SKU (条码)</th>
+                          <th style="text-align:left;">客户</th>
+                          <th>单件CBM</th>
+                          <th>出库体积(CBM)</th>
+                          <th>入库体积(CBM)</th>
+                          <th>净变化(CBM)</th>
+                          <th>出库数量</th>
+                          <th>入库数量</th>
+                          <th>操作次数</th>
+                        </tr>
+                      </thead>
+                      <tbody id="turnover-sku-tbody"></tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ===== Sub-tab 5: 仓库对比 (Warehouses) ===== -->
+            <div class="settings-subtab-content" id="turnover-warehouses" style="display:none;">
+              <div class="to-filter-bar">
+                <div class="to-filter-left">
+                  <h2 style="margin:0;font-size:20px;font-weight:700;">🏭 仓库对比</h2>
+                  <p class="to-filter-desc">对比各仓库的出入库体积、容量和利用率</p>
+                </div>
+                <div class="to-filter-right">
+                  <input type="text" id="turnover-wh-customer" placeholder="客户代码..." class="to-filter-input" style="width:130px;">
+                  <label class="to-filter-label">从:
+                    <input type="date" id="turnover-wh-from" class="to-filter-input">
+                  </label>
+                  <label class="to-filter-label">至:
+                    <input type="date" id="turnover-wh-to" class="to-filter-input">
+                  </label>
+                  <button onclick="loadTurnoverWarehouses()" class="btn-primary" style="padding:8px 18px;font-size:13px;">查询</button>
+                </div>
+              </div>
+              <div id="turnover-wh-loading" class="to-loading-center" style="display:none;">
+                <div class="to-spinner"></div>
+              </div>
+              <div id="turnover-wh-content" style="display:none;">
+                <div class="to-chart-card" style="margin-bottom:24px;">
+                  <h3 class="to-section-title">仓库体积对比 (CBM)</h3>
+                  <div style="height:350px;"><canvas id="turnover-wh-chart"></canvas></div>
+                </div>
+                <div id="turnover-wh-cards" class="to-wh-cards-grid"></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </main>
+    </div>
+    
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0/dist/chartjs-plugin-datalabels.min.js"></script>
+    <script src="/static/modules/customerQuote.js"></script>
+    <script src="/static/modules/rateDebug.js"></script>
+    <script src="/static/modules/supplierOps.js"></script>
+    <script src="/static/modules/wmsMonitor.js"></script>
+    <script src="/static/modules/turnover.js?v=20260227"></script>
+    <script src="/static/app.js"></script>
+    
+    <!-- Sidebar toggle scripts -->
+    <script>
+      (function() {
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.querySelector('.main-content');
+        const toggleBtn = document.getElementById('mobile-menu-toggle');
+        const overlay = document.getElementById('sidebar-overlay');
+        const collapseBtn = document.getElementById('sidebar-collapse-btn');
+
+        // ── Desktop collapse (icon-only mode) ──
+        function setCollapsed(collapsed) {
+          if (collapsed) {
+            sidebar.classList.add('collapsed');
+            mainContent.classList.add('sidebar-collapsed');
+          } else {
+            sidebar.classList.remove('collapsed');
+            mainContent.classList.remove('sidebar-collapsed');
+          }
+          localStorage.setItem('sidebar-collapsed', collapsed ? '1' : '0');
+        }
+
+        // Restore saved state
+        if (localStorage.getItem('sidebar-collapsed') === '1' && window.innerWidth > 768) {
+          setCollapsed(true);
+        }
+
+        if (collapseBtn) {
+          collapseBtn.addEventListener('click', function() {
+            setCollapsed(!sidebar.classList.contains('collapsed'));
+          });
+        }
+
+        // Set data-tooltip attributes for collapsed hover labels
+        document.querySelectorAll('.nav-item').forEach(function(item) {
+          var text = item.querySelector('.nav-text');
+          if (text) item.setAttribute('data-tooltip', text.textContent.trim());
+        });
+
+        // ── Mobile toggle (existing) ──
+        function toggleSidebar() {
+          sidebar.classList.toggle('sidebar-open');
+          toggleBtn.classList.toggle('active');
+          overlay.classList.toggle('active');
+        }
+        
+        function closeSidebar() {
+          sidebar.classList.remove('sidebar-open');
+          toggleBtn.classList.remove('active');
+          overlay.classList.remove('active');
+        }
+        
+        if (toggleBtn) {
+          toggleBtn.addEventListener('click', toggleSidebar);
+        }
+        
+        if (overlay) {
+          overlay.addEventListener('click', closeSidebar);
+        }
+        
+        // Close sidebar when clicking nav items on mobile
+        document.querySelectorAll('.nav-item').forEach(function(item) {
+          item.addEventListener('click', function() {
+            if (window.innerWidth <= 768) {
+              closeSidebar();
+            }
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>

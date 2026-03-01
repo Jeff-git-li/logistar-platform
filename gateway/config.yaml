@@ -1,0 +1,9 @@
+tunnel: aae93165-6564-4819-9742-8216fd9f2f01
+credentials-file: C:\Users\logistar\.cloudflared\aae93165-6564-4819-9742-8216fd9f2f01.json
+
+ingress:
+  - hostname: platform.logistarinc.net
+    service: http://localhost:5000
+  - hostname: wms-monitor.logistarinc.net
+    service: http://localhost:5080
+  - service: http_status:404

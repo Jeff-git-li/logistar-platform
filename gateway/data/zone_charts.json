@@ -1,0 +1,3914 @@
+{
+  "product_mapping": {
+    "FEDEX-SP-美西": {
+      "carrier": "SmartPost",
+      "supplier": "打单易SP",
+      "service_type": "hd",
+      "default_ship_from": ""
+    },
+    "USPS-MD-美东": {
+      "carrier": "USPS",
+      "supplier": "打单易USPS",
+      "service_type": "hd",
+      "default_ship_from": ""
+    },
+    "USPS-MX美西": {
+      "carrier": "USPS",
+      "supplier": "打单易USPS",
+      "service_type": "hd",
+      "default_ship_from": ""
+    }
+  },
+  "zone_charts": [
+    {
+      "carrier": "FedEx",
+      "entries": [
+        {
+          "end_zip": "089",
+          "start_zip": "005",
+          "zone": "8"
+        },
+        {
+          "end_zip": "099",
+          "start_zip": "090",
+          "zone": "8"
+        },
+        {
+          "end_zip": "212",
+          "start_zip": "100",
+          "zone": "8"
+        },
+        {
+          "end_zip": "268",
+          "start_zip": "214",
+          "zone": "8"
+        },
+        {
+          "end_zip": "342",
+          "start_zip": "270",
+          "zone": "8"
+        },
+        {
+          "end_zip": "344",
+          "start_zip": "344",
+          "zone": "8"
+        },
+        {
+          "end_zip": "347",
+          "start_zip": "346",
+          "zone": "8"
+        },
+        {
+          "end_zip": "349",
+          "start_zip": "349",
+          "zone": "8"
+        },
+        {
+          "end_zip": "352",
+          "start_zip": "350",
+          "zone": "7"
+        },
+        {
+          "end_zip": "358",
+          "start_zip": "354",
+          "zone": "7"
+        },
+        {
+          "end_zip": "363",
+          "start_zip": "359",
+          "zone": "8"
+        },
+        {
+          "end_zip": "367",
+          "start_zip": "364",
+          "zone": "7"
+        },
+        {
+          "end_zip": "368",
+          "start_zip": "368",
+          "zone": "8"
+        },
+        {
+          "end_zip": "372",
+          "start_zip": "369",
+          "zone": "7"
+        },
+        {
+          "end_zip": "374",
+          "start_zip": "373",
+          "zone": "8"
+        },
+        {
+          "end_zip": "375",
+          "start_zip": "375",
+          "zone": "7"
+        },
+        {
+          "end_zip": "379",
+          "start_zip": "376",
+          "zone": "8"
+        },
+        {
+          "end_zip": "384",
+          "start_zip": "380",
+          "zone": "7"
+        },
+        {
+          "end_zip": "385",
+          "start_zip": "385",
+          "zone": "8"
+        },
+        {
+          "end_zip": "397",
+          "start_zip": "386",
+          "zone": "7"
+        },
+        {
+          "end_zip": "400",
+          "start_zip": "398",
+          "zone": "8"
+        },
+        {
+          "end_zip": "401",
+          "start_zip": "401",
+          "zone": "7"
+        },
+        {
+          "end_zip": "418",
+          "start_zip": "402",
+          "zone": "8"
+        },
+        {
+          "end_zip": "424",
+          "start_zip": "420",
+          "zone": "7"
+        },
+        {
+          "end_zip": "426",
+          "start_zip": "425",
+          "zone": "8"
+        },
+        {
+          "end_zip": "427",
+          "start_zip": "427",
+          "zone": "7"
+        },
+        {
+          "end_zip": "459",
+          "start_zip": "430",
+          "zone": "8"
+        },
+        {
+          "end_zip": "460",
+          "start_zip": "460",
+          "zone": "7"
+        },
+        {
+          "end_zip": "461",
+          "start_zip": "461",
+          "zone": "8"
+        },
+        {
+          "end_zip": "466",
+          "start_zip": "462",
+          "zone": "7"
+        },
+        {
+          "end_zip": "468",
+          "start_zip": "467",
+          "zone": "8"
+        },
+        {
+          "end_zip": "469",
+          "start_zip": "469",
+          "zone": "7"
+        },
+        {
+          "end_zip": "470",
+          "start_zip": "470",
+          "zone": "8"
+        },
+        {
+          "end_zip": "471",
+          "start_zip": "471",
+          "zone": "7"
+        },
+        {
+          "end_zip": "473",
+          "start_zip": "472",
+          "zone": "8"
+        },
+        {
+          "end_zip": "479",
+          "start_zip": "474",
+          "zone": "7"
+        },
+        {
+          "end_zip": "490",
+          "start_zip": "480",
+          "zone": "8"
+        },
+        {
+          "end_zip": "491",
+          "start_zip": "491",
+          "zone": "7"
+        },
+        {
+          "end_zip": "498",
+          "start_zip": "492",
+          "zone": "8"
+        },
+        {
+          "end_zip": "499",
+          "start_zip": "499",
+          "zone": "7"
+        },
+        {
+          "end_zip": "500",
+          "start_zip": "500",
+          "zone": "6"
+        },
+        {
+          "end_zip": "501",
+          "start_zip": "501",
+          "zone": "7"
+        },
+        {
+          "end_zip": "502",
+          "start_zip": "502",
+          "zone": "6"
+        },
+        {
+          "end_zip": "504",
+          "start_zip": "503",
+          "zone": "7"
+        },
+        {
+          "end_zip": "505",
+          "start_zip": "505",
+          "zone": "6"
+        },
+        {
+          "end_zip": "507",
+          "start_zip": "506",
+          "zone": "7"
+        },
+        {
+          "end_zip": "508",
+          "start_zip": "508",
+          "zone": "6"
+        },
+        {
+          "end_zip": "509",
+          "start_zip": "509",
+          "zone": "7"
+        },
+        {
+          "end_zip": "516",
+          "start_zip": "510",
+          "zone": "6"
+        },
+        {
+          "end_zip": "528",
+          "start_zip": "520",
+          "zone": "7"
+        },
+        {
+          "end_zip": "532",
+          "start_zip": "530",
+          "zone": "7"
+        },
+        {
+          "end_zip": "535",
+          "start_zip": "534",
+          "zone": "7"
+        },
+        {
+          "end_zip": "551",
+          "start_zip": "537",
+          "zone": "7"
+        },
+        {
+          "end_zip": "560",
+          "start_zip": "553",
+          "zone": "7"
+        },
+        {
+          "end_zip": "562",
+          "start_zip": "561",
+          "zone": "6"
+        },
+        {
+          "end_zip": "567",
+          "start_zip": "563",
+          "zone": "7"
+        },
+        {
+          "end_zip": "577",
+          "start_zip": "570",
+          "zone": "6"
+        },
+        {
+          "end_zip": "580",
+          "start_zip": "580",
+          "zone": "6"
+        },
+        {
+          "end_zip": "582",
+          "start_zip": "581",
+          "zone": "7"
+        },
+        {
+          "end_zip": "588",
+          "start_zip": "583",
+          "zone": "6"
+        },
+        {
+          "end_zip": "591",
+          "start_zip": "590",
+          "zone": "5"
+        },
+        {
+          "end_zip": "595",
+          "start_zip": "592",
+          "zone": "6"
+        },
+        {
+          "end_zip": "599",
+          "start_zip": "596",
+          "zone": "5"
+        },
+        {
+          "end_zip": "620",
+          "start_zip": "600",
+          "zone": "7"
+        },
+        {
+          "end_zip": "631",
+          "start_zip": "622",
+          "zone": "7"
+        },
+        {
+          "end_zip": "639",
+          "start_zip": "633",
+          "zone": "7"
+        },
+        {
+          "end_zip": "641",
+          "start_zip": "640",
+          "zone": "6"
+        },
+        {
+          "end_zip": "649",
+          "start_zip": "644",
+          "zone": "6"
+        },
+        {
+          "end_zip": "652",
+          "start_zip": "650",
+          "zone": "7"
+        },
+        {
+          "end_zip": "653",
+          "start_zip": "653",
+          "zone": "6"
+        },
+        {
+          "end_zip": "655",
+          "start_zip": "654",
+          "zone": "7"
+        },
+        {
+          "end_zip": "656",
+          "start_zip": "656",
+          "zone": "6"
+        },
+        {
+          "end_zip": "657",
+          "start_zip": "657",
+          "zone": "7"
+        },
+        {
+          "end_zip": "658",
+          "start_zip": "658",
+          "zone": "6"
+        },
+        {
+          "end_zip": "662",
+          "start_zip": "660",
+          "zone": "6"
+        },
+        {
+          "end_zip": "676",
+          "start_zip": "664",
+          "zone": "6"
+        },
+        {
+          "end_zip": "679",
+          "start_zip": "677",
+          "zone": "5"
+        },
+        {
+          "end_zip": "681",
+          "start_zip": "680",
+          "zone": "6"
+        },
+        {
+          "end_zip": "692",
+          "start_zip": "683",
+          "zone": "6"
+        },
+        {
+          "end_zip": "693",
+          "start_zip": "693",
+          "zone": "5"
+        },
+        {
+          "end_zip": "701",
+          "start_zip": "700",
+          "zone": "7"
+        },
+        {
+          "end_zip": "708",
+          "start_zip": "703",
+          "zone": "7"
+        },
+        {
+          "end_zip": "710",
+          "start_zip": "710",
+          "zone": "7"
+        },
+        {
+          "end_zip": "711",
+          "start_zip": "711",
+          "zone": "6"
+        },
+        {
+          "end_zip": "714",
+          "start_zip": "712",
+          "zone": "7"
+        },
+        {
+          "end_zip": "717",
+          "start_zip": "716",
+          "zone": "7"
+        },
+        {
+          "end_zip": "719",
+          "start_zip": "718",
+          "zone": "6"
+        },
+        {
+          "end_zip": "726",
+          "start_zip": "720",
+          "zone": "7"
+        },
+        {
+          "end_zip": "731",
+          "start_zip": "727",
+          "zone": "6"
+        },
+        {
+          "end_zip": "738",
+          "start_zip": "733",
+          "zone": "6"
+        },
+        {
+          "end_zip": "739",
+          "start_zip": "739",
+          "zone": "5"
+        },
+        {
+          "end_zip": "741",
+          "start_zip": "740",
+          "zone": "6"
+        },
+        {
+          "end_zip": "770",
+          "start_zip": "743",
+          "zone": "6"
+        },
+        {
+          "end_zip": "775",
+          "start_zip": "772",
+          "zone": "6"
+        },
+        {
+          "end_zip": "777",
+          "start_zip": "776",
+          "zone": "7"
+        },
+        {
+          "end_zip": "789",
+          "start_zip": "778",
+          "zone": "6"
+        },
+        {
+          "end_zip": "794",
+          "start_zip": "790",
+          "zone": "5"
+        },
+        {
+          "end_zip": "796",
+          "start_zip": "795",
+          "zone": "6"
+        },
+        {
+          "end_zip": "812",
+          "start_zip": "797",
+          "zone": "5"
+        },
+        {
+          "end_zip": "813",
+          "start_zip": "813",
+          "zone": "4"
+        },
+        {
+          "end_zip": "816",
+          "start_zip": "814",
+          "zone": "5"
+        },
+        {
+          "end_zip": "838",
+          "start_zip": "820",
+          "zone": "5"
+        },
+        {
+          "end_zip": "842",
+          "start_zip": "840",
+          "zone": "4"
+        },
+        {
+          "end_zip": "843",
+          "start_zip": "843",
+          "zone": "5"
+        },
+        {
+          "end_zip": "846",
+          "start_zip": "844",
+          "zone": "4"
+        },
+        {
+          "end_zip": "847",
+          "start_zip": "847",
+          "zone": "4"
+        },
+        {
+          "end_zip": "852",
+          "start_zip": "850",
+          "zone": "4"
+        },
+        {
+          "end_zip": "853",
+          "start_zip": "853",
+          "zone": "3"
+        },
+        {
+          "end_zip": "857",
+          "start_zip": "855",
+          "zone": "4"
+        },
+        {
+          "end_zip": "860",
+          "start_zip": "859",
+          "zone": "4"
+        },
+        {
+          "end_zip": "863",
+          "start_zip": "863",
+          "zone": "3"
+        },
+        {
+          "end_zip": "864",
+          "start_zip": "864",
+          "zone": "3"
+        },
+        {
+          "end_zip": "865",
+          "start_zip": "865",
+          "zone": "4"
+        },
+        {
+          "end_zip": "870",
+          "start_zip": "870",
+          "zone": "4"
+        },
+        {
+          "end_zip": "871",
+          "start_zip": "871",
+          "zone": "5"
+        },
+        {
+          "end_zip": "874",
+          "start_zip": "873",
+          "zone": "4"
+        },
+        {
+          "end_zip": "875",
+          "start_zip": "875",
+          "zone": "5"
+        },
+        {
+          "end_zip": "876",
+          "start_zip": "876",
+          "zone": "4"
+        },
+        {
+          "end_zip": "877",
+          "start_zip": "877",
+          "zone": "5"
+        },
+        {
+          "end_zip": "879",
+          "start_zip": "878",
+          "zone": "4"
+        },
+        {
+          "end_zip": "885",
+          "start_zip": "880",
+          "zone": "5"
+        },
+        {
+          "end_zip": "891",
+          "start_zip": "889",
+          "zone": "3"
+        },
+        {
+          "end_zip": "893",
+          "start_zip": "893",
+          "zone": "4"
+        },
+        {
+          "end_zip": "895",
+          "start_zip": "894",
+          "zone": "4"
+        },
+        {
+          "end_zip": "898",
+          "start_zip": "897",
+          "zone": "4"
+        },
+        {
+          "end_zip": "901",
+          "start_zip": "900",
+          "zone": "1"
+        },
+        {
+          "end_zip": "902",
+          "start_zip": "902",
+          "zone": "2"
+        },
+        {
+          "end_zip": "906",
+          "start_zip": "903",
+          "zone": "1"
+        },
+        {
+          "end_zip": "907",
+          "start_zip": "907",
+          "zone": "2"
+        },
+        {
+          "end_zip": "908",
+          "start_zip": "908",
+          "zone": "1"
+        },
+        {
+          "end_zip": "918",
+          "start_zip": "910",
+          "zone": "1"
+        },
+        {
+          "end_zip": "921",
+          "start_zip": "919",
+          "zone": "2"
+        },
+        {
+          "end_zip": "922",
+          "start_zip": "922",
+          "zone": "3"
+        },
+        {
+          "end_zip": "924",
+          "start_zip": "923",
+          "zone": "1"
+        },
+        {
+          "end_zip": "925",
+          "start_zip": "925",
+          "zone": "2"
+        },
+        {
+          "end_zip": "928",
+          "start_zip": "926",
+          "zone": "1"
+        },
+        {
+          "end_zip": "933",
+          "start_zip": "930",
+          "zone": "2"
+        },
+        {
+          "end_zip": "934",
+          "start_zip": "934",
+          "zone": "3"
+        },
+        {
+          "end_zip": "935",
+          "start_zip": "935",
+          "zone": "1"
+        },
+        {
+          "end_zip": "939",
+          "start_zip": "936",
+          "zone": "3"
+        },
+        {
+          "end_zip": "949",
+          "start_zip": "940",
+          "zone": "4"
+        },
+        {
+          "end_zip": "950",
+          "start_zip": "950",
+          "zone": "3"
+        },
+        {
+          "end_zip": "952",
+          "start_zip": "951",
+          "zone": "4"
+        },
+        {
+          "end_zip": "953",
+          "start_zip": "953",
+          "zone": "3"
+        },
+        {
+          "end_zip": "961",
+          "start_zip": "954",
+          "zone": "4"
+        },
+        {
+          "end_zip": "966",
+          "start_zip": "962",
+          "zone": "4"
+        },
+        {
+          "end_zip": "967",
+          "start_zip": "967",
+          "zone": "8"
+        },
+        {
+          "end_zip": "968",
+          "start_zip": "968",
+          "zone": "8"
+        },
+        {
+          "end_zip": "969",
+          "start_zip": "969",
+          "zone": "9"
+        },
+        {
+          "end_zip": "975",
+          "start_zip": "970",
+          "zone": "5"
+        },
+        {
+          "end_zip": "976",
+          "start_zip": "976",
+          "zone": "4"
+        },
+        {
+          "end_zip": "982",
+          "start_zip": "977",
+          "zone": "5"
+        },
+        {
+          "end_zip": "983",
+          "start_zip": "983",
+          "zone": "6"
+        },
+        {
+          "end_zip": "986",
+          "start_zip": "984",
+          "zone": "5"
+        },
+        {
+          "end_zip": "994",
+          "start_zip": "988",
+          "zone": "5"
+        },
+        {
+          "end_zip": "998",
+          "start_zip": "995",
+          "zone": "8"
+        },
+        {
+          "end_zip": "999",
+          "start_zip": "999",
+          "zone": "7"
+        }
+      ],
+      "ship_from_zip": "08901"
+    },
+    {
+      "carrier": "USPS",
+      "entries": [
+        {
+          "end_zip": "089",
+          "start_zip": "005",
+          "zone": "8"
+        },
+        {
+          "end_zip": "099",
+          "start_zip": "090",
+          "zone": "8"
+        },
+        {
+          "end_zip": "212",
+          "start_zip": "100",
+          "zone": "8"
+        },
+        {
+          "end_zip": "268",
+          "start_zip": "214",
+          "zone": "8"
+        },
+        {
+          "end_zip": "342",
+          "start_zip": "270",
+          "zone": "8"
+        },
+        {
+          "end_zip": "344",
+          "start_zip": "344",
+          "zone": "8"
+        },
+        {
+          "end_zip": "347",
+          "start_zip": "346",
+          "zone": "8"
+        },
+        {
+          "end_zip": "349",
+          "start_zip": "349",
+          "zone": "8"
+        },
+        {
+          "end_zip": "352",
+          "start_zip": "350",
+          "zone": "7"
+        },
+        {
+          "end_zip": "358",
+          "start_zip": "354",
+          "zone": "7"
+        },
+        {
+          "end_zip": "363",
+          "start_zip": "359",
+          "zone": "8"
+        },
+        {
+          "end_zip": "367",
+          "start_zip": "364",
+          "zone": "7"
+        },
+        {
+          "end_zip": "368",
+          "start_zip": "368",
+          "zone": "8"
+        },
+        {
+          "end_zip": "372",
+          "start_zip": "369",
+          "zone": "7"
+        },
+        {
+          "end_zip": "374",
+          "start_zip": "373",
+          "zone": "8"
+        },
+        {
+          "end_zip": "375",
+          "start_zip": "375",
+          "zone": "7"
+        },
+        {
+          "end_zip": "379",
+          "start_zip": "376",
+          "zone": "8"
+        },
+        {
+          "end_zip": "384",
+          "start_zip": "380",
+          "zone": "7"
+        },
+        {
+          "end_zip": "385",
+          "start_zip": "385",
+          "zone": "8"
+        },
+        {
+          "end_zip": "397",
+          "start_zip": "386",
+          "zone": "7"
+        },
+        {
+          "end_zip": "400",
+          "start_zip": "398",
+          "zone": "8"
+        },
+        {
+          "end_zip": "401",
+          "start_zip": "401",
+          "zone": "7"
+        },
+        {
+          "end_zip": "418",
+          "start_zip": "402",
+          "zone": "8"
+        },
+        {
+          "end_zip": "424",
+          "start_zip": "420",
+          "zone": "7"
+        },
+        {
+          "end_zip": "426",
+          "start_zip": "425",
+          "zone": "8"
+        },
+        {
+          "end_zip": "427",
+          "start_zip": "427",
+          "zone": "7"
+        },
+        {
+          "end_zip": "459",
+          "start_zip": "430",
+          "zone": "8"
+        },
+        {
+          "end_zip": "460",
+          "start_zip": "460",
+          "zone": "7"
+        },
+        {
+          "end_zip": "461",
+          "start_zip": "461",
+          "zone": "8"
+        },
+        {
+          "end_zip": "466",
+          "start_zip": "462",
+          "zone": "7"
+        },
+        {
+          "end_zip": "468",
+          "start_zip": "467",
+          "zone": "8"
+        },
+        {
+          "end_zip": "469",
+          "start_zip": "469",
+          "zone": "7"
+        },
+        {
+          "end_zip": "470",
+          "start_zip": "470",
+          "zone": "8"
+        },
+        {
+          "end_zip": "471",
+          "start_zip": "471",
+          "zone": "7"
+        },
+        {
+          "end_zip": "473",
+          "start_zip": "472",
+          "zone": "8"
+        },
+        {
+          "end_zip": "479",
+          "start_zip": "474",
+          "zone": "7"
+        },
+        {
+          "end_zip": "490",
+          "start_zip": "480",
+          "zone": "8"
+        },
+        {
+          "end_zip": "491",
+          "start_zip": "491",
+          "zone": "7"
+        },
+        {
+          "end_zip": "498",
+          "start_zip": "492",
+          "zone": "8"
+        },
+        {
+          "end_zip": "499",
+          "start_zip": "499",
+          "zone": "7"
+        },
+        {
+          "end_zip": "500",
+          "start_zip": "500",
+          "zone": "6"
+        },
+        {
+          "end_zip": "501",
+          "start_zip": "501",
+          "zone": "7"
+        },
+        {
+          "end_zip": "502",
+          "start_zip": "502",
+          "zone": "6"
+        },
+        {
+          "end_zip": "504",
+          "start_zip": "503",
+          "zone": "7"
+        },
+        {
+          "end_zip": "505",
+          "start_zip": "505",
+          "zone": "6"
+        },
+        {
+          "end_zip": "507",
+          "start_zip": "506",
+          "zone": "7"
+        },
+        {
+          "end_zip": "508",
+          "start_zip": "508",
+          "zone": "6"
+        },
+        {
+          "end_zip": "509",
+          "start_zip": "509",
+          "zone": "7"
+        },
+        {
+          "end_zip": "516",
+          "start_zip": "510",
+          "zone": "6"
+        },
+        {
+          "end_zip": "528",
+          "start_zip": "520",
+          "zone": "7"
+        },
+        {
+          "end_zip": "532",
+          "start_zip": "530",
+          "zone": "7"
+        },
+        {
+          "end_zip": "535",
+          "start_zip": "534",
+          "zone": "7"
+        },
+        {
+          "end_zip": "551",
+          "start_zip": "537",
+          "zone": "7"
+        },
+        {
+          "end_zip": "560",
+          "start_zip": "553",
+          "zone": "7"
+        },
+        {
+          "end_zip": "562",
+          "start_zip": "561",
+          "zone": "6"
+        },
+        {
+          "end_zip": "567",
+          "start_zip": "563",
+          "zone": "7"
+        },
+        {
+          "end_zip": "577",
+          "start_zip": "570",
+          "zone": "6"
+        },
+        {
+          "end_zip": "580",
+          "start_zip": "580",
+          "zone": "6"
+        },
+        {
+          "end_zip": "582",
+          "start_zip": "581",
+          "zone": "7"
+        },
+        {
+          "end_zip": "588",
+          "start_zip": "583",
+          "zone": "6"
+        },
+        {
+          "end_zip": "591",
+          "start_zip": "590",
+          "zone": "5"
+        },
+        {
+          "end_zip": "595",
+          "start_zip": "592",
+          "zone": "6"
+        },
+        {
+          "end_zip": "599",
+          "start_zip": "596",
+          "zone": "5"
+        },
+        {
+          "end_zip": "620",
+          "start_zip": "600",
+          "zone": "7"
+        },
+        {
+          "end_zip": "631",
+          "start_zip": "622",
+          "zone": "7"
+        },
+        {
+          "end_zip": "639",
+          "start_zip": "633",
+          "zone": "7"
+        },
+        {
+          "end_zip": "641",
+          "start_zip": "640",
+          "zone": "6"
+        },
+        {
+          "end_zip": "649",
+          "start_zip": "644",
+          "zone": "6"
+        },
+        {
+          "end_zip": "652",
+          "start_zip": "650",
+          "zone": "7"
+        },
+        {
+          "end_zip": "653",
+          "start_zip": "653",
+          "zone": "6"
+        },
+        {
+          "end_zip": "655",
+          "start_zip": "654",
+          "zone": "7"
+        },
+        {
+          "end_zip": "656",
+          "start_zip": "656",
+          "zone": "6"
+        },
+        {
+          "end_zip": "657",
+          "start_zip": "657",
+          "zone": "7"
+        },
+        {
+          "end_zip": "658",
+          "start_zip": "658",
+          "zone": "6"
+        },
+        {
+          "end_zip": "662",
+          "start_zip": "660",
+          "zone": "6"
+        },
+        {
+          "end_zip": "676",
+          "start_zip": "664",
+          "zone": "6"
+        },
+        {
+          "end_zip": "679",
+          "start_zip": "677",
+          "zone": "5"
+        },
+        {
+          "end_zip": "681",
+          "start_zip": "680",
+          "zone": "6"
+        },
+        {
+          "end_zip": "692",
+          "start_zip": "683",
+          "zone": "6"
+        },
+        {
+          "end_zip": "693",
+          "start_zip": "693",
+          "zone": "5"
+        },
+        {
+          "end_zip": "701",
+          "start_zip": "700",
+          "zone": "7"
+        },
+        {
+          "end_zip": "708",
+          "start_zip": "703",
+          "zone": "7"
+        },
+        {
+          "end_zip": "710",
+          "start_zip": "710",
+          "zone": "7"
+        },
+        {
+          "end_zip": "711",
+          "start_zip": "711",
+          "zone": "6"
+        },
+        {
+          "end_zip": "714",
+          "start_zip": "712",
+          "zone": "7"
+        },
+        {
+          "end_zip": "717",
+          "start_zip": "716",
+          "zone": "7"
+        },
+        {
+          "end_zip": "719",
+          "start_zip": "718",
+          "zone": "6"
+        },
+        {
+          "end_zip": "726",
+          "start_zip": "720",
+          "zone": "7"
+        },
+        {
+          "end_zip": "731",
+          "start_zip": "727",
+          "zone": "6"
+        },
+        {
+          "end_zip": "738",
+          "start_zip": "733",
+          "zone": "6"
+        },
+        {
+          "end_zip": "739",
+          "start_zip": "739",
+          "zone": "5"
+        },
+        {
+          "end_zip": "741",
+          "start_zip": "740",
+          "zone": "6"
+        },
+        {
+          "end_zip": "770",
+          "start_zip": "743",
+          "zone": "6"
+        },
+        {
+          "end_zip": "775",
+          "start_zip": "772",
+          "zone": "6"
+        },
+        {
+          "end_zip": "777",
+          "start_zip": "776",
+          "zone": "7"
+        },
+        {
+          "end_zip": "789",
+          "start_zip": "778",
+          "zone": "6"
+        },
+        {
+          "end_zip": "794",
+          "start_zip": "790",
+          "zone": "5"
+        },
+        {
+          "end_zip": "796",
+          "start_zip": "795",
+          "zone": "6"
+        },
+        {
+          "end_zip": "812",
+          "start_zip": "797",
+          "zone": "5"
+        },
+        {
+          "end_zip": "813",
+          "start_zip": "813",
+          "zone": "4"
+        },
+        {
+          "end_zip": "816",
+          "start_zip": "814",
+          "zone": "5"
+        },
+        {
+          "end_zip": "838",
+          "start_zip": "820",
+          "zone": "5"
+        },
+        {
+          "end_zip": "842",
+          "start_zip": "840",
+          "zone": "4"
+        },
+        {
+          "end_zip": "843",
+          "start_zip": "843",
+          "zone": "5"
+        },
+        {
+          "end_zip": "846",
+          "start_zip": "844",
+          "zone": "4"
+        },
+        {
+          "end_zip": "847",
+          "start_zip": "847",
+          "zone": "4"
+        },
+        {
+          "end_zip": "852",
+          "start_zip": "850",
+          "zone": "4"
+        },
+        {
+          "end_zip": "853",
+          "start_zip": "853",
+          "zone": "3"
+        },
+        {
+          "end_zip": "857",
+          "start_zip": "855",
+          "zone": "4"
+        },
+        {
+          "end_zip": "860",
+          "start_zip": "859",
+          "zone": "4"
+        },
+        {
+          "end_zip": "863",
+          "start_zip": "863",
+          "zone": "3"
+        },
+        {
+          "end_zip": "864",
+          "start_zip": "864",
+          "zone": "3"
+        },
+        {
+          "end_zip": "865",
+          "start_zip": "865",
+          "zone": "4"
+        },
+        {
+          "end_zip": "870",
+          "start_zip": "870",
+          "zone": "4"
+        },
+        {
+          "end_zip": "871",
+          "start_zip": "871",
+          "zone": "5"
+        },
+        {
+          "end_zip": "874",
+          "start_zip": "873",
+          "zone": "4"
+        },
+        {
+          "end_zip": "875",
+          "start_zip": "875",
+          "zone": "5"
+        },
+        {
+          "end_zip": "876",
+          "start_zip": "876",
+          "zone": "4"
+        },
+        {
+          "end_zip": "877",
+          "start_zip": "877",
+          "zone": "5"
+        },
+        {
+          "end_zip": "879",
+          "start_zip": "878",
+          "zone": "4"
+        },
+        {
+          "end_zip": "885",
+          "start_zip": "880",
+          "zone": "5"
+        },
+        {
+          "end_zip": "891",
+          "start_zip": "889",
+          "zone": "3"
+        },
+        {
+          "end_zip": "893",
+          "start_zip": "893",
+          "zone": "4"
+        },
+        {
+          "end_zip": "895",
+          "start_zip": "894",
+          "zone": "4"
+        },
+        {
+          "end_zip": "898",
+          "start_zip": "897",
+          "zone": "4"
+        },
+        {
+          "end_zip": "901",
+          "start_zip": "900",
+          "zone": "1"
+        },
+        {
+          "end_zip": "902",
+          "start_zip": "902",
+          "zone": "2"
+        },
+        {
+          "end_zip": "906",
+          "start_zip": "903",
+          "zone": "1"
+        },
+        {
+          "end_zip": "907",
+          "start_zip": "907",
+          "zone": "2"
+        },
+        {
+          "end_zip": "908",
+          "start_zip": "908",
+          "zone": "1"
+        },
+        {
+          "end_zip": "918",
+          "start_zip": "910",
+          "zone": "1"
+        },
+        {
+          "end_zip": "921",
+          "start_zip": "919",
+          "zone": "2"
+        },
+        {
+          "end_zip": "922",
+          "start_zip": "922",
+          "zone": "3"
+        },
+        {
+          "end_zip": "924",
+          "start_zip": "923",
+          "zone": "1"
+        },
+        {
+          "end_zip": "925",
+          "start_zip": "925",
+          "zone": "2"
+        },
+        {
+          "end_zip": "928",
+          "start_zip": "926",
+          "zone": "1"
+        },
+        {
+          "end_zip": "933",
+          "start_zip": "930",
+          "zone": "2"
+        },
+        {
+          "end_zip": "934",
+          "start_zip": "934",
+          "zone": "3"
+        },
+        {
+          "end_zip": "935",
+          "start_zip": "935",
+          "zone": "1"
+        },
+        {
+          "end_zip": "939",
+          "start_zip": "936",
+          "zone": "3"
+        },
+        {
+          "end_zip": "949",
+          "start_zip": "940",
+          "zone": "4"
+        },
+        {
+          "end_zip": "950",
+          "start_zip": "950",
+          "zone": "3"
+        },
+        {
+          "end_zip": "952",
+          "start_zip": "951",
+          "zone": "4"
+        },
+        {
+          "end_zip": "953",
+          "start_zip": "953",
+          "zone": "3"
+        },
+        {
+          "end_zip": "961",
+          "start_zip": "954",
+          "zone": "4"
+        },
+        {
+          "end_zip": "966",
+          "start_zip": "962",
+          "zone": "4"
+        },
+        {
+          "end_zip": "967",
+          "start_zip": "967",
+          "zone": "8"
+        },
+        {
+          "end_zip": "968",
+          "start_zip": "968",
+          "zone": "8"
+        },
+        {
+          "end_zip": "969",
+          "start_zip": "969",
+          "zone": "9"
+        },
+        {
+          "end_zip": "975",
+          "start_zip": "970",
+          "zone": "5"
+        },
+        {
+          "end_zip": "976",
+          "start_zip": "976",
+          "zone": "4"
+        },
+        {
+          "end_zip": "982",
+          "start_zip": "977",
+          "zone": "5"
+        },
+        {
+          "end_zip": "983",
+          "start_zip": "983",
+          "zone": "6"
+        },
+        {
+          "end_zip": "986",
+          "start_zip": "984",
+          "zone": "5"
+        },
+        {
+          "end_zip": "994",
+          "start_zip": "988",
+          "zone": "5"
+        },
+        {
+          "end_zip": "998",
+          "start_zip": "995",
+          "zone": "8"
+        },
+        {
+          "end_zip": "999",
+          "start_zip": "999",
+          "zone": "7"
+        }
+      ],
+      "ship_from_zip": "91761"
+    },
+    {
+      "carrier": "USPS",
+      "entries": [
+        {
+          "end_zip": "089",
+          "start_zip": "005",
+          "zone": "8"
+        },
+        {
+          "end_zip": "099",
+          "start_zip": "090",
+          "zone": "8"
+        },
+        {
+          "end_zip": "212",
+          "start_zip": "100",
+          "zone": "8"
+        },
+        {
+          "end_zip": "268",
+          "start_zip": "214",
+          "zone": "8"
+        },
+        {
+          "end_zip": "306",
+          "start_zip": "270",
+          "zone": "8"
+        },
+        {
+          "end_zip": "307",
+          "start_zip": "307",
+          "zone": "7"
+        },
+        {
+          "end_zip": "324",
+          "start_zip": "308",
+          "zone": "8"
+        },
+        {
+          "end_zip": "325",
+          "start_zip": "325",
+          "zone": "7"
+        },
+        {
+          "end_zip": "342",
+          "start_zip": "326",
+          "zone": "8"
+        },
+        {
+          "end_zip": "344",
+          "start_zip": "344",
+          "zone": "8"
+        },
+        {
+          "end_zip": "347",
+          "start_zip": "346",
+          "zone": "8"
+        },
+        {
+          "end_zip": "349",
+          "start_zip": "349",
+          "zone": "8"
+        },
+        {
+          "end_zip": "352",
+          "start_zip": "350",
+          "zone": "7"
+        },
+        {
+          "end_zip": "362",
+          "start_zip": "354",
+          "zone": "7"
+        },
+        {
+          "end_zip": "363",
+          "start_zip": "363",
+          "zone": "8"
+        },
+        {
+          "end_zip": "367",
+          "start_zip": "364",
+          "zone": "7"
+        },
+        {
+          "end_zip": "368",
+          "start_zip": "368",
+          "zone": "8"
+        },
+        {
+          "end_zip": "372",
+          "start_zip": "369",
+          "zone": "7"
+        },
+        {
+          "end_zip": "373",
+          "start_zip": "373",
+          "zone": "8"
+        },
+        {
+          "end_zip": "375",
+          "start_zip": "374",
+          "zone": "7"
+        },
+        {
+          "end_zip": "379",
+          "start_zip": "376",
+          "zone": "8"
+        },
+        {
+          "end_zip": "397",
+          "start_zip": "380",
+          "zone": "7"
+        },
+        {
+          "end_zip": "399",
+          "start_zip": "398",
+          "zone": "8"
+        },
+        {
+          "end_zip": "402",
+          "start_zip": "400",
+          "zone": "7"
+        },
+        {
+          "end_zip": "405",
+          "start_zip": "403",
+          "zone": "8"
+        },
+        {
+          "end_zip": "406",
+          "start_zip": "406",
+          "zone": "7"
+        },
+        {
+          "end_zip": "418",
+          "start_zip": "407",
+          "zone": "8"
+        },
+        {
+          "end_zip": "424",
+          "start_zip": "420",
+          "zone": "7"
+        },
+        {
+          "end_zip": "426",
+          "start_zip": "425",
+          "zone": "8"
+        },
+        {
+          "end_zip": "427",
+          "start_zip": "427",
+          "zone": "7"
+        },
+        {
+          "end_zip": "459",
+          "start_zip": "430",
+          "zone": "8"
+        },
+        {
+          "end_zip": "479",
+          "start_zip": "460",
+          "zone": "7"
+        },
+        {
+          "end_zip": "489",
+          "start_zip": "480",
+          "zone": "8"
+        },
+        {
+          "end_zip": "491",
+          "start_zip": "490",
+          "zone": "7"
+        },
+        {
+          "end_zip": "492",
+          "start_zip": "492",
+          "zone": "8"
+        },
+        {
+          "end_zip": "495",
+          "start_zip": "493",
+          "zone": "7"
+        },
+        {
+          "end_zip": "497",
+          "start_zip": "496",
+          "zone": "8"
+        },
+        {
+          "end_zip": "499",
+          "start_zip": "498",
+          "zone": "7"
+        },
+        {
+          "end_zip": "500",
+          "start_zip": "500",
+          "zone": "6"
+        },
+        {
+          "end_zip": "501",
+          "start_zip": "501",
+          "zone": "7"
+        },
+        {
+          "end_zip": "503",
+          "start_zip": "502",
+          "zone": "6"
+        },
+        {
+          "end_zip": "504",
+          "start_zip": "504",
+          "zone": "7"
+        },
+        {
+          "end_zip": "505",
+          "start_zip": "505",
+          "zone": "6"
+        },
+        {
+          "end_zip": "507",
+          "start_zip": "506",
+          "zone": "7"
+        },
+        {
+          "end_zip": "516",
+          "start_zip": "508",
+          "zone": "6"
+        },
+        {
+          "end_zip": "528",
+          "start_zip": "520",
+          "zone": "7"
+        },
+        {
+          "end_zip": "532",
+          "start_zip": "530",
+          "zone": "7"
+        },
+        {
+          "end_zip": "535",
+          "start_zip": "534",
+          "zone": "7"
+        },
+        {
+          "end_zip": "551",
+          "start_zip": "537",
+          "zone": "7"
+        },
+        {
+          "end_zip": "559",
+          "start_zip": "553",
+          "zone": "7"
+        },
+        {
+          "end_zip": "562",
+          "start_zip": "560",
+          "zone": "6"
+        },
+        {
+          "end_zip": "564",
+          "start_zip": "563",
+          "zone": "7"
+        },
+        {
+          "end_zip": "565",
+          "start_zip": "565",
+          "zone": "6"
+        },
+        {
+          "end_zip": "567",
+          "start_zip": "566",
+          "zone": "7"
+        },
+        {
+          "end_zip": "576",
+          "start_zip": "570",
+          "zone": "6"
+        },
+        {
+          "end_zip": "577",
+          "start_zip": "577",
+          "zone": "5"
+        },
+        {
+          "end_zip": "588",
+          "start_zip": "580",
+          "zone": "6"
+        },
+        {
+          "end_zip": "591",
+          "start_zip": "590",
+          "zone": "5"
+        },
+        {
+          "end_zip": "593",
+          "start_zip": "592",
+          "zone": "6"
+        },
+        {
+          "end_zip": "594",
+          "start_zip": "594",
+          "zone": "5"
+        },
+        {
+          "end_zip": "595",
+          "start_zip": "595",
+          "zone": "6"
+        },
+        {
+          "end_zip": "599",
+          "start_zip": "596",
+          "zone": "5"
+        },
+        {
+          "end_zip": "620",
+          "start_zip": "600",
+          "zone": "7"
+        },
+        {
+          "end_zip": "631",
+          "start_zip": "622",
+          "zone": "7"
+        },
+        {
+          "end_zip": "634",
+          "start_zip": "633",
+          "zone": "7"
+        },
+        {
+          "end_zip": "635",
+          "start_zip": "635",
+          "zone": "6"
+        },
+        {
+          "end_zip": "639",
+          "start_zip": "636",
+          "zone": "7"
+        },
+        {
+          "end_zip": "641",
+          "start_zip": "640",
+          "zone": "6"
+        },
+        {
+          "end_zip": "649",
+          "start_zip": "644",
+          "zone": "6"
+        },
+        {
+          "end_zip": "651",
+          "start_zip": "650",
+          "zone": "7"
+        },
+        {
+          "end_zip": "653",
+          "start_zip": "652",
+          "zone": "6"
+        },
+        {
+          "end_zip": "654",
+          "start_zip": "654",
+          "zone": "7"
+        },
+        {
+          "end_zip": "658",
+          "start_zip": "655",
+          "zone": "6"
+        },
+        {
+          "end_zip": "662",
+          "start_zip": "660",
+          "zone": "6"
+        },
+        {
+          "end_zip": "676",
+          "start_zip": "664",
+          "zone": "6"
+        },
+        {
+          "end_zip": "679",
+          "start_zip": "677",
+          "zone": "5"
+        },
+        {
+          "end_zip": "681",
+          "start_zip": "680",
+          "zone": "6"
+        },
+        {
+          "end_zip": "689",
+          "start_zip": "683",
+          "zone": "6"
+        },
+        {
+          "end_zip": "690",
+          "start_zip": "690",
+          "zone": "5"
+        },
+        {
+          "end_zip": "692",
+          "start_zip": "691",
+          "zone": "6"
+        },
+        {
+          "end_zip": "693",
+          "start_zip": "693",
+          "zone": "5"
+        },
+        {
+          "end_zip": "701",
+          "start_zip": "700",
+          "zone": "7"
+        },
+        {
+          "end_zip": "708",
+          "start_zip": "703",
+          "zone": "7"
+        },
+        {
+          "end_zip": "711",
+          "start_zip": "710",
+          "zone": "6"
+        },
+        {
+          "end_zip": "714",
+          "start_zip": "712",
+          "zone": "7"
+        },
+        {
+          "end_zip": "716",
+          "start_zip": "716",
+          "zone": "7"
+        },
+        {
+          "end_zip": "719",
+          "start_zip": "717",
+          "zone": "6"
+        },
+        {
+          "end_zip": "720",
+          "start_zip": "720",
+          "zone": "7"
+        },
+        {
+          "end_zip": "722",
+          "start_zip": "721",
+          "zone": "6"
+        },
+        {
+          "end_zip": "725",
+          "start_zip": "723",
+          "zone": "7"
+        },
+        {
+          "end_zip": "731",
+          "start_zip": "726",
+          "zone": "6"
+        },
+        {
+          "end_zip": "737",
+          "start_zip": "733",
+          "zone": "6"
+        },
+        {
+          "end_zip": "739",
+          "start_zip": "738",
+          "zone": "5"
+        },
+        {
+          "end_zip": "741",
+          "start_zip": "740",
+          "zone": "6"
+        },
+        {
+          "end_zip": "768",
+          "start_zip": "743",
+          "zone": "6"
+        },
+        {
+          "end_zip": "769",
+          "start_zip": "769",
+          "zone": "5"
+        },
+        {
+          "end_zip": "770",
+          "start_zip": "770",
+          "zone": "6"
+        },
+        {
+          "end_zip": "789",
+          "start_zip": "772",
+          "zone": "6"
+        },
+        {
+          "end_zip": "795",
+          "start_zip": "790",
+          "zone": "5"
+        },
+        {
+          "end_zip": "796",
+          "start_zip": "796",
+          "zone": "6"
+        },
+        {
+          "end_zip": "812",
+          "start_zip": "797",
+          "zone": "5"
+        },
+        {
+          "end_zip": "815",
+          "start_zip": "813",
+          "zone": "4"
+        },
+        {
+          "end_zip": "816",
+          "start_zip": "816",
+          "zone": "5"
+        },
+        {
+          "end_zip": "832",
+          "start_zip": "820",
+          "zone": "5"
+        },
+        {
+          "end_zip": "833",
+          "start_zip": "833",
+          "zone": "4"
+        },
+        {
+          "end_zip": "838",
+          "start_zip": "834",
+          "zone": "5"
+        },
+        {
+          "end_zip": "846",
+          "start_zip": "840",
+          "zone": "4"
+        },
+        {
+          "end_zip": "847",
+          "start_zip": "847",
+          "zone": "4"
+        },
+        {
+          "end_zip": "850",
+          "start_zip": "850",
+          "zone": "3"
+        },
+        {
+          "end_zip": "852",
+          "start_zip": "851",
+          "zone": "4"
+        },
+        {
+          "end_zip": "853",
+          "start_zip": "853",
+          "zone": "3"
+        },
+        {
+          "end_zip": "857",
+          "start_zip": "855",
+          "zone": "4"
+        },
+        {
+          "end_zip": "860",
+          "start_zip": "859",
+          "zone": "4"
+        },
+        {
+          "end_zip": "863",
+          "start_zip": "863",
+          "zone": "3"
+        },
+        {
+          "end_zip": "864",
+          "start_zip": "864",
+          "zone": "3"
+        },
+        {
+          "end_zip": "865",
+          "start_zip": "865",
+          "zone": "4"
+        },
+        {
+          "end_zip": "871",
+          "start_zip": "870",
+          "zone": "4"
+        },
+        {
+          "end_zip": "874",
+          "start_zip": "873",
+          "zone": "4"
+        },
+        {
+          "end_zip": "875",
+          "start_zip": "875",
+          "zone": "5"
+        },
+        {
+          "end_zip": "876",
+          "start_zip": "876",
+          "zone": "4"
+        },
+        {
+          "end_zip": "877",
+          "start_zip": "877",
+          "zone": "5"
+        },
+        {
+          "end_zip": "880",
+          "start_zip": "878",
+          "zone": "4"
+        },
+        {
+          "end_zip": "885",
+          "start_zip": "881",
+          "zone": "5"
+        },
+        {
+          "end_zip": "891",
+          "start_zip": "889",
+          "zone": "3"
+        },
+        {
+          "end_zip": "893",
+          "start_zip": "893",
+          "zone": "4"
+        },
+        {
+          "end_zip": "895",
+          "start_zip": "894",
+          "zone": "4"
+        },
+        {
+          "end_zip": "898",
+          "start_zip": "897",
+          "zone": "4"
+        },
+        {
+          "end_zip": "908",
+          "start_zip": "900",
+          "zone": "2"
+        },
+        {
+          "end_zip": "916",
+          "start_zip": "910",
+          "zone": "2"
+        },
+        {
+          "end_zip": "917",
+          "start_zip": "917",
+          "zone": "1"
+        },
+        {
+          "end_zip": "921",
+          "start_zip": "918",
+          "zone": "2"
+        },
+        {
+          "end_zip": "922",
+          "start_zip": "922",
+          "zone": "3"
+        },
+        {
+          "end_zip": "924",
+          "start_zip": "923",
+          "zone": "1"
+        },
+        {
+          "end_zip": "928",
+          "start_zip": "925",
+          "zone": "2"
+        },
+        {
+          "end_zip": "930",
+          "start_zip": "930",
+          "zone": "2"
+        },
+        {
+          "end_zip": "932",
+          "start_zip": "931",
+          "zone": "3"
+        },
+        {
+          "end_zip": "933",
+          "start_zip": "933",
+          "zone": "2"
+        },
+        {
+          "end_zip": "934",
+          "start_zip": "934",
+          "zone": "3"
+        },
+        {
+          "end_zip": "935",
+          "start_zip": "935",
+          "zone": "1"
+        },
+        {
+          "end_zip": "939",
+          "start_zip": "936",
+          "zone": "3"
+        },
+        {
+          "end_zip": "949",
+          "start_zip": "940",
+          "zone": "4"
+        },
+        {
+          "end_zip": "950",
+          "start_zip": "950",
+          "zone": "3"
+        },
+        {
+          "end_zip": "952",
+          "start_zip": "951",
+          "zone": "4"
+        },
+        {
+          "end_zip": "953",
+          "start_zip": "953",
+          "zone": "3"
+        },
+        {
+          "end_zip": "961",
+          "start_zip": "954",
+          "zone": "4"
+        },
+        {
+          "end_zip": "966",
+          "start_zip": "962",
+          "zone": "4"
+        },
+        {
+          "end_zip": "967",
+          "start_zip": "967",
+          "zone": "8"
+        },
+        {
+          "end_zip": "968",
+          "start_zip": "968",
+          "zone": "8"
+        },
+        {
+          "end_zip": "969",
+          "start_zip": "969",
+          "zone": "9"
+        },
+        {
+          "end_zip": "975",
+          "start_zip": "970",
+          "zone": "5"
+        },
+        {
+          "end_zip": "976",
+          "start_zip": "976",
+          "zone": "4"
+        },
+        {
+          "end_zip": "986",
+          "start_zip": "977",
+          "zone": "5"
+        },
+        {
+          "end_zip": "994",
+          "start_zip": "988",
+          "zone": "5"
+        },
+        {
+          "end_zip": "998",
+          "start_zip": "995",
+          "zone": "8"
+        },
+        {
+          "end_zip": "999",
+          "start_zip": "999",
+          "zone": "7"
+        }
+      ],
+      "ship_from_zip": "92376"
+    },
+    {
+      "carrier": "USPS",
+      "ship_from_zip": "08901",
+      "entries": [
+        {
+          "start_zip": "005",
+          "end_zip": "005",
+          "zone": "2"
+        },
+        {
+          "start_zip": "006",
+          "end_zip": "006",
+          "zone": "7"
+        },
+        {
+          "start_zip": "010",
+          "end_zip": "011",
+          "zone": "3"
+        },
+        {
+          "start_zip": "012",
+          "end_zip": "012",
+          "zone": "2"
+        },
+        {
+          "start_zip": "013",
+          "end_zip": "034",
+          "zone": "3"
+        },
+        {
+          "start_zip": "035",
+          "end_zip": "035",
+          "zone": "4"
+        },
+        {
+          "start_zip": "036",
+          "end_zip": "040",
+          "zone": "3"
+        },
+        {
+          "start_zip": "041",
+          "end_zip": "049",
+          "zone": "4"
+        },
+        {
+          "start_zip": "050",
+          "end_zip": "057",
+          "zone": "3"
+        },
+        {
+          "start_zip": "058",
+          "end_zip": "059",
+          "zone": "4"
+        },
+        {
+          "start_zip": "060",
+          "end_zip": "061",
+          "zone": "2"
+        },
+        {
+          "start_zip": "062",
+          "end_zip": "063",
+          "zone": "3"
+        },
+        {
+          "start_zip": "064",
+          "end_zip": "065",
+          "zone": "2"
+        },
+        {
+          "start_zip": "066",
+          "end_zip": "066",
+          "zone": "2"
+        },
+        {
+          "start_zip": "067",
+          "end_zip": "067",
+          "zone": "2"
+        },
+        {
+          "start_zip": "068",
+          "end_zip": "069",
+          "zone": "2"
+        },
+        {
+          "start_zip": "070",
+          "end_zip": "079",
+          "zone": "1"
+        },
+        {
+          "start_zip": "080",
+          "end_zip": "080",
+          "zone": "2"
+        },
+        {
+          "start_zip": "081",
+          "end_zip": "081",
+          "zone": "1"
+        },
+        {
+          "start_zip": "082",
+          "end_zip": "084",
+          "zone": "2"
+        },
+        {
+          "start_zip": "085",
+          "end_zip": "089",
+          "zone": "1"
+        },
+        {
+          "start_zip": "090",
+          "end_zip": "099",
+          "zone": "1"
+        },
+        {
+          "start_zip": "100",
+          "end_zip": "104",
+          "zone": "1"
+        },
+        {
+          "start_zip": "105",
+          "end_zip": "106",
+          "zone": "2"
+        },
+        {
+          "start_zip": "107",
+          "end_zip": "108",
+          "zone": "1"
+        },
+        {
+          "start_zip": "109",
+          "end_zip": "109",
+          "zone": "2"
+        },
+        {
+          "start_zip": "110",
+          "end_zip": "116",
+          "zone": "1"
+        },
+        {
+          "start_zip": "117",
+          "end_zip": "119",
+          "zone": "2"
+        },
+        {
+          "start_zip": "120",
+          "end_zip": "123",
+          "zone": "3"
+        },
+        {
+          "start_zip": "124",
+          "end_zip": "127",
+          "zone": "2"
+        },
+        {
+          "start_zip": "128",
+          "end_zip": "136",
+          "zone": "3"
+        },
+        {
+          "start_zip": "137",
+          "end_zip": "137",
+          "zone": "2"
+        },
+        {
+          "start_zip": "138",
+          "end_zip": "138",
+          "zone": "3"
+        },
+        {
+          "start_zip": "139",
+          "end_zip": "139",
+          "zone": "2"
+        },
+        {
+          "start_zip": "140",
+          "end_zip": "149",
+          "zone": "3"
+        },
+        {
+          "start_zip": "150",
+          "end_zip": "151",
+          "zone": "4"
+        },
+        {
+          "start_zip": "152",
+          "end_zip": "152",
+          "zone": "3"
+        },
+        {
+          "start_zip": "153",
+          "end_zip": "153",
+          "zone": "4"
+        },
+        {
+          "start_zip": "154",
+          "end_zip": "160",
+          "zone": "3"
+        },
+        {
+          "start_zip": "161",
+          "end_zip": "161",
+          "zone": "4"
+        },
+        {
+          "start_zip": "162",
+          "end_zip": "163",
+          "zone": "3"
+        },
+        {
+          "start_zip": "164",
+          "end_zip": "165",
+          "zone": "4"
+        },
+        {
+          "start_zip": "166",
+          "end_zip": "169",
+          "zone": "3"
+        },
+        {
+          "start_zip": "170",
+          "end_zip": "171",
+          "zone": "2"
+        },
+        {
+          "start_zip": "172",
+          "end_zip": "172",
+          "zone": "3"
+        },
+        {
+          "start_zip": "173",
+          "end_zip": "176",
+          "zone": "2"
+        },
+        {
+          "start_zip": "177",
+          "end_zip": "177",
+          "zone": "3"
+        },
+        {
+          "start_zip": "178",
+          "end_zip": "179",
+          "zone": "2"
+        },
+        {
+          "start_zip": "180",
+          "end_zip": "180",
+          "zone": "1"
+        },
+        {
+          "start_zip": "181",
+          "end_zip": "188",
+          "zone": "2"
+        },
+        {
+          "start_zip": "189",
+          "end_zip": "192",
+          "zone": "1"
+        },
+        {
+          "start_zip": "193",
+          "end_zip": "199",
+          "zone": "2"
+        },
+        {
+          "start_zip": "200",
+          "end_zip": "209",
+          "zone": "3"
+        },
+        {
+          "start_zip": "210",
+          "end_zip": "212",
+          "zone": "2"
+        },
+        {
+          "start_zip": "214",
+          "end_zip": "214",
+          "zone": "2"
+        },
+        {
+          "start_zip": "215",
+          "end_zip": "215",
+          "zone": "3"
+        },
+        {
+          "start_zip": "216",
+          "end_zip": "216",
+          "zone": "2"
+        },
+        {
+          "start_zip": "217",
+          "end_zip": "218",
+          "zone": "3"
+        },
+        {
+          "start_zip": "219",
+          "end_zip": "219",
+          "zone": "2"
+        },
+        {
+          "start_zip": "220",
+          "end_zip": "238",
+          "zone": "3"
+        },
+        {
+          "start_zip": "239",
+          "end_zip": "253",
+          "zone": "4"
+        },
+        {
+          "start_zip": "254",
+          "end_zip": "254",
+          "zone": "3"
+        },
+        {
+          "start_zip": "255",
+          "end_zip": "266",
+          "zone": "4"
+        },
+        {
+          "start_zip": "267",
+          "end_zip": "268",
+          "zone": "3"
+        },
+        {
+          "start_zip": "270",
+          "end_zip": "288",
+          "zone": "4"
+        },
+        {
+          "start_zip": "289",
+          "end_zip": "289",
+          "zone": "5"
+        },
+        {
+          "start_zip": "290",
+          "end_zip": "297",
+          "zone": "4"
+        },
+        {
+          "start_zip": "298",
+          "end_zip": "329",
+          "zone": "5"
+        },
+        {
+          "start_zip": "330",
+          "end_zip": "334",
+          "zone": "6"
+        },
+        {
+          "start_zip": "335",
+          "end_zip": "338",
+          "zone": "5"
+        },
+        {
+          "start_zip": "339",
+          "end_zip": "342",
+          "zone": "6"
+        },
+        {
+          "start_zip": "344",
+          "end_zip": "344",
+          "zone": "5"
+        },
+        {
+          "start_zip": "346",
+          "end_zip": "347",
+          "zone": "5"
+        },
+        {
+          "start_zip": "349",
+          "end_zip": "352",
+          "zone": "5"
+        },
+        {
+          "start_zip": "354",
+          "end_zip": "365",
+          "zone": "5"
+        },
+        {
+          "start_zip": "366",
+          "end_zip": "366",
+          "zone": "6"
+        },
+        {
+          "start_zip": "367",
+          "end_zip": "375",
+          "zone": "5"
+        },
+        {
+          "start_zip": "376",
+          "end_zip": "378",
+          "zone": "4"
+        },
+        {
+          "start_zip": "379",
+          "end_zip": "386",
+          "zone": "5"
+        },
+        {
+          "start_zip": "387",
+          "end_zip": "387",
+          "zone": "6"
+        },
+        {
+          "start_zip": "388",
+          "end_zip": "390",
+          "zone": "5"
+        },
+        {
+          "start_zip": "391",
+          "end_zip": "392",
+          "zone": "6"
+        },
+        {
+          "start_zip": "393",
+          "end_zip": "393",
+          "zone": "5"
+        },
+        {
+          "start_zip": "394",
+          "end_zip": "396",
+          "zone": "6"
+        },
+        {
+          "start_zip": "397",
+          "end_zip": "402",
+          "zone": "5"
+        },
+        {
+          "start_zip": "403",
+          "end_zip": "418",
+          "zone": "4"
+        },
+        {
+          "start_zip": "420",
+          "end_zip": "424",
+          "zone": "5"
+        },
+        {
+          "start_zip": "425",
+          "end_zip": "425",
+          "zone": "4"
+        },
+        {
+          "start_zip": "426",
+          "end_zip": "427",
+          "zone": "5"
+        },
+        {
+          "start_zip": "430",
+          "end_zip": "459",
+          "zone": "4"
+        },
+        {
+          "start_zip": "460",
+          "end_zip": "460",
+          "zone": "5"
+        },
+        {
+          "start_zip": "461",
+          "end_zip": "461",
+          "zone": "4"
+        },
+        {
+          "start_zip": "462",
+          "end_zip": "466",
+          "zone": "5"
+        },
+        {
+          "start_zip": "467",
+          "end_zip": "468",
+          "zone": "4"
+        },
+        {
+          "start_zip": "469",
+          "end_zip": "469",
+          "zone": "5"
+        },
+        {
+          "start_zip": "470",
+          "end_zip": "470",
+          "zone": "4"
+        },
+        {
+          "start_zip": "471",
+          "end_zip": "472",
+          "zone": "5"
+        },
+        {
+          "start_zip": "473",
+          "end_zip": "473",
+          "zone": "4"
+        },
+        {
+          "start_zip": "474",
+          "end_zip": "479",
+          "zone": "5"
+        },
+        {
+          "start_zip": "480",
+          "end_zip": "490",
+          "zone": "4"
+        },
+        {
+          "start_zip": "491",
+          "end_zip": "491",
+          "zone": "5"
+        },
+        {
+          "start_zip": "492",
+          "end_zip": "492",
+          "zone": "4"
+        },
+        {
+          "start_zip": "493",
+          "end_zip": "496",
+          "zone": "5"
+        },
+        {
+          "start_zip": "497",
+          "end_zip": "497",
+          "zone": "4"
+        },
+        {
+          "start_zip": "498",
+          "end_zip": "499",
+          "zone": "5"
+        },
+        {
+          "start_zip": "500",
+          "end_zip": "500",
+          "zone": "6"
+        },
+        {
+          "start_zip": "501",
+          "end_zip": "501",
+          "zone": "5"
+        },
+        {
+          "start_zip": "502",
+          "end_zip": "502",
+          "zone": "6"
+        },
+        {
+          "start_zip": "503",
+          "end_zip": "504",
+          "zone": "5"
+        },
+        {
+          "start_zip": "505",
+          "end_zip": "505",
+          "zone": "6"
+        },
+        {
+          "start_zip": "506",
+          "end_zip": "507",
+          "zone": "5"
+        },
+        {
+          "start_zip": "508",
+          "end_zip": "508",
+          "zone": "6"
+        },
+        {
+          "start_zip": "509",
+          "end_zip": "509",
+          "zone": "5"
+        },
+        {
+          "start_zip": "510",
+          "end_zip": "516",
+          "zone": "6"
+        },
+        {
+          "start_zip": "520",
+          "end_zip": "528",
+          "zone": "5"
+        },
+        {
+          "start_zip": "530",
+          "end_zip": "532",
+          "zone": "5"
+        },
+        {
+          "start_zip": "534",
+          "end_zip": "535",
+          "zone": "5"
+        },
+        {
+          "start_zip": "537",
+          "end_zip": "551",
+          "zone": "5"
+        },
+        {
+          "start_zip": "553",
+          "end_zip": "555",
+          "zone": "6"
+        },
+        {
+          "start_zip": "556",
+          "end_zip": "556",
+          "zone": "5"
+        },
+        {
+          "start_zip": "557",
+          "end_zip": "557",
+          "zone": "6"
+        },
+        {
+          "start_zip": "558",
+          "end_zip": "559",
+          "zone": "5"
+        },
+        {
+          "start_zip": "560",
+          "end_zip": "567",
+          "zone": "6"
+        },
+        {
+          "start_zip": "570",
+          "end_zip": "575",
+          "zone": "6"
+        },
+        {
+          "start_zip": "576",
+          "end_zip": "577",
+          "zone": "7"
+        },
+        {
+          "start_zip": "580",
+          "end_zip": "585",
+          "zone": "6"
+        },
+        {
+          "start_zip": "586",
+          "end_zip": "588",
+          "zone": "7"
+        },
+        {
+          "start_zip": "590",
+          "end_zip": "590",
+          "zone": "8"
+        },
+        {
+          "start_zip": "591",
+          "end_zip": "593",
+          "zone": "7"
+        },
+        {
+          "start_zip": "594",
+          "end_zip": "594",
+          "zone": "8"
+        },
+        {
+          "start_zip": "595",
+          "end_zip": "595",
+          "zone": "7"
+        },
+        {
+          "start_zip": "596",
+          "end_zip": "599",
+          "zone": "8"
+        },
+        {
+          "start_zip": "600",
+          "end_zip": "620",
+          "zone": "5"
+        },
+        {
+          "start_zip": "622",
+          "end_zip": "631",
+          "zone": "5"
+        },
+        {
+          "start_zip": "633",
+          "end_zip": "639",
+          "zone": "5"
+        },
+        {
+          "start_zip": "640",
+          "end_zip": "641",
+          "zone": "6"
+        },
+        {
+          "start_zip": "644",
+          "end_zip": "649",
+          "zone": "6"
+        },
+        {
+          "start_zip": "650",
+          "end_zip": "652",
+          "zone": "5"
+        },
+        {
+          "start_zip": "653",
+          "end_zip": "653",
+          "zone": "6"
+        },
+        {
+          "start_zip": "654",
+          "end_zip": "655",
+          "zone": "5"
+        },
+        {
+          "start_zip": "656",
+          "end_zip": "656",
+          "zone": "6"
+        },
+        {
+          "start_zip": "657",
+          "end_zip": "657",
+          "zone": "5"
+        },
+        {
+          "start_zip": "658",
+          "end_zip": "658",
+          "zone": "6"
+        },
+        {
+          "start_zip": "660",
+          "end_zip": "662",
+          "zone": "6"
+        },
+        {
+          "start_zip": "664",
+          "end_zip": "676",
+          "zone": "6"
+        },
+        {
+          "start_zip": "677",
+          "end_zip": "679",
+          "zone": "7"
+        },
+        {
+          "start_zip": "680",
+          "end_zip": "681",
+          "zone": "6"
+        },
+        {
+          "start_zip": "683",
+          "end_zip": "692",
+          "zone": "6"
+        },
+        {
+          "start_zip": "693",
+          "end_zip": "693",
+          "zone": "7"
+        },
+        {
+          "start_zip": "700",
+          "end_zip": "701",
+          "zone": "6"
+        },
+        {
+          "start_zip": "703",
+          "end_zip": "708",
+          "zone": "6"
+        },
+        {
+          "start_zip": "710",
+          "end_zip": "714",
+          "zone": "6"
+        },
+        {
+          "start_zip": "716",
+          "end_zip": "722",
+          "zone": "6"
+        },
+        {
+          "start_zip": "723",
+          "end_zip": "725",
+          "zone": "5"
+        },
+        {
+          "start_zip": "726",
+          "end_zip": "731",
+          "zone": "6"
+        },
+        {
+          "start_zip": "733",
+          "end_zip": "733",
+          "zone": "7"
+        },
+        {
+          "start_zip": "734",
+          "end_zip": "738",
+          "zone": "6"
+        },
+        {
+          "start_zip": "739",
+          "end_zip": "739",
+          "zone": "7"
+        },
+        {
+          "start_zip": "740",
+          "end_zip": "741",
+          "zone": "6"
+        },
+        {
+          "start_zip": "743",
+          "end_zip": "759",
+          "zone": "6"
+        },
+        {
+          "start_zip": "760",
+          "end_zip": "760",
+          "zone": "7"
+        },
+        {
+          "start_zip": "761",
+          "end_zip": "762",
+          "zone": "6"
+        },
+        {
+          "start_zip": "763",
+          "end_zip": "765",
+          "zone": "7"
+        },
+        {
+          "start_zip": "766",
+          "end_zip": "766",
+          "zone": "6"
+        },
+        {
+          "start_zip": "767",
+          "end_zip": "769",
+          "zone": "7"
+        },
+        {
+          "start_zip": "770",
+          "end_zip": "770",
+          "zone": "6"
+        },
+        {
+          "start_zip": "772",
+          "end_zip": "773",
+          "zone": "6"
+        },
+        {
+          "start_zip": "774",
+          "end_zip": "774",
+          "zone": "7"
+        },
+        {
+          "start_zip": "775",
+          "end_zip": "778",
+          "zone": "6"
+        },
+        {
+          "start_zip": "779",
+          "end_zip": "798",
+          "zone": "7"
+        },
+        {
+          "start_zip": "799",
+          "end_zip": "799",
+          "zone": "8"
+        },
+        {
+          "start_zip": "800",
+          "end_zip": "812",
+          "zone": "7"
+        },
+        {
+          "start_zip": "813",
+          "end_zip": "813",
+          "zone": "8"
+        },
+        {
+          "start_zip": "814",
+          "end_zip": "814",
+          "zone": "7"
+        },
+        {
+          "start_zip": "815",
+          "end_zip": "815",
+          "zone": "8"
+        },
+        {
+          "start_zip": "816",
+          "end_zip": "816",
+          "zone": "7"
+        },
+        {
+          "start_zip": "820",
+          "end_zip": "820",
+          "zone": "7"
+        },
+        {
+          "start_zip": "821",
+          "end_zip": "821",
+          "zone": "8"
+        },
+        {
+          "start_zip": "822",
+          "end_zip": "828",
+          "zone": "7"
+        },
+        {
+          "start_zip": "829",
+          "end_zip": "838",
+          "zone": "8"
+        },
+        {
+          "start_zip": "840",
+          "end_zip": "847",
+          "zone": "8"
+        },
+        {
+          "start_zip": "850",
+          "end_zip": "853",
+          "zone": "8"
+        },
+        {
+          "start_zip": "855",
+          "end_zip": "857",
+          "zone": "8"
+        },
+        {
+          "start_zip": "859",
+          "end_zip": "860",
+          "zone": "8"
+        },
+        {
+          "start_zip": "863",
+          "end_zip": "865",
+          "zone": "8"
+        },
+        {
+          "start_zip": "870",
+          "end_zip": "870",
+          "zone": "8"
+        },
+        {
+          "start_zip": "871",
+          "end_zip": "871",
+          "zone": "7"
+        },
+        {
+          "start_zip": "873",
+          "end_zip": "874",
+          "zone": "8"
+        },
+        {
+          "start_zip": "875",
+          "end_zip": "875",
+          "zone": "7"
+        },
+        {
+          "start_zip": "876",
+          "end_zip": "876",
+          "zone": "8"
+        },
+        {
+          "start_zip": "877",
+          "end_zip": "877",
+          "zone": "7"
+        },
+        {
+          "start_zip": "878",
+          "end_zip": "880",
+          "zone": "8"
+        },
+        {
+          "start_zip": "881",
+          "end_zip": "884",
+          "zone": "7"
+        },
+        {
+          "start_zip": "885",
+          "end_zip": "885",
+          "zone": "8"
+        },
+        {
+          "start_zip": "889",
+          "end_zip": "891",
+          "zone": "8"
+        },
+        {
+          "start_zip": "893",
+          "end_zip": "895",
+          "zone": "8"
+        },
+        {
+          "start_zip": "897",
+          "end_zip": "898",
+          "zone": "8"
+        },
+        {
+          "start_zip": "900",
+          "end_zip": "908",
+          "zone": "8"
+        },
+        {
+          "start_zip": "910",
+          "end_zip": "928",
+          "zone": "8"
+        },
+        {
+          "start_zip": "930",
+          "end_zip": "961",
+          "zone": "8"
+        },
+        {
+          "start_zip": "962",
+          "end_zip": "966",
+          "zone": "8"
+        },
+        {
+          "start_zip": "96700",
+          "end_zip": "96700",
+          "zone": "8"
+        },
+        {
+          "start_zip": "968",
+          "end_zip": "968",
+          "zone": "8"
+        },
+        {
+          "start_zip": "969",
+          "end_zip": "969",
+          "zone": "9"
+        },
+        {
+          "start_zip": "970",
+          "end_zip": "986",
+          "zone": "8"
+        },
+        {
+          "start_zip": "988",
+          "end_zip": "999",
+          "zone": "8"
+        }
+      ]
+    },
+    {
+      "carrier": "FedEx",
+      "ship_from_zip": "91761",
+      "entries": [
+        {
+          "start_zip": "00000",
+          "end_zip": "00399",
+          "zone": "NA"
+        },
+        {
+          "start_zip": "00400",
+          "end_zip": "00599",
+          "zone": "8"
+        },
+        {
+          "start_zip": "01000",
+          "end_zip": "34999",
+          "zone": "8"
+        },
+        {
+          "start_zip": "35000",
+          "end_zip": "35899",
+          "zone": "7"
+        },
+        {
+          "start_zip": "35900",
+          "end_zip": "36499",
+          "zone": "8"
+        },
+        {
+          "start_zip": "36500",
+          "end_zip": "36799",
+          "zone": "7"
+        },
+        {
+          "start_zip": "36800",
+          "end_zip": "36899",
+          "zone": "8"
+        },
+        {
+          "start_zip": "36900",
+          "end_zip": "37299",
+          "zone": "7"
+        },
+        {
+          "start_zip": "37300",
+          "end_zip": "37499",
+          "zone": "8"
+        },
+        {
+          "start_zip": "37500",
+          "end_zip": "37599",
+          "zone": "7"
+        },
+        {
+          "start_zip": "37600",
+          "end_zip": "37999",
+          "zone": "8"
+        },
+        {
+          "start_zip": "38000",
+          "end_zip": "38499",
+          "zone": "7"
+        },
+        {
+          "start_zip": "38500",
+          "end_zip": "38599",
+          "zone": "8"
+        },
+        {
+          "start_zip": "38600",
+          "end_zip": "39799",
+          "zone": "7"
+        },
+        {
+          "start_zip": "39800",
+          "end_zip": "41899",
+          "zone": "8"
+        },
+        {
+          "start_zip": "41900",
+          "end_zip": "41999",
+          "zone": "NA"
+        },
+        {
+          "start_zip": "42000",
+          "end_zip": "42499",
+          "zone": "7"
+        },
+        {
+          "start_zip": "42500",
+          "end_zip": "45999",
+          "zone": "8"
+        },
+        {
+          "start_zip": "46000",
+          "end_zip": "46699",
+          "zone": "7"
+        },
+        {
+          "start_zip": "46700",
+          "end_zip": "46899",
+          "zone": "8"
+        },
+        {
+          "start_zip": "46900",
+          "end_zip": "46999",
+          "zone": "7"
+        },
+        {
+          "start_zip": "47000",
+          "end_zip": "47399",
+          "zone": "8"
+        },
+        {
+          "start_zip": "47400",
+          "end_zip": "47999",
+          "zone": "7"
+        },
+        {
+          "start_zip": "48000",
+          "end_zip": "49799",
+          "zone": "8"
+        },
+        {
+          "start_zip": "49800",
+          "end_zip": "50499",
+          "zone": "7"
+        },
+        {
+          "start_zip": "50500",
+          "end_zip": "50599",
+          "zone": "6"
+        },
+        {
+          "start_zip": "50600",
+          "end_zip": "50799",
+          "zone": "7"
+        },
+        {
+          "start_zip": "50800",
+          "end_zip": "50899",
+          "zone": "6"
+        },
+        {
+          "start_zip": "50900",
+          "end_zip": "50999",
+          "zone": "7"
+        },
+        {
+          "start_zip": "51000",
+          "end_zip": "51699",
+          "zone": "6"
+        },
+        {
+          "start_zip": "51700",
+          "end_zip": "51999",
+          "zone": "NA"
+        },
+        {
+          "start_zip": "52000",
+          "end_zip": "56099",
+          "zone": "7"
+        },
+        {
+          "start_zip": "56100",
+          "end_zip": "56199",
+          "zone": "6"
+        },
+        {
+          "start_zip": "56200",
+          "end_zip": "56799",
+          "zone": "7"
+        },
+        {
+          "start_zip": "56800",
+          "end_zip": "56999",
+          "zone": "NA"
+        },
+        {
+          "start_zip": "57000",
+          "end_zip": "58199",
+          "zone": "6"
+        },
+        {
+          "start_zip": "58200",
+          "end_zip": "58299",
+          "zone": "7"
+        },
+        {
+          "start_zip": "58300",
+          "end_zip": "58899",
+          "zone": "6"
+        },
+        {
+          "start_zip": "58900",
+          "end_zip": "58999",
+          "zone": "NA"
+        },
+        {
+          "start_zip": "59000",
+          "end_zip": "59199",
+          "zone": "5"
+        },
+        {
+          "start_zip": "59200",
+          "end_zip": "59399",
+          "zone": "6"
+        },
+        {
+          "start_zip": "59400",
+          "end_zip": "59499",
+          "zone": "5"
+        },
+        {
+          "start_zip": "59500",
+          "end_zip": "59599",
+          "zone": "6"
+        },
+        {
+          "start_zip": "59600",
+          "end_zip": "59999",
+          "zone": "5"
+        },
+        {
+          "start_zip": "60000",
+          "end_zip": "63999",
+          "zone": "7"
+        },
+        {
+          "start_zip": "64000",
+          "end_zip": "64999",
+          "zone": "6"
+        },
+        {
+          "start_zip": "65000",
+          "end_zip": "65599",
+          "zone": "7"
+        },
+        {
+          "start_zip": "65600",
+          "end_zip": "67699",
+          "zone": "6"
+        },
+        {
+          "start_zip": "67700",
+          "end_zip": "67799",
+          "zone": "5"
+        },
+        {
+          "start_zip": "67800",
+          "end_zip": "67899",
+          "zone": "6"
+        },
+        {
+          "start_zip": "67900",
+          "end_zip": "67999",
+          "zone": "5"
+        },
+        {
+          "start_zip": "68000",
+          "end_zip": "69299",
+          "zone": "6"
+        },
+        {
+          "start_zip": "69300",
+          "end_zip": "69399",
+          "zone": "5"
+        },
+        {
+          "start_zip": "69400",
+          "end_zip": "69999",
+          "zone": "NA"
+        },
+        {
+          "start_zip": "70000",
+          "end_zip": "70999",
+          "zone": "7"
+        },
+        {
+          "start_zip": "71000",
+          "end_zip": "71199",
+          "zone": "6"
+        },
+        {
+          "start_zip": "71200",
+          "end_zip": "71799",
+          "zone": "7"
+        },
+        {
+          "start_zip": "71800",
+          "end_zip": "71899",
+          "zone": "6"
+        },
+        {
+          "start_zip": "71900",
+          "end_zip": "72599",
+          "zone": "7"
+        },
+        {
+          "start_zip": "72600",
+          "end_zip": "72799",
+          "zone": "6"
+        },
+        {
+          "start_zip": "72800",
+          "end_zip": "72899",
+          "zone": "7"
+        },
+        {
+          "start_zip": "72900",
+          "end_zip": "73899",
+          "zone": "6"
+        },
+        {
+          "start_zip": "73900",
+          "end_zip": "73999",
+          "zone": "5"
+        },
+        {
+          "start_zip": "74000",
+          "end_zip": "77599",
+          "zone": "6"
+        },
+        {
+          "start_zip": "77600",
+          "end_zip": "77799",
+          "zone": "7"
+        },
+        {
+          "start_zip": "77800",
+          "end_zip": "78999",
+          "zone": "6"
+        },
+        {
+          "start_zip": "79000",
+          "end_zip": "79199",
+          "zone": "5"
+        },
+        {
+          "start_zip": "79200",
+          "end_zip": "79299",
+          "zone": "6"
+        },
+        {
+          "start_zip": "79300",
+          "end_zip": "79499",
+          "zone": "5"
+        },
+        {
+          "start_zip": "79500",
+          "end_zip": "79699",
+          "zone": "6"
+        },
+        {
+          "start_zip": "79700",
+          "end_zip": "83899",
+          "zone": "5"
+        },
+        {
+          "start_zip": "83900",
+          "end_zip": "83999",
+          "zone": "NA"
+        },
+        {
+          "start_zip": "84000",
+          "end_zip": "85399",
+          "zone": "4"
+        },
+        {
+          "start_zip": "85400",
+          "end_zip": "85499",
+          "zone": "3"
+        },
+        {
+          "start_zip": "85500",
+          "end_zip": "86399",
+          "zone": "4"
+        },
+        {
+          "start_zip": "86400",
+          "end_zip": "86499",
+          "zone": "3"
+        },
+        {
+          "start_zip": "86500",
+          "end_zip": "86599",
+          "zone": "4"
+        },
+        {
+          "start_zip": "86600",
+          "end_zip": "86999",
+          "zone": "NA"
+        },
+        {
+          "start_zip": "87000",
+          "end_zip": "87299",
+          "zone": "5"
+        },
+        {
+          "start_zip": "87300",
+          "end_zip": "87499",
+          "zone": "4"
+        },
+        {
+          "start_zip": "87500",
+          "end_zip": "88599",
+          "zone": "5"
+        },
+        {
+          "start_zip": "88600",
+          "end_zip": "88899",
+          "zone": "NA"
+        },
+        {
+          "start_zip": "88900",
+          "end_zip": "89299",
+          "zone": "3"
+        },
+        {
+          "start_zip": "89300",
+          "end_zip": "89899",
+          "zone": "4"
+        },
+        {
+          "start_zip": "89900",
+          "end_zip": "89999",
+          "zone": "NA"
+        },
+        {
+          "start_zip": "90000",
+          "end_zip": "93599",
+          "zone": "2"
+        },
+        {
+          "start_zip": "93600",
+          "end_zip": "93999",
+          "zone": "3"
+        },
+        {
+          "start_zip": "94000",
+          "end_zip": "94299",
+          "zone": "4"
+        },
+        {
+          "start_zip": "94300",
+          "end_zip": "94399",
+          "zone": "3"
+        },
+        {
+          "start_zip": "94400",
+          "end_zip": "94999",
+          "zone": "4"
+        },
+        {
+          "start_zip": "95000",
+          "end_zip": "95399",
+          "zone": "3"
+        },
+        {
+          "start_zip": "95400",
+          "end_zip": "96699",
+          "zone": "4"
+        },
+        {
+          "start_zip": "97000",
+          "end_zip": "97499",
+          "zone": "5"
+        },
+        {
+          "start_zip": "97500",
+          "end_zip": "97699",
+          "zone": "4"
+        },
+        {
+          "start_zip": "97700",
+          "end_zip": "98699",
+          "zone": "5"
+        },
+        {
+          "start_zip": "98700",
+          "end_zip": "98799",
+          "zone": "4"
+        },
+        {
+          "start_zip": "98800",
+          "end_zip": "99499",
+          "zone": "5"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "customers": [
+    {
+      "name": "打单易",
+      "base_markup": 2,
+      "fixed_markup": 2,
+      "zone_markup": 2,
+      "demand_markup": 2,
+      "fuel_markup": 2,
+      "remark": ""
+    },
+    {
+      "name": "和生",
+      "base_markup": 2,
+      "fixed_markup": 2,
+      "zone_markup": 2,
+      "demand_markup": 2,
+      "fuel_markup": 2,
+      "remark": ""
+    },
+    {
+      "name": "Logistar",
+      "base_markup": 1,
+      "fixed_markup": 1,
+      "zone_markup": 1,
+      "demand_markup": 1,
+      "fuel_markup": 1,
+      "remark": ""
+    },
+    {
+      "name": "skupreme.com",
+      "base_markup": 5,
+      "fixed_markup": 5,
+      "zone_markup": 5,
+      "demand_markup": 5,
+      "fuel_markup": 5,
+      "remark": ""
+    },
+    {
+      "name": "德兰明海新能源",
+      "base_markup": 10,
+      "fixed_markup": 10,
+      "zone_markup": 10,
+      "demand_markup": 10,
+      "fuel_markup": 10,
+      "remark": ""
+    },
+    {
+      "name": "Chainbond Limited LLC",
+      "base_markup": 1,
+      "fixed_markup": 1,
+      "zone_markup": 1,
+      "demand_markup": 1,
+      "fuel_markup": 1,
+      "remark": ""
+    },
+    {
+      "name": "美东Logistar",
+      "base_markup": 20,
+      "fixed_markup": 20,
+      "zone_markup": 20,
+      "demand_markup": 20,
+      "fuel_markup": 20,
+      "remark": ""
+    }
+  ]
+}
