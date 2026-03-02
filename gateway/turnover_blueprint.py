@@ -198,6 +198,12 @@ def turnover_sync_logs_list():
     return _proxy_request('sync/logs')
 
 
+@turnover_bp.route('/sync/logs', methods=['DELETE'])
+@login_required
+def turnover_sync_logs_delete():
+    return _proxy_request('sync/logs', method='DELETE')
+
+
 # --- Warehouse capacity endpoints ---
 @turnover_bp.route('/warehouses/capacities')
 @login_required

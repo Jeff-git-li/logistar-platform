@@ -8,7 +8,7 @@ from typing import Optional
 
 from fastapi import APIRouter, BackgroundTasks, Depends, Query
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, desc
+from sqlalchemy import select, desc, delete, func as sa_func
 
 from database import get_db, async_session_factory
 from models import SyncLog
@@ -87,12 +87,19 @@ async def trigger_daily_sync(background_tasks: BackgroundTasks):
 @router.get("/logs")
 async def get_sync_logs(
     limit: int = Query(20, ge=1, le=100),
+    sync_type: Optional[str] = Query(None, description="Filter by sync_type (e.g. inventory_log, product)"),
+    status: Optional[str] = Query(None, description="Filter by status (running, success, failed)"),
     db: AsyncSession = Depends(get_db),
 ):
     """Get recent sync operation logs."""
-    result = await db.execute(
-        select(SyncLog).order_by(desc(SyncLog.started_at)).limit(limit)
-    )
+    q = select(SyncLog).order_by(desc(SyncLog.started_at))
+    if sync_type:
+        q = q.where(SyncLog.sync_type == sync_type)
+    if status:
+        q = q.where(SyncLog.status == status)
+    q = q.limit(limit)
+
+    result = await db.execute(q)
     logs = result.scalars().all()
     return [
         {
@@ -106,3 +113,53 @@ async def get_sync_logs(
         }
         for log in logs
     ]
+
+
+@router.delete("/logs")
+async def delete_sync_logs(
+    status: Optional[str] = Query(None, description="Delete only logs with this status (e.g. 'failed', 'running')"),
+    keep_latest: int = Query(10, ge=0, description="Keep the N most recent logs (per sync_type) and delete the rest"),
+    db: AsyncSession = Depends(get_db),
+):
+    """
+    Delete stale sync logs.
+    - If `status` is given, delete all logs with that status.
+    - Otherwise, keep the latest N logs per sync_type and delete the rest.
+    """
+    if status:
+        # Delete all logs with the given status
+        result = await db.execute(
+            delete(SyncLog).where(SyncLog.status == status)
+        )
+        await db.commit()
+        return {"deleted": result.rowcount, "filter": f"status={status}"}
+
+    # Keep latest N per sync_type
+    # Get distinct sync_types
+    types = (await db.execute(
+        select(SyncLog.sync_type).distinct()
+    )).scalars().all()
+
+    total_deleted = 0
+    for st in types:
+        # Find the Nth most recent id for this type
+        cutoff_row = (await db.execute(
+            select(SyncLog.id)
+            .where(SyncLog.sync_type == st)
+            .order_by(desc(SyncLog.started_at))
+            .offset(keep_latest)
+            .limit(1)
+        )).scalar()
+
+        if cutoff_row is not None:
+            # Delete all older entries
+            result = await db.execute(
+                delete(SyncLog).where(
+                    SyncLog.sync_type == st,
+                    SyncLog.id <= cutoff_row,
+                )
+            )
+            total_deleted += result.rowcount
+
+    await db.commit()
+    return {"deleted": total_deleted, "kept_per_type": keep_latest}
