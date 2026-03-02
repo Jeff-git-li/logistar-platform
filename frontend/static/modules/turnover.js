@@ -117,8 +117,9 @@
       fetchApi('analytics/invlog/volume', params),
       fetchApi('analytics/invlog/turnover', params),
       fetchApi('analytics/invlog/customers', params),
+      fetchApi('warehouses/live-inventory', { warehouse_id: wh }).catch(e => { console.warn('Live inventory unavailable:', e); return { warehouses: [] }; }),
     ])
-    .then(([dashboard, volume, turnover, customers]) => {
+    .then(([dashboard, volume, turnover, customers, liveInv]) => {
       hideEl('turnover-loading');
       showEl('turnover-overview-content');
 
@@ -128,10 +129,24 @@
         return;
       }
 
-      renderOverviewStats(dashboard);
+      // Calculate total inventory SKU count from live data
+      const inventorySkusByCustomer = {};
+      let totalInventorySkus = 0;
+      const allWarehouses = liveInv.warehouses || [];
+      allWarehouses.forEach(w => {
+        (w.customers || []).forEach(c => {
+          if (!inventorySkusByCustomer[c.customer_code]) {
+            inventorySkusByCustomer[c.customer_code] = 0;
+          }
+          inventorySkusByCustomer[c.customer_code] += c.skus;
+        });
+        totalInventorySkus += w.total_skus || 0;
+      });
+
+      renderOverviewStats(dashboard, totalInventorySkus);
       renderOverviewVolumeChart(volume);
       renderOverviewTurnoverRate(turnover);
-      renderOverviewCustomers(customers);
+      renderOverviewCustomers(customers, inventorySkusByCustomer);
     })
     .catch(err => {
       hideEl('turnover-loading');
@@ -141,7 +156,7 @@
     });
   };
 
-  function renderOverviewStats(data) {
+  function renderOverviewStats(data, totalInventorySkus) {
     const el = document.getElementById('turnover-stats');
     if (!el) return;
     const ob = data.outbound || {};
@@ -158,9 +173,9 @@
         <div class="turnover-stat-sub">${num(ib.total_events,0)} 次  ${num(ib.total_qty,0)} 件</div>
       </div>
       <div class="turnover-stat-card">
-        <div class="turnover-stat-label"> 活跃SKU</div>
-        <div class="turnover-stat-value">${num(data.active_skus,0)}</div>
-        <div class="turnover-stat-sub">共 ${num(data.total_products,0)} 个</div>
+        <div class="turnover-stat-label"> 在库SKU数</div>
+        <div class="turnover-stat-value">${num(totalInventorySkus || 0, 0)}</div>
+        <div class="turnover-stat-sub">当前库存</div>
       </div>
       <div class="turnover-stat-card">
         <div class="turnover-stat-label"> 客户数</div>
@@ -247,13 +262,14 @@
     `;
   }
 
-  function renderOverviewCustomers(customers) {
+  function renderOverviewCustomers(customers, inventorySkusByCustomer) {
     const tbody = document.getElementById('turnover-overview-customers-tbody');
     if (!tbody) return;
     if (!Array.isArray(customers) || !customers.length) {
-      tbody.innerHTML = '<tr><td colspan="6" class="to-empty-cell">暂无数据</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="7" class="to-empty-cell">暂无数据</td></tr>';
       return;
     }
+    const invSkus = inventorySkusByCustomer || {};
     tbody.innerHTML = customers.slice(0, 15).map(c => `
       <tr>
         <td style="text-align:left;"><span class="to-cust-badge">${c.customer_code}</span></td>
@@ -262,6 +278,7 @@
         <td>${num(c.outbound_qty,0)}</td>
         <td>${num(c.inbound_qty,0)}</td>
         <td>${c.outbound_skus || 0}</td>
+        <td>${invSkus[c.customer_code] || 0}</td>
       </tr>
     `).join('');
   }

@@ -52,16 +52,46 @@ async def _daily_sync_loop():
             logger.exception("Daily auto-sync FAILED")
 
 
+INVENTORY_CACHE_INTERVAL_HOURS = 2
+
+async def _inventory_cache_loop():
+    """Refresh cached_inventory from WMS API every N hours."""
+    from routers.warehouse import sync_inventory_cache
+
+    # Initial sync on startup (wait a few seconds for DB init)
+    await asyncio.sleep(5)
+    logger.info("Running initial inventory cache sync...")
+    try:
+        async with async_session_factory() as db:
+            count = await sync_inventory_cache(db)
+        logger.info("Initial inventory cache sync: %d rows", count)
+    except Exception:
+        logger.exception("Initial inventory cache sync FAILED")
+
+    # Periodic loop
+    while True:
+        await asyncio.sleep(INVENTORY_CACHE_INTERVAL_HOURS * 3600)
+        logger.info("Periodic inventory cache sync triggered")
+        try:
+            async with async_session_factory() as db:
+                count = await sync_inventory_cache(db)
+            logger.info("Inventory cache sync completed: %d rows", count)
+        except Exception:
+            logger.exception("Inventory cache sync FAILED")
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Startup/shutdown lifecycle."""
     logger.info("Starting up — initializing database...")
     await init_db()
     logger.info("Database initialized.")
-    # launch daily sync background loop
+    # launch background loops
     sync_task = asyncio.create_task(_daily_sync_loop())
+    inv_cache_task = asyncio.create_task(_inventory_cache_loop())
     yield
     sync_task.cancel()
+    inv_cache_task.cancel()
     logger.info("Shutting down.")
 
 

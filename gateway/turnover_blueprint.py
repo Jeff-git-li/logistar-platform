@@ -215,3 +215,9 @@ def turnover_set_capacity():
 @login_required
 def turnover_live_inventory():
     return _proxy_request('warehouses/live-inventory')
+
+
+@turnover_bp.route('/warehouses/refresh-inventory', methods=['POST'])
+@login_required
+def turnover_refresh_inventory():
+    return _proxy_request('warehouses/refresh-inventory', method='POST')

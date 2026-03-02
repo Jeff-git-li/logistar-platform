@@ -85,6 +85,32 @@ class InventoryLog(Base):
         Index("ix_invlog_wh_dir_optime", "warehouse_id", "direction", "warehouse_operation_time"),
         Index("ix_invlog_dir_cust_optime", "direction", "customer_code", "warehouse_operation_time"),
         Index("ix_invlog_barcode_dir", "product_barcode", "direction"),
+        Index("ix_invlog_dir_time_cust_barcode", "direction", "warehouse_operation_time", "customer_code", "product_barcode"),
+    )
+
+
+class CachedInventory(Base):
+    """
+    Periodic snapshot of live product inventory from WMS getProductInventory API.
+    Refreshed every 2 hours by background task. One row per SKU per warehouse.
+    """
+    __tablename__ = "cached_inventory"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    product_barcode = Column(String(200), nullable=False, index=True)
+    warehouse_id = Column(String(20), nullable=False, index=True)
+    warehouse_code = Column(String(20))
+    customer_code = Column(String(50), nullable=False, index=True)
+    quantity = Column(Integer, default=0)            # available + hold
+    volume_cbm = Column(Float, default=0)            # total volume for this SKU
+    length_cm = Column(Float, default=0)
+    width_cm = Column(Float, default=0)
+    height_cm = Column(Float, default=0)
+    synced_at = Column(DateTime, server_default=func.now())
+
+    __table_args__ = (
+        Index("ix_cached_inv_wh_cust", "warehouse_id", "customer_code"),
+        {"extend_existing": True},
     )
 
 

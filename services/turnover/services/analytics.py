@@ -273,13 +273,29 @@ class AnalyticsService:
             func.sum(S.event_count).label("events"),
             func.sum(S.total_qty).label("qty"),
             func.sum(S.total_volume_cbm).label("vol"),
-            func.sum(S.unique_skus).label("skus"),
         )
         q = self._summary_filter(q, date_from, date_to, warehouse_id)
         q = q.where(S.direction.in_([DIR_INBOUND, DIR_OUTBOUND]))
         q = q.group_by(S.customer_code, S.direction)
 
         rows = (await db.execute(q)).all()
+
+        # True unique SKU counts per customer/direction from raw InventoryLog
+        sku_q = select(
+            InventoryLog.customer_code,
+            InventoryLog.direction,
+            func.count(func.distinct(InventoryLog.product_barcode)).label("skus"),
+        )
+        sku_q = self._invlog_base_filter(sku_q, date_from, date_to, warehouse_id)
+        sku_q = sku_q.where(InventoryLog.direction.in_([DIR_INBOUND, DIR_OUTBOUND]))
+        sku_q = sku_q.group_by(InventoryLog.customer_code, InventoryLog.direction)
+        sku_rows = (await db.execute(sku_q)).all()
+        sku_map = {}
+        for sr in sku_rows:
+            cust = sr.customer_code or "UNKNOWN"
+            if cust not in sku_map:
+                sku_map[cust] = {}
+            sku_map[cust][sr.direction] = sr.skus or 0
 
         results = {}
         for r in rows:
@@ -294,7 +310,7 @@ class AnalyticsService:
             results[cust][f"{d}_events"] = r.events or 0
             results[cust][f"{d}_qty"] = r.qty or 0
             results[cust][f"{d}_vol"] = round(r.vol or 0, 4)
-            results[cust][f"{d}_skus"] = r.skus or 0
+            results[cust][f"{d}_skus"] = sku_map.get(cust, {}).get(d, 0)
 
         sorted_result = sorted(results.values(), key=lambda x: x["outbound_vol"], reverse=True)
         _cache_set(ck, sorted_result)
@@ -390,11 +406,9 @@ class AnalyticsService:
             func.sum(case((S.direction == DIR_OUTBOUND, S.event_count), else_=0)).label("out_events"),
             func.sum(case((S.direction == DIR_OUTBOUND, S.total_qty), else_=0)).label("out_qty"),
             func.sum(case((S.direction == DIR_OUTBOUND, S.total_volume_cbm), else_=0)).label("out_vol"),
-            func.sum(case((S.direction == DIR_OUTBOUND, S.unique_skus), else_=0)).label("out_skus"),
             func.sum(case((S.direction == DIR_INBOUND, S.event_count), else_=0)).label("in_events"),
             func.sum(case((S.direction == DIR_INBOUND, S.total_qty), else_=0)).label("in_qty"),
             func.sum(case((S.direction == DIR_INBOUND, S.total_volume_cbm), else_=0)).label("in_vol"),
-            func.sum(case((S.direction == DIR_INBOUND, S.unique_skus), else_=0)).label("in_skus"),
             func.count(func.distinct(S.customer_code)).label("unique_customers"),
             func.count(func.distinct(S.warehouse_id)).label("active_warehouses"),
         )
@@ -402,6 +416,15 @@ class AnalyticsService:
         q = q.where(S.direction.in_([DIR_INBOUND, DIR_OUTBOUND]))
 
         row = (await db.execute(q)).one()
+
+        # True unique SKU counts from raw InventoryLog (COUNT DISTINCT)
+        sku_counts = {}
+        for dir_label in (DIR_OUTBOUND, DIR_INBOUND):
+            sq = select(
+                func.count(func.distinct(InventoryLog.product_barcode))
+            )
+            sq = self._invlog_base_filter(sq, date_from, date_to, warehouse_id, direction=dir_label)
+            sku_counts[dir_label] = (await db.execute(sq)).scalar() or 0
 
         # Total products (still from Product table — fast, small table)
         prod_count = (await db.execute(select(func.count(Product.id)))).scalar() or 0
@@ -411,16 +434,15 @@ class AnalyticsService:
                 "total_events": row.out_events or 0,
                 "total_qty": row.out_qty or 0,
                 "total_vol": round(row.out_vol or 0, 2),
-                "unique_skus": row.out_skus or 0,
+                "unique_skus": sku_counts[DIR_OUTBOUND],
             },
             "inbound": {
                 "total_events": row.in_events or 0,
                 "total_qty": row.in_qty or 0,
                 "total_vol": round(row.in_vol or 0, 2),
-                "unique_skus": row.in_skus or 0,
+                "unique_skus": sku_counts[DIR_INBOUND],
             },
             "unique_customers": row.unique_customers or 0,
-            "active_skus": 0,  # not tracked in summary; use unique_skus from outbound+inbound
             "total_products": prod_count,
             "active_warehouses": row.active_warehouses or 0,
         }
@@ -451,7 +473,6 @@ class AnalyticsService:
             func.sum(S.event_count).label("events"),
             func.sum(S.total_qty).label("qty"),
             func.sum(S.total_volume_cbm).label("vol"),
-            func.sum(S.unique_skus).label("skus"),
             func.count(func.distinct(S.customer_code)).label("customers"),
         )
         q = self._summary_filter(q, date_from, date_to, customer_code=customer_code)
@@ -459,6 +480,17 @@ class AnalyticsService:
         q = q.group_by(S.warehouse_id, S.direction)
 
         rows = (await db.execute(q)).all()
+
+        # True unique SKU counts per warehouse from raw InventoryLog
+        sku_q = select(
+            InventoryLog.warehouse_id,
+            func.count(func.distinct(InventoryLog.product_barcode)).label("skus"),
+        )
+        sku_q = self._invlog_base_filter(sku_q, date_from, date_to, customer_code=customer_code)
+        sku_q = sku_q.where(InventoryLog.direction.in_([DIR_INBOUND, DIR_OUTBOUND]))
+        sku_q = sku_q.group_by(InventoryLog.warehouse_id)
+        sku_rows = (await db.execute(sku_q)).all()
+        wh_sku_map = {str(sr.warehouse_id): sr.skus or 0 for sr in sku_rows}
 
         # Load capacities
         cap_rows = (await db.execute(select(WarehouseCapacity))).scalars().all()
@@ -482,7 +514,7 @@ class AnalyticsService:
             warehouses[wid][f"{d}_events"] = r.events or 0
             warehouses[wid][f"{d}_qty"] = r.qty or 0
             warehouses[wid][f"{d}_vol"] = round(r.vol or 0, 2)
-            warehouses[wid]["unique_skus"] = max(warehouses[wid]["unique_skus"], r.skus or 0)
+            warehouses[wid]["unique_skus"] = wh_sku_map.get(wid, 0)
             warehouses[wid]["unique_customers"] = max(warehouses[wid]["unique_customers"], r.customers or 0)
 
         sorted_result = sorted(warehouses.values(), key=lambda x: x["outbound_vol"], reverse=True)
