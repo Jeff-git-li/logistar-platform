@@ -135,18 +135,18 @@ function initTabs() {
         SupplierOps.initDashboard();
       }
       
-      // Initialize WMS Monitor when tab is opened
-      if (tabName === 'wms-monitor' && window.initWmsMonitor) {
-        initWmsMonitor();
-      } else if (window.destroyWmsMonitor) {
-        destroyWmsMonitor();
+      // Initialize WMS Monitor when tab is opened, destroy when leaving
+      if (tabName === 'wms-monitor') {
+        if (window.initWmsMonitor) initWmsMonitor();
+      } else {
+        if (window.destroyWmsMonitor) destroyWmsMonitor();
       }
       
-      // Initialize Turnover when tab is opened
-      if (tabName === 'turnover' && window.initTurnover) {
-        initTurnover();
-      } else if (window.destroyTurnover) {
-        destroyTurnover();
+      // Initialize Turnover when tab is opened, destroy when leaving
+      if (tabName === 'turnover') {
+        if (window.initTurnover) initTurnover();
+      } else {
+        if (window.destroyTurnover) destroyTurnover();
       }
     });
   });
@@ -2249,6 +2249,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     initTabs();
     renderAll();
     setupEventHandlers();
+
+    // Initialize the currently active tab (handles permission-based landing tabs)
+    const activeNavItem = document.querySelector('.nav-item.active');
+    if (activeNavItem) {
+      const activeTabName = activeNavItem.dataset.tab;
+      if (activeTabName === 'wms-monitor' && window.initWmsMonitor) {
+        initWmsMonitor();
+      }
+      if (activeTabName === 'turnover' && window.initTurnover) {
+        initTurnover();
+      }
+      if (activeTabName === 'supplier-operations' && window.SupplierOps) {
+        SupplierOps.initDashboard();
+      }
+    }
     
     // Dashboard tab logic
     if (document.getElementById('dashboard-tab')) {

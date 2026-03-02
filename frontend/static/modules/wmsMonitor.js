@@ -14,25 +14,25 @@
 
   /**
    * Initialize the WMS Monitor tab.
-   * Called when the tab is first shown.
+   * Called when the tab is shown.
    */
   window.initWmsMonitor = function () {
-    loadWmsDashboard(currentTimeRange);
-    // Auto-refresh every 10 minutes (backend fetches every 10 min)
-    if (wmsAutoRefreshTimer) clearInterval(wmsAutoRefreshTimer);
-    wmsAutoRefreshTimer = setInterval(() => {
-      loadWmsDashboard(currentTimeRange);
-    }, 600000);
+    loadWmsDashboard(currentTimeRange, true);
+    // Auto-refresh every 10 minutes — keep running even when tab is not active
+    if (!wmsAutoRefreshTimer) {
+      wmsAutoRefreshTimer = setInterval(() => {
+        loadWmsDashboard(currentTimeRange, false);
+      }, 600000);
+    }
   };
 
   /**
    * Cleanup when leaving the WMS tab.
+   * Keep the auto-refresh timer running so data stays fresh.
    */
   window.destroyWmsMonitor = function () {
-    if (wmsAutoRefreshTimer) {
-      clearInterval(wmsAutoRefreshTimer);
-      wmsAutoRefreshTimer = null;
-    }
+    // Don't destroy timer — let it keep refreshing in background
+    // Only destroy charts to free memory
     Object.values(wmsCharts).forEach(c => c.destroy());
     Object.keys(wmsCharts).forEach(k => delete wmsCharts[k]);
   };
@@ -46,19 +46,23 @@
     document.querySelectorAll('.wms-range-btn').forEach(btn => {
       btn.classList.toggle('active', btn.dataset.range === range);
     });
-    loadWmsDashboard(range);
+    loadWmsDashboard(range, true);
   };
 
   /**
    * Fetch dashboard data and render.
+   * @param {string} timeRange - e.g. '12h', '24h', '7d', '1m'
+   * @param {boolean} showLoading - whether to show the loading spinner (false for background refresh)
    */
-  function loadWmsDashboard(timeRange) {
+  function loadWmsDashboard(timeRange, showLoading) {
     const container = document.getElementById('wms-dashboard-content');
     const loading = document.getElementById('wms-loading');
     if (!container) return;
 
-    if (loading) loading.style.display = 'flex';
-    container.style.display = 'none';
+    if (showLoading) {
+      if (loading) loading.style.display = 'flex';
+      container.style.display = 'none';
+    }
 
     fetch(`/api/wms/dashboard?range=${timeRange}`)
       .then(r => r.json())
@@ -81,6 +85,8 @@
         renderWmsWarehouses(data.warehouses || [], timeRange);
       })
       .catch(err => {
+        // On background refresh failure, don't overwrite existing content
+        if (!showLoading) return;
         if (loading) loading.style.display = 'none';
         container.style.display = 'block';
         container.innerHTML = `<div style="text-align:center;padding:40px;color:#ef4444;">
